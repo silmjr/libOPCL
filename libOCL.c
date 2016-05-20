@@ -10,6 +10,13 @@
 #else
 	#include <CL/cl.h>
 #endif
+// Identificadores
+enum platforms_names
+{
+	Plat_Intel = 0, Plat_Nvidia, Plat_AMD, Plat_Pocl
+};
+
+int p_AMD, p_Nvidia, p_Intel, p_Pocl;
 
 typedef struct 
 {
@@ -47,8 +54,8 @@ void DiscPlatfor(plataforms *X, cl_platform_id platform, char *argv0);
 void DiscDevice(devices *X, cl_device_id device, char *argv0);
 
 //Aux String.
-/*char *DiscStr(char *name);
-int isEqual(char *name, char *name2);*/
+char *DiscStr(char *name);
+int isEqual(char *name, char *name2);
 
 
 
@@ -59,7 +66,7 @@ int main(int argc, char *argv[]){
 	//Discover Plataforms
 	cl_int status;
 	cl_uint num_platforms;
-
+	char *aux_name;
 	
 	status = clGetPlatformIDs(0, NULL, &num_platforms);
 	if (status != CL_SUCCESS)
@@ -78,10 +85,35 @@ int main(int argc, char *argv[]){
 	}
 
 	for (i = 0; i < num_platforms; i++){
-		printf("\n\n", num_platforms, i);
+		
 		dispPlat[i].numPlat = i;
+
+		
 		DiscPlatfor(&dispPlat[i], platforms[i], argv[0]);
-			
+		
+		aux_name = DiscStr(dispPlat[i].Vendor); 
+		
+		if(isEqual(aux_name,"Intel")){
+			p_Intel = i;
+			printf("------------- %d Intel -------------	\n", p_Intel);
+		}
+
+		if(isEqual(aux_name,"The")){
+			p_Pocl = i;
+			printf("------------- %d POCL -------------\n", p_Pocl);
+		}
+
+		if(isEqual(aux_name,"AMD")){
+			p_AMD = i;
+			printf("------------- %d AMD-------------\n", p_AMD);
+		}
+
+		if(isEqual(aux_name,"NVIDIA")){
+			p_Nvidia = i;
+			printf("------------- %d NVIDIA -------------\n ", p_Nvidia);
+		}
+		
+
 		//INIT DEVICES
 		cl_uint num_devices;
 		status = clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &num_devices);
@@ -132,10 +164,10 @@ void DiscPlatfor(plataforms *X, cl_platform_id platform, char *argv0){
 	printf("Vendor: %s\n", X->Vendor);
 	
 	//Discover Version
-	status = clGetPlatformInfo(platform, CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
+	status = clGetPlatformInfo(platform, CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 	X->Version = malloc(buffer_size);
-	status = clGetPlatformInfo(platform, CL_PLATFORM_VERSION, buffer_size, &X->Version, NULL);
+	status = clGetPlatformInfo(platform, CL_PLATFORM_VERSION, buffer_size, X->Version, NULL);
 
 	printf("Version: %s\n", X->Version);
 	
@@ -155,7 +187,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	status = clGetDeviceInfo(device, CL_DEVICE_NAME, buffer_size, X->Name, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 	
-	printf("%s\n", X->Name);
+	printf("Name: %s\n", X->Name);
 	//End Name
 	
 	//Vendor
@@ -166,7 +198,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, buffer_size, X->Vendor, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	printf("%s\n", X->Vendor);
+	printf("Vendor: %s\n", X->Vendor);
 	//End Vendor
 
 	//Type
@@ -188,7 +220,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	status = clGetDeviceInfo(device, CL_DEVICE_VERSION, buffer_size, X->Version, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	printf("%s\n", X->Version);
+	printf("Version: %s\n", X->Version);
 	//End Version
 	
 	//AdressSpace
@@ -198,7 +230,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	X->AdressSpace = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, buffer_size, &X->AdressSpace, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	printf("Address space size: %u\n", X->AdressSpace);
+	printf("Address space size: %u bits\n", X->AdressSpace);
 	//End AdressSpace
 	
 	//Endian
@@ -336,9 +368,9 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	
 }
 
-/*char *DiscStr(char *name){
-	char *aux;
+char *DiscStr(char *name){
 	int i = 0;
+	char aux[10];
 	while(isalpha(name[i])){
 		aux[i] = name [i];
 		i++;
@@ -356,4 +388,4 @@ int isEqual(char *name, char *name2){
 	}
 		return 1;
 
-}*/
+}
