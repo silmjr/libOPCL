@@ -11,12 +11,8 @@
 	#include <CL/cl.h>
 #endif
 // Identificadores
-enum platforms_names
-{
-	Plat_Intel = 0, Plat_Nvidia, Plat_AMD, Plat_Pocl
-};
 
-int p_AMD, p_Nvidia, p_Intel, p_Pocl;
+int p_AMD = -1 , p_Nvidia = -1 , p_Intel = -1 , p_Pocl = -1 ;
 
 typedef struct 
 {
@@ -49,9 +45,11 @@ typedef struct
 	char *Version;
 	devices *MyDevices;	
 }plataforms;
-//Discover Platforms and Devices
-void DiscPlatfor(plataforms *X, cl_platform_id platform, char *argv0);
-void DiscDevice(devices *X, cl_device_id device, char *argv0);
+
+//Discover and list Platforms and Devices
+void DiscPlatforNumber();
+void listPlatfor(plataforms *X, cl_platform_id platform, char *argv0);
+void listDevice(devices *X, cl_device_id device, char *argv0);
 
 //Aux String.
 char *DiscStr(char *name);
@@ -67,6 +65,8 @@ int main(int argc, char *argv[]){
 	cl_int status;
 	cl_uint num_platforms;
 	char *aux_name;
+
+	DiscPlatforNumber();
 	
 	status = clGetPlatformIDs(0, NULL, &num_platforms);
 	if (status != CL_SUCCESS)
@@ -87,32 +87,8 @@ int main(int argc, char *argv[]){
 	for (i = 0; i < num_platforms; i++){
 		
 		dispPlat[i].numPlat = i;
-
 		
-		DiscPlatfor(&dispPlat[i], platforms[i], argv[0]);
-		
-		aux_name = DiscStr(dispPlat[i].Vendor); 
-		
-		if(isEqual(aux_name,"Intel")){
-			p_Intel = i;
-			printf("------------- %d Intel -------------	\n", p_Intel);
-		}
-
-		if(isEqual(aux_name,"The")){
-			p_Pocl = i;
-			printf("------------- %d POCL -------------\n", p_Pocl);
-		}
-
-		if(isEqual(aux_name,"AMD")){
-			p_AMD = i;
-			printf("------------- %d AMD-------------\n", p_AMD);
-		}
-
-		if(isEqual(aux_name,"NVIDIA")){
-			p_Nvidia = i;
-			printf("------------- %d NVIDIA -------------\n ", p_Nvidia);
-		}
-		
+		listPlatfor(&dispPlat[i], platforms[i], argv[0]);
 
 		//INIT DEVICES
 		cl_uint num_devices;
@@ -134,13 +110,72 @@ int main(int argc, char *argv[]){
 			}
 			dispPlat[i].MyDevices[j].numDevice = j;
 			printf("Device Number: %d\n", dispPlat[i].MyDevices[j].numDevice);	
-			DiscDevice(&aux, devices[j], argv[0]);
+			listDevice(&aux, devices[j], argv[0]);
 			dispPlat[i].MyDevices[j] = aux;
 		}
 	}
 }
 
-void DiscPlatfor(plataforms *X, cl_platform_id platform, char *argv0){
+void DiscPlatforNumber(){
+	int i;	
+	size_t buffer_size;	
+	//Discover Plataforms
+	cl_int status;
+	cl_uint num_platforms;
+	char *aux_name;
+	
+	status = clGetPlatformIDs(0, NULL, &num_platforms);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL platforms available.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	cl_platform_id platforms[num_platforms];
+	plataforms dispPlat[num_platforms];// Vector of avalaible platforms 
+	status = clGetPlatformIDs(num_platforms, platforms, NULL);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the list of OpenCL platforms.\n");
+		exit(EXIT_FAILURE);
+	}
+	
+	for(i=0; i<num_platforms; i++){
+		//Discover Vendor
+		status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+	
+		dispPlat[i].Vendor = malloc(buffer_size);
+		status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VENDOR, buffer_size, dispPlat[i].Vendor, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		aux_name = DiscStr(dispPlat[i].Vendor); 
+		
+		if(isEqual(aux_name,"Intel")){
+			p_Intel = i;
+			printf("------------- %d Intel -------------	\n", p_Intel);
+		}
+
+		if(isEqual(aux_name,"The")){
+			p_Pocl = i;
+			printf("------------- %d POCL -------------\n", p_Pocl);
+		}
+
+		if(isEqual(aux_name,"AMD")){
+			p_AMD = i;
+			printf("------------- %d AMD-------------\n", p_AMD);
+		}
+
+		if(isEqual(aux_name,"NVIDIA")){
+			p_Nvidia = i;
+			printf("------------- %d NVIDIA -------------\n ", p_Nvidia);
+		}
+	
+	}
+
+}
+
+void listPlatfor(plataforms *X, cl_platform_id platform, char *argv0){
 	size_t buffer_size;	
 	printf("Platform Number: %d\n", X->numPlat);	
 	//Discover Name	
@@ -176,10 +211,10 @@ void DiscPlatfor(plataforms *X, cl_platform_id platform, char *argv0){
 	
 }
 
-void DiscDevice(devices *X, cl_device_id device, char *argv0){
+void listDevice(devices *X, cl_device_id device, char *argv0){
 	size_t buffer_size;	
 	//Name
-
+	int aux;
 	cl_int status = clGetDeviceInfo(device, CL_DEVICE_NAME, 0, NULL, &buffer_size);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -230,7 +265,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	X->AdressSpace = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, buffer_size, &X->AdressSpace, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	printf("Address space size: %u bits\n", X->AdressSpace);
+	printf("Address space size: %u\n", X->AdressSpace);
 	//End AdressSpace
 	
 	//Endian
@@ -254,7 +289,15 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	X->MaxBufferSize = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, buffer_size, &X->MaxBufferSize, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	printf("Max Buffer Size: %llu\n", X->MaxBufferSize);
+	//Sizes
+	if (X->MaxBufferSize > 1023 && X->MaxBufferSize < 1048576)
+		printf("Max Buffer Size: %llu KB\n", (int)X->MaxBufferSize/1024);
+	else if (X->MaxBufferSize > 1048576 && X->MaxBufferSize < 1073741824)
+		printf("Max Buffer Size: %llu MB\n", (int)X->MaxBufferSize/1048576);
+	else if (X->MaxBufferSize > 1073741824)
+		printf("Max Buffer Size: %llu GB %llu MB\n", (long int)X->MaxBufferSize/1073741824, (long int)((long int)X->MaxBufferSize%1073741824)/1048576);
+	//End Size 
+	
 	//End Buffer
 	
 	//MaxMemAlocSize
@@ -264,7 +307,15 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	X->MaxMemAlocSize = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_MAX_MEM_ALLOC_SIZE	, buffer_size, &X->MaxMemAlocSize, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	printf("Max Aloc Size: %llu\n", X->MaxMemAlocSize);
+
+	if (X->MaxMemAlocSize > 1023 && X->MaxMemAlocSize < 1048576)
+		printf("Max Buffer Size: %llu KB\n", (int)X->MaxMemAlocSize/1024);
+	else if (X->MaxMemAlocSize> 1048576 && X->MaxMemAlocSize < 1073741824)
+		printf("Max Buffer Size: %llu MB\n", (int)X->MaxMemAlocSize/1048576);
+	else if (X->MaxMemAlocSize > 1073741824)
+		printf("Max Buffer Size: %llu GB %llu MB\n", (long int)X->MaxMemAlocSize/1073741824, (long int)((long int)X->MaxMemAlocSize%1073741824)/1048576);
+
+	
 	//End MaxMemAlocSize
 
 	//MaxParamSize;	
@@ -275,7 +326,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, buffer_size, &X->MaxParamSize, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	printf("Max Parameter size:  %zu\n", X->MaxParamSize);
+	printf("Max Parameter size: %zu\n", X->MaxParamSize);
 	//End MaxParamSize;
 
 	//MaxGlobalMemSize;	
@@ -286,7 +337,13 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, buffer_size, &X->MaxGlobalMemSize, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 	//printf("%\n", X->MaxGlobalMemSize);
-	printf("Total Global Mem Size: %llu\n", X->MaxGlobalMemSize);
+	if (X->MaxGlobalMemSize > 1023 && X->MaxGlobalMemSize < 1048576)
+		printf("Max Global Size: %llu KB\n", (int)X->MaxGlobalMemSize/1024);
+	else if (X->MaxGlobalMemSize > 1048576 && X->MaxGlobalMemSize < 1073741824)
+		printf("Max Global Size: %llu MB\n", (int)X->MaxGlobalMemSize/1048576);
+	else if (X->MaxGlobalMemSize > 1073741824)
+		printf("Max Global Size: %llu GB %llu MB\n", (long int)X->MaxGlobalMemSize/1073741824, (long int)((long int)X->MaxGlobalMemSize%1073741824)/1048576);
+
 	//End MaxGlobalMemSize;
 
 	//MaxGlobalMemCacheSize	
@@ -296,7 +353,13 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	X->MaxGlobalMemCacheSize = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, buffer_size, &X->MaxGlobalMemCacheSize, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	printf("Total Cache Mem Size: %llu\n", X->MaxGlobalMemCacheSize);
+	if (X->MaxGlobalMemCacheSize> 1023 && X->MaxGlobalMemCacheSize < 1048576)
+		printf("Max Cache Mem Size: %llu KB\n", (int)X->MaxGlobalMemCacheSize/1024);
+	else if (X->MaxGlobalMemCacheSize> 1048576 && X->MaxGlobalMemCacheSize< 1073741824)
+		printf("Max Cache Mem Size: %llu MB\n", (int)X->MaxGlobalMemCacheSize/1048576);
+	else if (X->MaxGlobalMemCacheSize > 1073741824)
+		printf("Max Cache Mem Size: %llu GB %llu MB\n", (long int)X->MaxGlobalMemCacheSize/1073741824, (long int)((long int)X->MaxGlobalMemCacheSize%1073741824)/1048576);
+
 	//End MaxGlobalMemCacheSize
 
 	//MaxLocalMemSize	
@@ -306,7 +369,14 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	X->MaxLocalMemSize = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, buffer_size, &X->MaxLocalMemSize, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	printf("Total Local Mem Size: %llu\n", X->MaxLocalMemSize);
+
+	if (X->MaxLocalMemSize> 1023 && X->MaxLocalMemSize < 1048576)
+		printf("Max Local Mem Size: %llu KB\n", (int)X->MaxLocalMemSize/1024);
+	else if (X->MaxLocalMemSize> 1048576 && X->MaxLocalMemSize< 1073741824)
+		printf("Max Local Mem Size: %llu MB\n", (int)X->MaxLocalMemSize/1048576);
+	else if (X->MaxLocalMemSize > 1073741824)
+		printf("Max Lcaol Mem Size: %llu GB %llu MB\n", (long int)X->MaxLocalMemSize/1073741824, (long int)((long int)X->MaxLocalMemSize%1073741824)/1048576);
+
 	//printf("%\n", X->MaxLocalMemSize);
 	//End MaxLocalMemSize
 	
@@ -327,7 +397,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	X->MaxWorkItemDimensions = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, buffer_size, &X->MaxWorkItemDimensions, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	printf("Max Work Item Dimensions:  %zu\n", X->MaxWorkItemDimensions);		
+	printf("Max Work Item Dimensions: %zu\n", X->MaxWorkItemDimensions);		
 	//printf("%\n", X->MaxWorkItemDimensions);	
 	//End MaxWorkItemDimensions		
 
@@ -339,7 +409,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, buffer_size, &X->MaxWorkItem, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	printf("Max Work Item:  %zu\n", X->MaxWorkItem);	
+	printf("Max Work Item: %zu\n", X->MaxWorkItem);	
 	//printf("%d\n", X->MaxWorkItem);
 	//End MaxWorkItem
 		
@@ -351,7 +421,7 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, buffer_size, &X->MaxWorkGroupSize, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	printf("Max Work Group Size:  %zu\n", X->MaxWorkGroupSize);		
+	printf("Max Work Group Size: %zu\n", X->MaxWorkGroupSize);		
 	//printf("%\n", X->MaxWorkGroupSize);	
 	//End MaxWorkGroupSize
 	
@@ -362,9 +432,10 @@ void DiscDevice(devices *X, cl_device_id device, char *argv0){
 	X->MaxWorkItemSizes = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, buffer_size, &X->MaxWorkItemSizes, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	printf("Max Work Items Sizes:  %zu\n", X->MaxWorkItemSizes);		
+	printf("Max Work Items Sizes: %zu\n", X->MaxWorkItemSizes);		
 	//printf("%\n", X->MaxWorkItemSizes);	
 	//End MaxWorkItemSizes
+	printf("\n");
 	
 }
 
@@ -375,8 +446,8 @@ char *DiscStr(char *name){
 		aux[i] = name [i];
 		i++;
 	}
-	strcpy(name, aux);
-	return name;
+	strcpy(name, aux)
+;	return name;
 }
 
 int isEqual(char *name, char *name2){
