@@ -2,6 +2,7 @@ all: libocl
 libocl: libocl.o main.o 
         # O compilador faz a ligação entre os dois objetos
 	gcc -o libocl libocl.o main.o -lOpenCL
+	
 #-----> Distancia com o botão TAB ### e não com espaços
 libocl.o: libocl.c
 	gcc -o libocl.o -c libocl.c -w -lOpenCL
