@@ -16,5 +16,6 @@
 int main(int argc, char *argv[]){	
 	
 	lolc_Initialize();
-	locl_Explore(p_Nvidia);
+	locl_Explore(1);
+	locl_Finalize();
 }

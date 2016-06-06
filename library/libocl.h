@@ -1,8 +1,6 @@
 #ifndef LIBOCL_H
 #define LIBOCL_H
 
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -16,9 +14,12 @@
 	#include <CL/cl.h>
 #endif
 
-int p_AMD, p_Nvidia, p_Intel, p_Pocl;
+int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL;
+cl_uint locl_NUM_PLATFORMS;
+cl_uint locl_NUM_DEVICES;
+cl_platform_id *locl_PLATFORMS;
+cl_platform_id *locl_DEVICES;
 
-cl_uint num_platforms;
 
 typedef struct 
 {
@@ -53,11 +54,12 @@ typedef struct
 }plataforms;
 
 //Discover and list Platforms and Devices
-void lolc_Initialize(void);
-void locl_Explore(int locl_PLATAFORM_NUMBER);
-void listDevice(devices *X, cl_device_id device);
-
-//Aux String.
+int lolc_Initialize(void);
+int locl_Explore(int locl_PLATAFORM_NUMBER);
+int locl_ListDevice(devices *X, cl_device_id device);
+// Table of all errors 
+void  locl_Errors(int i);
+//Aux Functions
 char *DiscStr(char *name);
 int isEqual(char *name, char *name2);
 
