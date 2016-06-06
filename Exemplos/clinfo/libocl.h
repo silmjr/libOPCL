@@ -14,7 +14,7 @@
 	#include <CL/cl.h>
 #endif
 
-int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL;
+int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL, locl_ALL;
 cl_uint locl_NUM_PLATFORMS;
 cl_uint locl_NUM_DEVICES;
 cl_platform_id *locl_PLATFORMS;

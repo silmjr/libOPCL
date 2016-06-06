@@ -22,6 +22,7 @@ void lolc_Initialize(){
 	char *aux_name;
 	
 	cl_int status = clGetPlatformIDs(0, NULL, &locl_NUM_PLATFORMS);
+	locl_ALL = locl_NUM_PLATFORMS;
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL locl_PLATFORMS available.\n");

@@ -15,13 +15,14 @@
 short int locl_INIT = 0;
 
 /* Inicializa as variáveis que serão usadas como index e plataformas */
-int lolc_Initialize(){
+void lolc_Initialize(){
 	locl_INIT = 1;
 	int i;	
 	size_t buffer_size;	
 	char *aux_name;
 	
 	cl_int status = clGetPlatformIDs(0, NULL, &locl_NUM_PLATFORMS);
+	locl_ALL = locl_NUM_PLATFORMS;
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL locl_PLATFORMS available.\n");
@@ -66,11 +67,11 @@ int lolc_Initialize(){
 
 }
 
-int locl_Explore(int locl_PLATAFORM_NUMBER){
+void locl_Explore(int locl_PLATAFORM_NUMBER){
 	
 	if(locl_INIT != 1){
 		printf("Erro 1! \n");
-		return 0;
+		exit(EXIT_FAILURE);
 	}
 	
 	int i, j;	
@@ -78,20 +79,18 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 	char *aux_name;
 	size_t buffer_size;	
 
-	plataforms dispPlat[locl_NUM_PLATFORMS];// Vector of avalaible locl_PLATFORMS 
+	plataforms *dispPlat = malloc(sizeof(plataforms)*locl_NUM_PLATFORMS);// Vector of avalaible locl_PLATFORMS 
 	
 	if(locl_PLATAFORM_NUMBER == -1){
 		printf("Erro 2! \n");
 		return 0;
-	}
-	
-	else if(locl_PLATAFORM_NUMBER == locl_NUM_PLATFORMS){
+	}else if(locl_PLATAFORM_NUMBER == locl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available 
 	
 		for (i = 0; i < locl_NUM_PLATFORMS; i++){
-		
-			dispPlat[i].numPlat = i;
 
+			dispPlat[i].numPlat = i;	
 			printf("Platform Number: %d\n", dispPlat[i].numPlat);	
+
 			//Discover Name	
 			cl_int status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
 			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -120,18 +119,18 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 
 			printf("Version: %s\n", dispPlat[i].Version);
 		
+			
 			// END PLATFORMS
 
-			//INIT locl_DEVICES
-			cl_uint locl_NUM_DEVICES;
+			//INIT DEVICES
 			status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 			if (status != CL_SUCCESS)
 			{
 				printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
 				exit(EXIT_FAILURE);
 			}
-	
-			dispPlat[i].MyDevices = malloc(sizeof(locl_DEVICES)*locl_NUM_DEVICES);
+			
+			dispPlat[i].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 			for (j = 0; j < locl_NUM_DEVICES; j++)
 			{
 				locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
@@ -146,8 +145,10 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 				locl_ListDevice(&aux, locl_DEVICES[j]);
 				dispPlat[i].MyDevices[j] = aux;
 			}
+
 		}
 	}else{
+
 		/* Imprimir informações especificas */		
 		dispPlat[locl_PLATAFORM_NUMBER].numPlat = locl_PLATAFORM_NUMBER;
 
@@ -183,7 +184,6 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 		// END PLATFORMS
 
 		//INIT locl_DEVICES
-		cl_uint locl_NUM_DEVICES;
 		status = clGetDeviceIDs(locl_PLATFORMS[locl_PLATAFORM_NUMBER], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 		if (status != CL_SUCCESS)
 		{
@@ -191,7 +191,7 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 			exit(EXIT_FAILURE);
 		}
 
-		dispPlat[locl_PLATAFORM_NUMBER].MyDevices = malloc(sizeof(locl_DEVICES)*locl_NUM_DEVICES);
+		dispPlat[locl_PLATAFORM_NUMBER].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 		for (j = 0; j < locl_NUM_DEVICES; j++)
 		{
 			locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
@@ -203,17 +203,18 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 			}
 			dispPlat[locl_PLATAFORM_NUMBER].MyDevices[j].numDevice = j;
 			printf("Device Number: %d\n", dispPlat[locl_PLATAFORM_NUMBER].MyDevices[j].numDevice);	
+
 			locl_ListDevice(&aux, locl_DEVICES[j]);
 			dispPlat[locl_PLATAFORM_NUMBER].MyDevices[j] = aux;
 		}
-	
+
 	}
 }
 
-int locl_ListDevice(devices *X, cl_device_id device){
+void locl_ListDevice(devices *X, cl_device_id device){
 	if(locl_INIT != 1){
 		printf("Erro 1\n");
-		return 0;
+		exit(EXIT_FAILURE);
 	}
 	
 	size_t buffer_size;	
@@ -440,12 +441,10 @@ int locl_ListDevice(devices *X, cl_device_id device){
 	//printf("%\n", X->MaxWorkItemSizes);	
 	//End MaxWorkItemSizes
 	printf("\n");
+
 	
 }
 
-locl_Finalize(){
-	free(locl_PLATFORMS);
-}
 void locl_Errors(int i){
 	switch(i){
 		case 1:
