@@ -13,18 +13,8 @@
 	#include <CL/cl.h>
 #endif
 
-
-
-
 int main(int argc, char *argv[]){	
-	int i, j;	
-	//size_t buffer_size;	
-	//devices1 aux;
-	//Discover plataforms1
-	//cl_int status;
-	//cl_uint num_platforms;
-	//char *aux_name;
-
-	DiscPlatforNumber();
-	listPlatform();
+	
+	lolc_Initialize();
+	locl_Explore(1);
 }

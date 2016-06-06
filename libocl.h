@@ -16,6 +16,10 @@
 	#include <CL/cl.h>
 #endif
 
+int p_AMD, p_Nvidia, p_Intel, p_Pocl;
+
+cl_uint num_platforms;
+
 typedef struct 
 {
 	int numDevice;
@@ -49,8 +53,8 @@ typedef struct
 }plataforms;
 
 //Discover and list Platforms and Devices
-void DiscPlatforNumber(void);
-void listPlatform();
+void lolc_Initialize(void);
+void locl_Explore(int locl_PLATAFORM_NUMBER);
 void listDevice(devices *X, cl_device_id device);
 
 //Aux String.

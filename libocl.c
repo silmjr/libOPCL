@@ -12,13 +12,15 @@
 	#include <CL/cl.h>
 #endif
 
-int p_AMD = -1 , p_Nvidia = -1 , p_Intel = -1 , p_Pocl = -1 ;
-void DiscPlatforNumber(){
+short int locl_INIT = 0;
+
+void lolc_Initialize(){
+	locl_INIT = 1;
 	int i;	
 	size_t buffer_size;	
 	//Discover Plataforms
 	cl_int status;
-	cl_uint num_platforms;
+	//cl_uint num_platforms;
 	char *aux_name;
 	
 	status = clGetPlatformIDs(0, NULL, &num_platforms);
@@ -72,14 +74,19 @@ void DiscPlatforNumber(){
 
 }
 
-void listPlatform(){
-
+void locl_Explore(int locl_PLATAFORM_NUMBER){
+	
+	if(locl_INIT != 1){
+		printf("Erro 1\n");
+		return 0;
+	}
+	
 	int i, j;	
 	//size_t buffer_size;	
 	devices aux;
 	//Discover plataforms
 	cl_int status;
-	cl_uint num_platforms;
+	//cl_uint num_platforms;
 	char *aux_name;
 	size_t buffer_size;	
 
@@ -99,39 +106,102 @@ void listPlatform(){
 		exit(EXIT_FAILURE);
 	}
 	
-	for (i = 0; i < num_platforms; i++){
+	
+	if(locl_PLATAFORM_NUMBER == num_platforms){
+	
+		for (i = 0; i < num_platforms; i++){
 		
-		dispPlat[i].numPlat = i;
+			dispPlat[i].numPlat = i;
 
-		printf("Platform Number: %d\n", dispPlat[i].numPlat);	
+			printf("Platform Number: %d\n", dispPlat[i].numPlat);	
+			//Discover Name	
+			cl_int status = clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
+			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+			dispPlat[i].Name = malloc(buffer_size);
+			status = clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, buffer_size, dispPlat[i].Name, NULL);
+			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+			printf("Name: %s\n", dispPlat[i].Name);
+		
+			//Discover Vendor
+			status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
+			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+			dispPlat[i].Vendor = malloc(buffer_size);
+			status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VENDOR, buffer_size, dispPlat[i].Vendor, NULL);
+			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+			printf("Vendor: %s\n", dispPlat[i].Vendor);
+		
+			//Discover Version
+			status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
+			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+			dispPlat[i].Version = malloc(buffer_size);
+			status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VERSION, buffer_size, dispPlat[i].Version, NULL);
+
+			printf("Version: %s\n", dispPlat[i].Version);
+		
+			// END PLATFORMS
+
+			//INIT devices
+			cl_uint num_devices;
+			status = clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &num_devices);
+			if (status != CL_SUCCESS)
+			{
+				printf("Cannot get the number of OpenCL devices available on this platform.\n");
+				exit(EXIT_FAILURE);
+			}
+	
+			dispPlat[i].MyDevices = malloc(sizeof(devices)*num_devices);
+			for (j = 0; j < num_devices; j++)
+			{
+				cl_device_id devices[num_devices];
+				status = clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, num_devices, devices, NULL);
+				if (status != CL_SUCCESS)
+				{
+					printf(" Cannot get the list of OpenCL devices.\n");
+					exit(EXIT_FAILURE);
+				}
+				dispPlat[i].MyDevices[j].numDevice = j;
+				printf("Device Number: %d\n", dispPlat[i].MyDevices[j].numDevice);	
+				listDevice(&aux, devices[j]);
+				dispPlat[i].MyDevices[j] = aux;
+			}
+		}
+	}else{
+				
+		dispPlat[locl_PLATAFORM_NUMBER].numPlat = locl_PLATAFORM_NUMBER;
+
+		printf("Platform Number: %d\n", dispPlat[locl_PLATAFORM_NUMBER].numPlat);	
 		//Discover Name	
-		cl_int status = clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
+		cl_int status = clGetPlatformInfo(platforms[locl_PLATAFORM_NUMBER], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		dispPlat[i].Name = malloc(buffer_size);
-		status = clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, buffer_size, dispPlat[i].Name, NULL);
+		dispPlat[locl_PLATAFORM_NUMBER].Name = malloc(buffer_size);
+		status = clGetPlatformInfo(platforms[locl_PLATAFORM_NUMBER], CL_PLATFORM_NAME, buffer_size, dispPlat[locl_PLATAFORM_NUMBER].Name, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		printf("Name: %s\n", dispPlat[i].Name);
-		
+		printf("Name: %s\n", dispPlat[locl_PLATAFORM_NUMBER].Name);
+	
 		//Discover Vendor
-		status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
+		status = clGetPlatformInfo(platforms[locl_PLATAFORM_NUMBER], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		dispPlat[i].Vendor = malloc(buffer_size);
-		status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VENDOR, buffer_size, dispPlat[i].Vendor, NULL);
+		dispPlat[locl_PLATAFORM_NUMBER].Vendor = malloc(buffer_size);
+		status = clGetPlatformInfo(platforms[locl_PLATAFORM_NUMBER], CL_PLATFORM_VENDOR, buffer_size, dispPlat[locl_PLATAFORM_NUMBER].Vendor, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		printf("Vendor: %s\n", dispPlat[i].Vendor);
-		
+		printf("Vendor: %s\n", dispPlat[locl_PLATAFORM_NUMBER].Vendor);
+	
 		//Discover Version
-		status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
+		status = clGetPlatformInfo(platforms[locl_PLATAFORM_NUMBER], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-		dispPlat[i].Version = malloc(buffer_size);
-		status = clGetPlatformInfo(platforms[i], CL_PLATFORM_VERSION, buffer_size, dispPlat[i].Version, NULL);
+		dispPlat[locl_PLATAFORM_NUMBER].Version = malloc(buffer_size);
+		status = clGetPlatformInfo(platforms[locl_PLATAFORM_NUMBER], CL_PLATFORM_VERSION, buffer_size, dispPlat[locl_PLATAFORM_NUMBER].Version, NULL);
 
-		printf("Version: %s\n", dispPlat[i].Version);
-		
+		printf("Version: %s\n", dispPlat[locl_PLATAFORM_NUMBER].Version);
+	
 		// END PLATFORMS
 
 		//INIT devices
@@ -142,27 +212,32 @@ void listPlatform(){
 			printf("Cannot get the number of OpenCL devices available on this platform.\n");
 			exit(EXIT_FAILURE);
 		}
-	
-		dispPlat[i].MyDevices = malloc(sizeof(devices)*num_devices);
+
+		dispPlat[locl_PLATAFORM_NUMBER].MyDevices = malloc(sizeof(devices)*num_devices);
 		for (j = 0; j < num_devices; j++)
 		{
 			cl_device_id devices[num_devices];
-			status = clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, num_devices, devices, NULL);
+			status = clGetDeviceIDs(platforms[locl_PLATAFORM_NUMBER], CL_DEVICE_TYPE_ALL, num_devices, devices, NULL);
 			if (status != CL_SUCCESS)
 			{
 				printf(" Cannot get the list of OpenCL devices.\n");
 				exit(EXIT_FAILURE);
 			}
-			dispPlat[i].MyDevices[j].numDevice = j;
+			dispPlat[locl_PLATAFORM_NUMBER].MyDevices[j].numDevice = j;
 			printf("Device Number: %d\n", dispPlat[i].MyDevices[j].numDevice);	
 			listDevice(&aux, devices[j]);
-			dispPlat[i].MyDevices[j] = aux;
+			dispPlat[locl_PLATAFORM_NUMBER].MyDevices[j] = aux;
 		}
-	}
 	
+	}
 }
 
 void listDevice(devices *X, cl_device_id device){
+	if(locl_INIT != 1){
+		printf("Erro 1\n");
+		return 0;
+	}
+	
 	size_t buffer_size;	
 	//Name
 	int aux;
