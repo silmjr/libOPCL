@@ -206,7 +206,7 @@ void locl_Explore(int locl_PLATAFORM_NUMBER){
 
 		//INIT devices
 		cl_uint num_devices;
-		status = clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &num_devices);
+		status = clGetDeviceIDs(platforms[locl_PLATAFORM_NUMBER], CL_DEVICE_TYPE_ALL, 0, NULL, &num_devices);
 		if (status != CL_SUCCESS)
 		{
 			printf("Cannot get the number of OpenCL devices available on this platform.\n");
@@ -224,7 +224,7 @@ void locl_Explore(int locl_PLATAFORM_NUMBER){
 				exit(EXIT_FAILURE);
 			}
 			dispPlat[locl_PLATAFORM_NUMBER].MyDevices[j].numDevice = j;
-			printf("Device Number: %d\n", dispPlat[i].MyDevices[j].numDevice);	
+			printf("Device Number: %d\n", dispPlat[locl_PLATAFORM_NUMBER].MyDevices[j].numDevice);	
 			listDevice(&aux, devices[j]);
 			dispPlat[locl_PLATAFORM_NUMBER].MyDevices[j] = aux;
 		}
