@@ -18,7 +18,7 @@ int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL;
 cl_uint locl_NUM_PLATFORMS;
 cl_uint locl_NUM_DEVICES;
 cl_platform_id *locl_PLATFORMS;
-cl_platform_id *locl_DEVICES;
+cl_device_id *locl_DEVICES;
 
 
 typedef struct 
@@ -54,9 +54,9 @@ typedef struct
 }plataforms;
 
 //Discover and list Platforms and Devices
-int lolc_Initialize(void);
-int locl_Explore(int locl_PLATAFORM_NUMBER);
-int locl_ListDevice(devices *X, cl_device_id device);
+void lolc_Initialize(void);
+void locl_Explore(int locl_PLATAFORM_NUMBER);
+void locl_ListDevice(devices *X, cl_device_id device);
 // Table of all errors 
 void  locl_Errors(int i);
 //Aux Functions
