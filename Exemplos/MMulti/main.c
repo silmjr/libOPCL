@@ -4,10 +4,15 @@
 
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable // Usar variáveis Double 
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <omp.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 #include <math.h>
+#include <ctype.h>
+#include "libocl.h"
+#include <omp.h>
+
 
 // OpenCL includes
 #include <CL/cl.h>
@@ -139,79 +144,22 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 1: Descobrir e inicializar as plataformas.
     //-----------------------------------------------------
     
-    cl_uint numPlatforms = 0;//Inteiro sem sinal.
-    cl_platform_id *platforms = NULL;
+	lolc_Initialize();
+	locl_Explore(locl_ALL);
     
-    // Usar o clGetPlatoformIDS para sabebr o número de plataformas.
-    /*
-	cl_int clGetPlatformIDs(cl_uint num_entries(Número de plataformas desejadas.),
-							cl_platform_id *platforms(local onde devem ser escrito o ID das plataformas encontradas.),
-							cl_uint *num_platforms(número de plataformas encontradas.))
-	*/
-	status = clGetPlatformIDs(0, NULL, &numPlatforms);
-    //Deseja-se nenhuma plataforma, não será salvo em nenhum lugar seus IDs, 
-	//numPlataforms salvará o número plataformas encontradas.
-    if (status != CL_SUCCESS) {
-        printf ("Unable to query the number of platforms\n");
-        exit(1);
-    }
-    //Alocando espaço suficiente para cada plataforma.
-    platforms = (cl_platform_id*)malloc(numPlatforms*sizeof(cl_platform_id));
+   
     
-    //Preenche as plataformas com  clGetPlatformIDs().
-    status = clGetPlatformIDs(numPlatforms, platforms, NULL);
-	//Número de plataformas desejadas. Onde devem ser escritos os IDs das plataformas. 
-	//Já se conheche quantas plataformas existem, por isso, 
-	//não precisa recuperar esse número novamente.
-    
-    //-----------------------------------------------------
-    // STEP 2: Descobrir e inicializar os devices.
-    //----------------------------------------------------- 
-    /*cl_int clGetDeviceIDs(cl_platform_id platform, 
-							cl_device_type device_type, 
-							cl_uint num_entries, 
-							cl_device_id* devices, 
-							cl_uint* num_devices) */
-    
-	int qualPlataforma = 0;
-    cl_uint numDevices = 0;
-    cl_device_id *devices = NULL;
-    
-    // Use clGetDeviceIDs() para recuperar o numero de devices presentes.
-    status = clGetDeviceIDs(platforms[qualPlataforma], CL_DEVICE_TYPE_ALL, 0, NULL, &numDevices);
-    //Na plataforma 0(Intel), todos os tipos de dispositivos que suportam o OpenCl
-	//Não se deseja nenhum dispositivo. Não salva em nenhum lugar os IDs
-	// Salva o número de dispostivos encontrados em numDevices.
-    if (status != CL_SUCCESS) {
-        printf ("Unable to query the number of devices\n");
-        exit(1);
-    }
-    
-    // Aloca espaço suficiente para cada dispositivo.
-    devices = (cl_device_id*)malloc(numDevices*sizeof(cl_device_id));
-    
-    // Preenche os devices com clGetDeviceIDs()
-    status = clGetDeviceIDs(platforms[qualPlataforma], CL_DEVICE_TYPE_ALL, numDevices, devices, NULL);
-    // Na plataforma 0. Em todos os tipos de Device. Se deseja N devices.
-	//IDs serão armazenados em Device.
     //-----------------------------------------------------
     // STEP 3: Create a context
     //----------------------------------------------------- 
     
-    /*cl_context clCreateContext(const cl_context_properties* properties,
-								 cl_uint num_devices, const cl_device_id* devices,
-								 void (CL_CALLBACK *pfn_notify)(const char *errinfo, const void *private_info,
-								 size_t cb, void *user_data),
-								 void* user_data, cl_int* errcode_ret)*/
-	
-	
 	cl_context context = NULL;
     
     // Criar contexto usando clCreateContext() e
     // associar com os Devices.
-    context = clCreateContext(NULL, numDevices, devices, NULL, NULL, &status);
+    context = clCreateContext(NULL, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, &status);
 	//Propriedades para o contexto. Numero de Devices para o contexto.
-	// Identificadores dos devices. Função de notificação do OpenCl
+	// Identificadores dos locl_DEVICES. Função de notificação do OpenCl
 	//Dados para função de notificação.
 	//Armazena o codigo do erro em status.
     if (status != CL_SUCCESS) {
@@ -230,8 +178,8 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
 	cl_command_queue cmdQueue;
     
     // Criar uma fila de comando usando clCreateCommandQueue(),
-    // e associar com o(s) devices que você deseja que execute.
-    cmdQueue = clCreateCommandQueue(context, devices[0], 0, &status);
+    // e associar com o(s) locl_DEVICES que você deseja que execute.
+    cmdQueue = clCreateCommandQueue(context, locl_DEVICES[0], 0, &status);
 
     if (status != CL_SUCCESS) {
         printf ("Unable create a command queue\n");
@@ -276,7 +224,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     }
     
     //-----------------------------------------------------
-    // STEP 6: Escrever os dados do host para os devices de buffers
+    // STEP 6: Escrever os dados do host para os locl_DEVICES de buffers
     //----------------------------------------------------- 
 	/*cl_int clEnqueueWriteBuffer(cl_queue queue,(Fila de comandos)
 								  cl_mem buffer,(Objeto de memória do tipo buffer)
@@ -330,14 +278,14 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
         exit(1);
     }
     /*cl_int clBuildProgram(cl_program program,(Objeto do programa)
-							cl_uint num_devices,(Número de dispositivos para o qual o programa deve ser compilado. 0 compila para todos os dispositivos disponíveis ) 
+							cl_uint num_locl_DEVICES,(Número de dispositivos para o qual o programa deve ser compilado. 0 compila para todos os dispositivos disponíveis ) 
 							const cl_device_id* device_list,(Lista de dispositivos para o qual o programa deve ser compilado.)
 							const char* options,
 							void (CL_CALLBACK *pfn_notify)(cl_program program,
 							void *user_data), void* user_data) */
-    // Build (compile) the program for the devices with
+    // Build (compile) the program for the locl_DEVICES with
     // clBuildProgram()
-    status = clBuildProgram(program, numDevices, devices, NULL, NULL, NULL); 
+    status = clBuildProgram(program, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, NULL); 
     if (status != CL_SUCCESS) {
         printf ("Unable to build a program, %d\n", status);
         printf("CL_INVALID_PROGRAM %d\n", CL_INVALID_PROGRAM);
@@ -354,7 +302,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
         printf("CL_OUT_OF_RESOURCES %d\n", CL_OUT_OF_RESOURCES);
         printf("CL_OUT_OF_HOST_MEMORY %d\n", CL_OUT_OF_HOST_MEMORY);
         char logBuffer[10240];
-        clGetProgramBuildInfo(program, devices[0], CL_PROGRAM_BUILD_LOG, sizeof(logBuffer), logBuffer, NULL);
+        clGetProgramBuildInfo(program, locl_DEVICES[0], CL_PROGRAM_BUILD_LOG, sizeof(logBuffer), logBuffer, NULL);
         printf("CL Compilation failed:\n%s", logBuffer);
         exit(1);
     }
@@ -485,8 +433,8 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     clReleaseContext(context);
     
     free(source_str);
-    free(platforms);
-    free(devices);
+    free(locl_PLATFORMS);
+    free(locl_DEVICES);
     
     //printf("%F\n", c[0]);
     
