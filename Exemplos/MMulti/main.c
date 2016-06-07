@@ -145,7 +145,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //-----------------------------------------------------
     
 	lolc_Initialize();
-	locl_Explore(locl_ALL);
+    //locl_Explore(locl_AMD);
     
    
     

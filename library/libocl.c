@@ -17,7 +17,7 @@ short int locl_INIT = 0;
 /* Inicializa as variáveis que serão usadas como index e plataformas */
 void lolc_Initialize(){
 	locl_INIT = 1;
-	int i;	
+	int i, j;	
 	size_t buffer_size;	
 	char *aux_name;
 	
@@ -63,6 +63,25 @@ void lolc_Initialize(){
 
 		if(isEqual(aux_name,"NVIDIA"))
 			locl_NVIDIA = i;
+
+		//INIT DEVICES
+			status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+			if (status != CL_SUCCESS)
+			{
+				printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+				exit(EXIT_FAILURE);
+			}
+
+		for (j = 0; j < locl_NUM_DEVICES; j++)
+			{
+				locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
+				status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
+				if (status != CL_SUCCESS)
+				{
+					printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
+					exit(EXIT_FAILURE);
+				}
+			}
 	}
 
 }
@@ -121,25 +140,10 @@ void locl_Explore(int locl_PLATAFORM_NUMBER){
 		
 			
 			// END PLATFORMS
-
-			//INIT DEVICES
-			status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
-			if (status != CL_SUCCESS)
-			{
-				printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
-				exit(EXIT_FAILURE);
-			}
-			
+			//Init Devices
 			dispPlat[i].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 			for (j = 0; j < locl_NUM_DEVICES; j++)
 			{
-				locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
-				status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
-				if (status != CL_SUCCESS)
-				{
-					printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
-					exit(EXIT_FAILURE);
-				}
 				dispPlat[i].MyDevices[j].numDevice = j;
 				printf("Device Number: %d\n", dispPlat[i].MyDevices[j].numDevice);	
 				locl_ListDevice(&aux, locl_DEVICES[j]);
