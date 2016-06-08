@@ -144,7 +144,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 1: Descobrir e inicializar as plataformas.
     //-----------------------------------------------------
     
-	lolc_Initialize();
+	lolc_Initialize(locl_POCL);
     //locl_Explore(locl_AMD);
     
    
