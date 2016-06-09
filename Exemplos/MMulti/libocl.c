@@ -105,7 +105,7 @@ void lolc_Initialize(int locl_PLATAFORM_NUMBER){
 					exit(EXIT_FAILURE);
 				}
 			}
-			exit(EXIT_FAILURE);
+			break;
 		}
 	}
 
@@ -482,8 +482,35 @@ void locl_Errors(int i){
 		case 2:
 			printf("The platform doesn't exist\n");
 		break;
+		
+		case 3:
+			printf ("The device doens't exist\n");
+		break;
+		
 	}
 }
+
+void locl_CreateCmdQueue(int locl_DEVICE_NUMBER){
+	cl_int status;
+	locl_CONTEXT = clCreateContext(NULL, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, &status);
+	
+	if(locl_DEVICE_NUMBER > locl_NUM_DEVICES){
+		printf ("Erro 3!\n");
+		exit(1);
+	}
+	if (status != CL_SUCCESS) {
+		printf ("Unable create a context\n");
+		exit(1);
+	}
+	    
+	locl_CMDQUEUE = clCreateCommandQueue(locl_CONTEXT, locl_DEVICES[locl_DEVICE_NUMBER], 0, &status);
+
+	if (status != CL_SUCCESS) {
+	printf ("Unable create a command queue\n");
+	exit(1);
+	}
+}
+
 char *DiscStr(char *name){
 	int i = 0;
 	char aux[10];

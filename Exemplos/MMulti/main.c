@@ -123,7 +123,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     size_t source_size;
     
     //Carregando o arquivo com o Kernel 
-	fp = fopen("gemm-kernel.cl", "r");
+    fp = fopen("gemm-kernel.cl", "r");
     if (!fp) {
         fprintf(stderr, "Failed to load kernel.\n");
         exit(1);
@@ -141,67 +141,34 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //printf("%F\n", c[0]);
     
     //-----------------------------------------------------
-    // STEP 1: Descobrir e inicializar as plataformas.
+    // STEP 1: Descobrir e inicializar as plataformase Devices.
     //-----------------------------------------------------
     
-	lolc_Initialize(locl_POCL);
-    //locl_Explore(locl_AMD);
-    
-   
-    
+    lolc_Initialize(locl_POCL);
+        //locl_Explore(locl_AMD);
+        
     //-----------------------------------------------------
-    // STEP 3: Create a context
+    // STEP 2: Create a locl_CONTEXT e Fila de Comando 
     //----------------------------------------------------- 
     
-	cl_context context = NULL;
-    
-    // Criar contexto usando clCreateContext() e
-    // associar com os Devices.
-    context = clCreateContext(NULL, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, &status);
-	//Propriedades para o contexto. Numero de Devices para o contexto.
-	// Identificadores dos locl_DEVICES. Função de notificação do OpenCl
-	//Dados para função de notificação.
-	//Armazena o codigo do erro em status.
-    if (status != CL_SUCCESS) {
-        printf ("Unable create a context\n");
-        exit(1);
-    }
-    
-    //-----------------------------------------------------
-    // STEP 4: Criar fila de comando
-    //----------------------------------------------------- 
-    /*cl_command_queue clCreateCommandQueue(cl_context context, 
-					    cl_device_id device, 
-					    cl_command_queue_properties properties,
-				            cl_int* errcode_ret) */
-    
-	cl_command_queue cmdQueue;
-    
-    // Criar uma fila de comando usando clCreateCommandQueue(),
-    // e associar com o(s) locl_DEVICES que você deseja que execute.
-    cmdQueue = clCreateCommandQueue(context, locl_DEVICES[0], 0, &status);
-
-    if (status != CL_SUCCESS) {
-        printf ("Unable create a command queue\n");
-        exit(1);
-    }
+    locl_CreateCmdQueue(0);
     
     //-----------------------------------------------------
     // STEP 5: Criar buffers do device.
     //----------------------------------------------------- 
     
-    /*cl_mem clCreateBuffer(cl_context context,
-							cl_memflags flags, size_t size,
-							void* host_ptr, 	
-							cl_int* errcode_ret) */
-	
+    /*cl_mem clCreateBuffer(cl_locl_CONTEXT locl_CONTEXT,
+                            cl_memflags flags, size_t size,
+                            void* host_ptr,     
+                            cl_int* errcode_ret) */
+    
     cl_mem bufferA;  // Array de entrada do device
-    cl_mem bufferB;  //	Array de entrada do device
+    cl_mem bufferB;  // Array de entrada do device
     cl_mem bufferC;  // Array de saída do device
     
     // Use clCreateBuffer() para criar o objeto (d_A) 
     // Isso contêm os dados do Array A do Host.
-    bufferA = clCreateBuffer(context, CL_MEM_READ_ONLY, datasize, NULL, &status);
+    bufferA = clCreateBuffer(locl_CONTEXT, CL_MEM_READ_ONLY, datasize, NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create buffer for A\n");
         exit(1);
@@ -209,7 +176,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     // Use clCreateBuffer() para criar o objeto (d_B) 
     // Isso contêm os dados do Array B do Host.
-    bufferB = clCreateBuffer(context, CL_MEM_READ_ONLY, datasize, NULL, &status);
+    bufferB = clCreateBuffer(locl_CONTEXT, CL_MEM_READ_ONLY, datasize, NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create buffer for B\n");
         exit(1);
@@ -217,7 +184,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     // Use clCreateBuffer() para criar o objeto (d_B) 
     // com espaço suficiente para "segurar" os dados de saída.
-    bufferC = clCreateBuffer(context, CL_MEM_READ_WRITE, datasize, NULL, &status);
+    bufferC = clCreateBuffer(locl_CONTEXT, CL_MEM_READ_WRITE, datasize, NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create buffer for C\n");
         exit(1);
@@ -226,19 +193,19 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //-----------------------------------------------------
     // STEP 6: Escrever os dados do host para os locl_DEVICES de buffers
     //----------------------------------------------------- 
-	/*cl_int clEnqueueWriteBuffer(cl_queue queue,(Fila de comandos)
-								  cl_mem buffer,(Objeto de memória do tipo buffer)
-								  cl_bool blocking_write,(Caso CL_True o Host suspende a execução até que os dados tenham sido completamente transferidos para o device)
-								  size_t offset,(OffSet a partir do qual os dados devem ser transferidos)
-								  size_t cb,(Comprimentos em bytes dos dados que serão transferidos)
-								  void* ptr,(Região de memória para onde os dados devem ser transferidos)
-								  cl_uint events_in_wait_list,(Número de eventos que devem ser aguardados antes do início das transferência dos dados)
-								  const cl_event* event_wait_list,(Lista de eventos que devem ser aguardados antes do início das transferência dos dados)
-								  cl_event* event) */
-								  
+    /*cl_int clEnqueueWriteBuffer(cl_queue queue,(Fila de comandos)
+                                  cl_mem buffer,(Objeto de memória do tipo buffer)
+                                  cl_bool blocking_write,(Caso CL_True o Host suspende a execução até que os dados tenham sido completamente transferidos para o device)
+                                  size_t offset,(OffSet a partir do qual os dados devem ser transferidos)
+                                  size_t cb,(Comprimentos em bytes dos dados que serão transferidos)
+                                  void* ptr,(Região de memória para onde os dados devem ser transferidos)
+                                  cl_uint events_in_wait_list,(Número de eventos que devem ser aguardados antes do início das transferência dos dados)
+                                  const cl_event* event_wait_list,(Lista de eventos que devem ser aguardados antes do início das transferência dos dados)
+                                  cl_event* event) */
+                                  
     // Use clEnqueueWriteBuffer() para escrever o array de entrada A
     // no device de buffer bufferA
-    status = clEnqueueWriteBuffer(cmdQueue, bufferA,CL_FALSE, 0, datasize, a, 0, NULL, NULL);
+    status = clEnqueueWriteBuffer(locl_CMDQUEUE, bufferA,CL_FALSE, 0, datasize, a, 0, NULL, NULL);
     if (status != CL_SUCCESS) {
         printf ("Unable to copy A to buffer\n");
         exit(1);
@@ -246,7 +213,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     // Use clEnqueueWriteBuffer() para escrever o array de entrada B
     // no device de buffer bufferB
-    status = clEnqueueWriteBuffer(cmdQueue, bufferB, CL_FALSE, 0, datasize, b, 0, NULL, NULL);
+    status = clEnqueueWriteBuffer(locl_CMDQUEUE, bufferB, CL_FALSE, 0, datasize, b, 0, NULL, NULL);
     if (status != CL_SUCCESS) {
         printf ("Unable to copy B to buffer\n");
         exit(1);
@@ -254,7 +221,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     // Use clEnqueueWriteBuffer() para escrever o array de entrada C
     // no device de buffer bufferC
-    status = clEnqueueWriteBuffer(cmdQueue, bufferC, CL_FALSE, 0, datasize, c, 0, NULL, NULL);
+    status = clEnqueueWriteBuffer(locl_CMDQUEUE, bufferC, CL_FALSE, 0, datasize, c, 0, NULL, NULL);
     if (status != CL_SUCCESS) {
         printf ("Unable to copy C to buffer\n");
         exit(1);
@@ -263,26 +230,26 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //-----------------------------------------------------
     // STEP 7: Create and compile the program
     //----------------------------------------------------- 
-	
-	/*cl_program clCreateProgramWithSource( cl_context context,(Contexto) 
-											cl_uint count, (Número de strings do array) 
-											const char** strings, (array de strings do código fonte) 
-											const size_t* lengths, (NULL se terminado em \0) 
-										    cl_int* errcode_ret*/
+    
+    /*cl_program clCreateProgramWithSource( cl_locl_CONTEXT locl_CONTEXT,(Contexto) 
+                                            cl_uint count, (Número de strings do array) 
+                                            const char** strings, (array de strings do código fonte) 
+                                            const size_t* lengths, (NULL se terminado em \0) 
+                                            cl_int* errcode_ret*/
     
     // Create a program using clCreateProgramWithSource()
-    cl_program program = clCreateProgramWithSource(context, 1, 
-		(const char**)&source_str,	NULL, &status);
+    cl_program program = clCreateProgramWithSource(locl_CONTEXT, 1, 
+        (const char**)&source_str,  NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create a program from source\n");
         exit(1);
     }
     /*cl_int clBuildProgram(cl_program program,(Objeto do programa)
-							cl_uint num_locl_DEVICES,(Número de dispositivos para o qual o programa deve ser compilado. 0 compila para todos os dispositivos disponíveis ) 
-							const cl_device_id* device_list,(Lista de dispositivos para o qual o programa deve ser compilado.)
-							const char* options,
-							void (CL_CALLBACK *pfn_notify)(cl_program program,
-							void *user_data), void* user_data) */
+                            cl_uint num_locl_DEVICES,(Número de dispositivos para o qual o programa deve ser compilado. 0 compila para todos os dispositivos disponíveis ) 
+                            const cl_device_id* device_list,(Lista de dispositivos para o qual o programa deve ser compilado.)
+                            const char* options,
+                            void (CL_CALLBACK *pfn_notify)(cl_program program,
+                            void *user_data), void* user_data) */
     // Build (compile) the program for the locl_DEVICES with
     // clBuildProgram()
     status = clBuildProgram(program, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, NULL); 
@@ -311,8 +278,8 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 8: Create the kernel
     //----------------------------------------------------- 
     /*cl_kernel clCreateKernel(cl_program program,(Objeto do programa)
-							   const char* kernel_name,(Nome da função definida no Codigo Fonte)
-							   cl_int* errcode_ret) (local para armazenar erro de chamada)*/
+                               const char* kernel_name,(Nome da função definida no Codigo Fonte)
+                               cl_int* errcode_ret) (local para armazenar erro de chamada)*/
     cl_kernel kernel = NULL;
     
     // Use clCreateKernel() to create a kernel from the 
@@ -330,15 +297,15 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //-----------------------------------------------------
     // STEP 9: Set the kernel arguments
     //----------------------------------------------------- 
-	    
+        
     // Associate the input and output buffers with the 
     // kernel 
     // using clSetKernelArg()
-	
-	/*cl_int clSetKernelArg(cl_kernel kernel,(Kernel cuja o argumento deve ser configurado)
-						  cl_uint arg_index,(posição do arumento de acordo que foi definido no codigo fonte. Inicia em 0)
-						  size_t arg_size,(comprimento de cada dado do argumento)
-						  const void* arg_value)ponteiro para os dados do argumento.*/
+    
+    /*cl_int clSetKernelArg(cl_kernel kernel,(Kernel cuja o argumento deve ser configurado)
+                          cl_uint arg_index,(posição do arumento de acordo que foi definido no codigo fonte. Inicia em 0)
+                          size_t arg_size,(comprimento de cada dado do argumento)
+                          const void* arg_value)ponteiro para os dados do argumento.*/
 
     status = clSetKernelArg(kernel, 0, sizeof(cl_mem), &bufferA);
     if (status != CL_SUCCESS) {
@@ -361,7 +328,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //----------------------------------------------------- 
     
     // Define an index space (global work size) of work 
-    // items for execution. 	A workgroup size (local work size) is not 
+    // items for execution.     A workgroup size (local work size) is not 
     // required, but can be used.
     size_t globalWorkSize[2];    
     // There are 'elements' work-items 
@@ -377,20 +344,20 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 11: Enqueue the kernel for execution
     //----------------------------------------------------- 
     /*cl_int clEnqueueNDRangeKernel(cl_command_queue command_queue,(Fila de comandos)
-									cl_kernel kernel,(Kernel a ser executado)
-									cl_uint work_dim, (Dimensões dos espaços de índices)
-									const size_t* global_work_offset, (array de deslocamentos para valores dos índices em cada dimensão)
-									const size_t* global_work_size, (tamanho para cada dimensão do espaço de índices)
-									const size_t* local_work_size, (array de tamanhos dos grupos de trabalho.)
-									cl_uint events_in_wait_list,(número de eventos na lista de eventos)
-									const cl_event* event_wait_list, 
-									cl_event* event)*/
+                                    cl_kernel kernel,(Kernel a ser executado)
+                                    cl_uint work_dim, (Dimensões dos espaços de índices)
+                                    const size_t* global_work_offset, (array de deslocamentos para valores dos índices em cada dimensão)
+                                    const size_t* global_work_size, (tamanho para cada dimensão do espaço de índices)
+                                    const size_t* local_work_size, (array de tamanhos dos grupos de trabalho.)
+                                    cl_uint events_in_wait_list,(número de eventos na lista de eventos)
+                                    const cl_event* event_wait_list, 
+                                    cl_event* event)*/
 
     // Execute the kernel by using 
     // clEnqueueNDRangeKernel().
     // 'globalWorkSize' is the 1D dimension of the 
     // work-items
-    status = clEnqueueNDRangeKernel(cmdQueue, kernel, 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
+    status = clEnqueueNDRangeKernel(locl_CMDQUEUE, kernel, 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
     status = clSetKernelArg(kernel, 2, sizeof(cl_mem), &bufferC);
     if (status != CL_SUCCESS) {
         printf ("Unable to run the kernel on NDRange\n");
@@ -400,20 +367,20 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //-----------------------------------------------------
     // STEP 12: Read the output buffer back to the host
     //----------------------------------------------------- 
-	/*cl_int clEnqueueReadBuffer(cl_queue queue,(fila de comandos)
-								 cl_mem buffer, (objeto de memória do tipo buffer a ser lido)
-								 cl_bool blocking_read, 
-								 size_t offset,(offset a partir do qual os dados serão transfferidos)
-								 size_t cb, (comprimentos em bytes dos dados a serem transferidos)
-								 const void* ptr, (região do host onde os dados serão escritos)
-								 cl_uint events_in_wait_list, 
-								 const cl_event* event_wait_list, 
-								 cl_event* event)*/
+    /*cl_int clEnqueueReadBuffer(cl_queue queue,(fila de comandos)
+                                 cl_mem buffer, (objeto de memória do tipo buffer a ser lido)
+                                 cl_bool blocking_read, 
+                                 size_t offset,(offset a partir do qual os dados serão transfferidos)
+                                 size_t cb, (comprimentos em bytes dos dados a serem transferidos)
+                                 const void* ptr, (região do host onde os dados serão escritos)
+                                 cl_uint events_in_wait_list, 
+                                 const cl_event* event_wait_list, 
+                                 cl_event* event)*/
     
     // Use clEnqueueReadBuffer() to read the OpenCL output  
     // buffer (bufferC) 
     // to the host output array (C)
-    status = clEnqueueReadBuffer(cmdQueue, bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
+    status = clEnqueueReadBuffer(locl_CMDQUEUE, bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
     if (status != CL_SUCCESS) {
         printf ("Unable to read the C buffer\n");
         exit(1);
@@ -426,11 +393,11 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // Free OpenCL resources
     clReleaseKernel(kernel);
     clReleaseProgram(program);
-    clReleaseCommandQueue(cmdQueue);
+    clReleaseCommandQueue(locl_CMDQUEUE);
     clReleaseMemObject(bufferA);
     clReleaseMemObject(bufferB);
     clReleaseMemObject(bufferC);
-    clReleaseContext(context);
+    clReleaseContext(locl_CONTEXT);
     
     free(source_str);
     free(locl_PLATFORMS);
