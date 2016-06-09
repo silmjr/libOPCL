@@ -20,9 +20,11 @@ cl_uint locl_NUM_DEVICES;
 cl_platform_id *locl_PLATFORMS;
 cl_device_id *locl_DEVICES;
 
+cl_context locl_CONTEXT;
+cl_command_queue locl_CMDQUEUE;
 
-typedef struct 
-{
+
+typedef struct{
 	int numDevice;
 	char *Name;	
 	char *Vendor;	
@@ -44,8 +46,7 @@ typedef struct
 
 }devices;
 
-typedef struct 
-{
+typedef struct{
 	int numPlat;
 	char *Name;	
 	char *Vendor;	
@@ -56,6 +57,7 @@ typedef struct
 //Discover and list Platforms and Devices
 void lolc_Initialize(int locl_PLATAFORM_NUMBER);
 void locl_Explore(int locl_PLATAFORM_NUMBER);
+void locl_CreateCmdQueue(int locl_DEVICE_NUMBER);
 void locl_ListDevice(devices *X, cl_device_id device);
 // Table of all errors 
 void  locl_Errors(int i);

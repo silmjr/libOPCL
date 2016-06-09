@@ -226,7 +226,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
         printf ("Unable to copy C to buffer\n");
         exit(1);
     }
-    
+    /*Talvez tirar, TALVEZ!*/
     //-----------------------------------------------------
     // STEP 7: Create and compile the program
     //----------------------------------------------------- 
@@ -238,8 +238,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
                                             cl_int* errcode_ret*/
     
     // Create a program using clCreateProgramWithSource()
-    cl_program program = clCreateProgramWithSource(locl_CONTEXT, 1, 
-        (const char**)&source_str,  NULL, &status);
+    cl_program program = clCreateProgramWithSource(locl_CONTEXT, 1, (const char**)&source_str,  NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create a program from source\n");
         exit(1);
