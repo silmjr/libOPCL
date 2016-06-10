@@ -172,12 +172,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     // Use clCreateBuffer() para criar o objeto (d_A) 
     // Isso contêm os dados do Array A do Host.
-    bufferA = clCreateBuffer(locl_CONTEXT, CL_MEM_READ_ONLY, datasize, NULL, &status);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to create buffer for A\n");
-        exit(1);
-    }
-    
+    locl_CreateBuffer(&bufferA, CL_MEM_READ_ONLY, datasize);
     // Use clCreateBuffer() para criar o objeto (d_B) 
     // Isso contêm os dados do Array B do Host.
     bufferB = clCreateBuffer(locl_CONTEXT, CL_MEM_READ_ONLY, datasize, NULL, &status);

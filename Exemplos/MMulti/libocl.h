@@ -59,6 +59,7 @@ int lolc_Initialize(int locl_PLATAFORM_NUMBER);
 int locl_Explore(int locl_PLATAFORM_NUMBER);
 int locl_CreateCmdQueue(int locl_DEVICE_NUMBER);
 int locl_ListDevice(devices *X, cl_device_id device);
+cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS );
 // Table of all errors 
 void  locl_Errors(int i);
 //Aux Functions
