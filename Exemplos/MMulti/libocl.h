@@ -55,10 +55,10 @@ typedef struct{
 }plataforms;
 
 //Discover and list Platforms and Devices
-void lolc_Initialize(int locl_PLATAFORM_NUMBER);
-void locl_Explore(int locl_PLATAFORM_NUMBER);
-void locl_CreateCmdQueue(int locl_DEVICE_NUMBER);
-void locl_ListDevice(devices *X, cl_device_id device);
+int lolc_Initialize(int locl_PLATAFORM_NUMBER);
+int locl_Explore(int locl_PLATAFORM_NUMBER);
+int locl_CreateCmdQueue(int locl_DEVICE_NUMBER);
+int locl_ListDevice(devices *X, cl_device_id device);
 // Table of all errors 
 void  locl_Errors(int i);
 //Aux Functions

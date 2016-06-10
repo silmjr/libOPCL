@@ -15,7 +15,7 @@
 short int locl_INIT = 0;
 
 /* Inicializa as variáveis que serão usadas como index e plataformas */
-void lolc_Initialize(int locl_PLATAFORM_NUMBER){
+int lolc_Initialize(int locl_PLATAFORM_NUMBER){
 	locl_INIT = 1;
 	int i, j;	
 	size_t buffer_size;	
@@ -66,8 +66,7 @@ void lolc_Initialize(int locl_PLATAFORM_NUMBER){
 
 		
 		if(locl_PLATAFORM_NUMBER == -1){
-			printf("Erro 2! \n");
-			exit(EXIT_FAILURE);
+			return 2;
 		}else if(locl_PLATAFORM_NUMBER == locl_NUM_PLATFORMS){
 			//INIT DEVICES
 			status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
@@ -111,12 +110,11 @@ void lolc_Initialize(int locl_PLATAFORM_NUMBER){
 
 }
 
-void locl_Explore(int locl_PLATAFORM_NUMBER){
+int locl_Explore(int locl_PLATAFORM_NUMBER){
 	
-	if(locl_INIT != 1){
-		printf("Erro 1! \n");
-		exit(EXIT_FAILURE);
-	}
+	if(locl_INIT != 1)
+		return 1;
+	
 	
 	int i, j;	
 	devices aux; /*Estrutura auxiliar de Devices*/
@@ -126,8 +124,7 @@ void locl_Explore(int locl_PLATAFORM_NUMBER){
 	plataforms *dispPlat = malloc(sizeof(plataforms)*locl_NUM_PLATFORMS);// Vector of avalaible locl_PLATFORMS 
 	
 	if(locl_PLATAFORM_NUMBER == -1){
-		printf("Erro 2! \n");
-		return 0;
+		return 2;
 	}else if(locl_PLATAFORM_NUMBER == locl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available 
 	
 		for (i = 0; i < locl_NUM_PLATFORMS; i++){
@@ -240,11 +237,10 @@ void locl_Explore(int locl_PLATAFORM_NUMBER){
 	}
 }
 
-void locl_ListDevice(devices *X, cl_device_id device){
-	if(locl_INIT != 1){
-		printf("Erro 1\n");
-		exit(EXIT_FAILURE);
-	}
+int locl_ListDevice(devices *X, cl_device_id device){
+	if(locl_INIT != 1)
+		return 1;
+	
 	
 	size_t buffer_size;	
 	//Name
@@ -476,26 +472,30 @@ void locl_ListDevice(devices *X, cl_device_id device){
 
 void locl_Errors(int i){
 	switch(i){
+		case 0:
+		break;
 		case 1:
 			printf("OpenCL is not initialized \n");
+			exit(1);
 		break;
 		case 2:
 			printf("The platform doesn't exist\n");
+			exit(1);
 		break;
 		
 		case 3:
 			printf ("The device doens't exist\n");
+			exit(1);
 		break;
-		
 	}
 }
 
-void locl_CreateCmdQueue(int locl_DEVICE_NUMBER){
+int locl_CreateCmdQueue(int locl_DEVICE_NUMBER){
 	cl_int status;
 	locl_CONTEXT = clCreateContext(NULL, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, &status);
 	
 	if(locl_DEVICE_NUMBER > locl_NUM_DEVICES){
-		printf ("Erro 3!\n");
+		return 3;
 		exit(1);
 	}
 	if (status != CL_SUCCESS) {
