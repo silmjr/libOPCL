@@ -511,6 +511,17 @@ int locl_CreateCmdQueue(int locl_DEVICE_NUMBER){
 	}
 }
 
+cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS ){
+	cl_int status;	
+	cl_mem bufferA;
+	bufferA = clCreateBuffer(locl_CONTEXT, locl_FLAGS, locl_DATASIZE, NULL, &status);
+	if (status != CL_SUCCESS) {
+		printf ("Unable to create buffer for A\n");
+		exit(1);
+	}
+	return bufferA;
+}
+
 char *DiscStr(char *name){
 	int i = 0;
 	char aux[10];
