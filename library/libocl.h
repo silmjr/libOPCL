@@ -14,7 +14,7 @@
 	#include <CL/cl.h>
 #endif
 
-int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL, locl_ALL;
+int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL, locl_ALL, locl_CPU, locl_ACCELERATOR, locl_GPU;
 cl_uint locl_NUM_PLATFORMS;
 cl_uint locl_NUM_DEVICES;
 cl_platform_id *locl_PLATFORMS;
@@ -62,6 +62,7 @@ int locl_ListDevice(devices *X, cl_device_id device);
 cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS );
 // Table of all errors 
 void  locl_Errors(int i);
+
 //Aux Functions
 char *DiscStr(char *name);
 int isEqual(char *name, char *name2);

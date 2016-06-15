@@ -16,10 +16,12 @@ short int locl_INIT = 0;
 
 /* Inicializa as variáveis que serão usadas como index e plataformas */
 int lolc_Initialize(int locl_PLATAFORM_NUMBER){
+	locl_AMD = locl_NVIDIA = locl_INTEL = locl_POCL = locl_ALL = locl_CPU = locl_ACCELERATOR = locl_GPU = -1;
 	locl_INIT = 1;
 	int i, j;	
 	size_t buffer_size;	
 	char *aux_name;
+	cl_device_type *aux_type;
 	
 	cl_int status = clGetPlatformIDs(0, NULL, &locl_NUM_PLATFORMS);
 	locl_ALL = locl_NUM_PLATFORMS;
@@ -78,7 +80,7 @@ int lolc_Initialize(int locl_PLATAFORM_NUMBER){
 
 			for (j = 0; j < locl_NUM_DEVICES; j++)
 			{
-				locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
+				locl_DEVICES = (cl_device_id*) malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
 				status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
 				if (status != CL_SUCCESS)
 				{
@@ -103,10 +105,36 @@ int lolc_Initialize(int locl_PLATAFORM_NUMBER){
 					printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
 					exit(EXIT_FAILURE);
 				}
+
+				//Type
+				status = clGetDeviceInfo(locl_DEVICES[j], CL_DEVICE_TYPE, 0, NULL, &buffer_size);
+				if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+				aux_type = malloc(buffer_size);
+				status = clGetDeviceInfo(locl_DEVICES[j], CL_DEVICE_TYPE, buffer_size, &aux_type, NULL);
+				if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+				
+
+		        if (aux_type == CL_DEVICE_TYPE_GPU){
+					printf("foi\n");
+					locl_GPU = j;
+		        }
+			
+				if(aux_type == CL_DEVICE_TYPE_CPU){
+					printf("qual\n");
+					locl_CPU = j;
+				}
+
+				if(aux_type == CL_DEVICE_TYPE_ACCELERATOR){
+					printf("oi\n");
+					locl_ACCELERATOR = j;
+				}
 			}
-			break;
+				break;
 		}
 	}
+	return 0;
 
 }
 
@@ -235,6 +263,7 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 		}
 
 	}
+	return 0;
 }
 
 int locl_ListDevice(devices *X, cl_device_id device){
@@ -271,9 +300,8 @@ int locl_ListDevice(devices *X, cl_device_id device){
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 	
 	X->Type = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_TYPE, buffer_size, X->Type, NULL);
+	status = clGetDeviceInfo(device, CL_DEVICE_TYPE, buffer_size, &X->Type, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	
 	//printf("%s\n", X->Type);
 	//End Type
 
@@ -466,6 +494,7 @@ int locl_ListDevice(devices *X, cl_device_id device){
 	//printf("%\n", X->MaxWorkItemSizes);	
 	//End MaxWorkItemSizes
 	printf("\n");
+	return 0;
 
 	
 }
@@ -509,6 +538,7 @@ int locl_CreateCmdQueue(int locl_DEVICE_NUMBER){
 	printf ("Unable create a command queue\n");
 	exit(1);
 	}
+	return 0;
 }
 
 cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS ){
