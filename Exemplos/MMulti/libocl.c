@@ -16,12 +16,12 @@ short int locl_INIT = 0;
 
 /* Inicializa as variáveis que serão usadas como index e plataformas */
 int lolc_Initialize(int locl_PLATAFORM_NUMBER){
-	locl_AMD = locl_NVIDIA = locl_INTEL = locl_POCL = locl_ALL = locl_CPU = locl_ACCELERATOR = locl_GPU = -1;
+	locl_AMD = locl_NVIDIA = locl_INTEL = locl_POCL = locl_ALL = locl_DEVICE_CPU = locl_DEVICE_ACCELERATOR = locl_DEVICE_GPU = -1;
 	locl_INIT = 1;
 	int i, j;	
 	size_t buffer_size;	
 	char *aux_name;
-	cl_device_type *aux_type;
+	cl_device_type aux_type;
 	
 	cl_int status = clGetPlatformIDs(0, NULL, &locl_NUM_PLATFORMS);
 	locl_ALL = locl_NUM_PLATFORMS;
@@ -116,20 +116,17 @@ int lolc_Initialize(int locl_PLATAFORM_NUMBER){
 
 				
 
-		        if (aux_type == CL_DEVICE_TYPE_GPU){
-					printf("foi\n");
-					locl_GPU = j;
-		        }
+				if (aux_type & CL_DEVICE_TYPE_GPU)
+					locl_DEVICE_GPU = j;
+				
 			
-				if(aux_type == CL_DEVICE_TYPE_CPU){
-					printf("qual\n");
-					locl_CPU = j;
-				}
+				if(aux_type & CL_DEVICE_TYPE_CPU)
+					locl_DEVICE_CPU = j;
+				
 
-				if(aux_type == CL_DEVICE_TYPE_ACCELERATOR){
-					printf("oi\n");
-					locl_ACCELERATOR = j;
-				}
+				if(aux_type & CL_DEVICE_TYPE_ACCELERATOR)
+					locl_DEVICE_ACCELERATOR = j;
+				
 			}
 				break;
 		}
@@ -302,6 +299,17 @@ int locl_ListDevice(devices *X, cl_device_id device){
 	X->Type = malloc(buffer_size);
 	status = clGetDeviceInfo(device, CL_DEVICE_TYPE, buffer_size, &X->Type, NULL);
 	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+	
+	if(X->Type & CL_DEVICE_TYPE_GPU)
+		printf("Type: GPU\n");
+
+	if(X->Type & CL_DEVICE_TYPE_CPU)
+		printf("Type: CPU\n");
+	
+
+	if(X->Type & CL_DEVICE_TYPE_ACCELERATOR)
+		printf("Type: ACCELERATOR\n");
+
 	//printf("%s\n", X->Type);
 	//End Type
 

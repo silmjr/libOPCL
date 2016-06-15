@@ -15,7 +15,7 @@
 
 int main(int argc, char *argv[]){	
 	
-	lolc_Initialize(locl_POCL);
-	locl_Explore(locl_POCL);
+	lolc_Initialize(locl_ALL);
+	locl_Explore(locl_ALL);
 
 }

@@ -14,7 +14,7 @@
 	#include <CL/cl.h>
 #endif
 
-int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL, locl_ALL, locl_CPU, locl_ACCELERATOR, locl_GPU;
+int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL, locl_ALL, locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
 cl_uint locl_NUM_PLATFORMS;
 cl_uint locl_NUM_DEVICES;
 cl_platform_id *locl_PLATFORMS;
@@ -28,7 +28,7 @@ typedef struct{
 	int numDevice;
 	char *Name;	
 	char *Vendor;	
-	cl_device_type *Type;	
+	cl_device_type Type;	
 	char *Version;	
 	cl_uint *AdressSpace;	
 	cl_bool *LitleEndian;	
