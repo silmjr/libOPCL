@@ -116,15 +116,15 @@ int lolc_Initialize(int locl_PLATAFORM_NUMBER){
 
 				
 
-				if (aux_type & CL_DEVICE_TYPE_GPU)
+				if (aux_type == CL_DEVICE_TYPE_GPU)
 					locl_DEVICE_GPU = j;
 				
 			
-				if(aux_type & CL_DEVICE_TYPE_CPU)
+				if(aux_type == CL_DEVICE_TYPE_CPU)
 					locl_DEVICE_CPU = j;
 				
 
-				if(aux_type & CL_DEVICE_TYPE_ACCELERATOR)
+				if(aux_type == CL_DEVICE_TYPE_ACCELERATOR)
 					locl_DEVICE_ACCELERATOR = j;
 				
 			}
