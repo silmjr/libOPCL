@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     double error;
     
     // Matriz size (square matrix)
-    int mSize = 1024;
+    int mSize = 512;
     
     if(argc >= 2)//Receber tamanho da matriz por linha de comando 
         mSize = atoi(argv[1]);
@@ -146,7 +146,9 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 1: Descobrir e inicializar as plataformase  e Devices.
     //-----------------------------------------------------
     
-    error = lolc_Initialize(locl_POCL);
+    error = lolc_Initialize_Platform();
+        locl_Errors(error);
+    error = lolc_Initialize_Device(locl_POCL);	
         locl_Errors(error);
         
     //-----------------------------------------------------
