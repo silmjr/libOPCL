@@ -8,7 +8,6 @@
 #include <math.h>
 #include <ctype.h>
 
-
 #ifdef __APPLE__
 	#include <OpenCL/cl.h>
 #else
@@ -56,9 +55,12 @@ typedef struct{
 }plataforms;
 
 //Discover and list Platforms and Devices
-int lolc_Initialize(int locl_PLATAFORM_NUMBER);
+int lolc_Initialize_Platform();
+int lolc_Initialize_Device(int locl_PLATFORM_NUM);
+
 int locl_Explore(int locl_PLATAFORM_NUMBER);
-int locl_CreateCmdQueue(int locl_DEVICE_NUMBER);
+int locl_CreateCmdQueue(int locl_DEVICE_NUM);
+
 int locl_ListDevice(devices *X, cl_device_id device);
 cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS );
 // Table of all errors 
