@@ -148,7 +148,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     error = lolc_Initialize_Platform();
         locl_Errors(error);
-    error = lolc_Initialize_Device(locl_POCL);	
+    error = lolc_Initialize_Device(locl_POCL);  
         locl_Errors(error);
         
     //-----------------------------------------------------
@@ -160,7 +160,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     locl_Errors(error);
     
     //-----------------------------------------------------
-    // STEP 5: Criar buffers do device.
+    // STEP 5: Criar buffers do device e Escrever os dados do host para os locl_DEVICES de buffers
     //----------------------------------------------------- 
     
     /*cl_mem clCreateBuffer(cl_locl_CONTEXT locl_CONTEXT,
@@ -174,51 +174,16 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     // Use clCreateBuffer() para criar o objeto (d_A) 
     // Isso contêm os dados do Array A do Host.
-    bufferA = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY);
+    bufferA = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, a);
+
     // Use clCreateBuffer() para criar o objeto (d_B) 
     // Isso contêm os dados do Array B do Host.
-    bufferB = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY);
+    bufferB = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, b);
     
     // Use clCreateBuffer() para criar o objeto (d_B) 
     // com espaço suficiente para "segurar" os dados de saída.
-    bufferC = locl_CreateBuffer(datasize, CL_MEM_READ_WRITE);
+    bufferC = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, c);
         
-    //-----------------------------------------------------
-    // STEP 6: Escrever os dados do host para os locl_DEVICES de buffers
-    //----------------------------------------------------- 
-    /*cl_int clEnqueueWriteBuffer(cl_queue queue,(Fila de comandos)
-                                  cl_mem buffer,(Objeto de memória do tipo buffer)
-                                  cl_bool blocking_write,(Caso CL_True o Host suspende a execução até que os dados tenham sido completamente transferidos para o device)
-                                  size_t offset,(OffSet a partir do qual os dados devem ser transferidos)
-                                  size_t cb,(Comprimentos em bytes dos dados que serão transferidos)
-                                  void* ptr,(Região de memória para onde os dados devem ser transferidos)
-                                  cl_uint events_in_wait_list,(Número de eventos que devem ser aguardados antes do início das transferência dos dados)
-                                  const cl_event* event_wait_list,(Lista de eventos que devem ser aguardados antes do início das transferência dos dados)
-                                  cl_event* event) */
-                                  
-    // Use clEnqueueWriteBuffer() para escrever o array de entrada A
-    // no device de buffer bufferA
-    status = clEnqueueWriteBuffer(locl_CMDQUEUE, bufferA,CL_FALSE, 0, datasize, a, 0, NULL, NULL);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to copy A to buffer\n");
-        exit(1);
-    }
-    
-    // Use clEnqueueWriteBuffer() para escrever o array de entrada B
-    // no device de buffer bufferB
-    status = clEnqueueWriteBuffer(locl_CMDQUEUE, bufferB, CL_FALSE, 0, datasize, b, 0, NULL, NULL);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to copy B to buffer\n");
-        exit(1);
-    }
-    
-    // Use clEnqueueWriteBuffer() para escrever o array de entrada C
-    // no device de buffer bufferC
-    status = clEnqueueWriteBuffer(locl_CMDQUEUE, bufferC, CL_FALSE, 0, datasize, c, 0, NULL, NULL);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to copy C to buffer\n");
-        exit(1);
-    }
     
     //-----------------------------------------------------
     // STEP 7: Create and compile the program
@@ -231,8 +196,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
                                             cl_int* errcode_ret*/
     
     // Create a program using clCreateProgramWithSource()
-    cl_program program = clCreateProgramWithSource(locl_CONTEXT, 1, 
-        (const char**)&source_str,  NULL, &status);
+    cl_program program = clCreateProgramWithSource(locl_CONTEXT, 1, (const char**)&source_str,  NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create a program from source\n");
         exit(1);

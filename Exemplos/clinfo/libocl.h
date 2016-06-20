@@ -55,14 +55,22 @@ typedef struct{
 }plataforms;
 
 //Discover and list Platforms and Devices
+/*Função de inicialização de plataformas, necessária para todas aplicações, aqui será feita a varredura de todas
+as plataformas disponíveis e vão ser criados index's para deixa o acesso mais simples.*/
 int lolc_Initialize_Platform();
+/*Essa função inicializa e cria index's de devices de uma plataforma específica. Recebe o número ou index da plataforma desejada*/
 int lolc_Initialize_Device(int locl_PLATFORM_NUM);
 
+/*Essa função cria estruturas com informações de todas as plataformas disponíveis no computador, listando as suas
+características. Recebe o número ou index da plataforma desejada. */
 int locl_Explore(int locl_PLATAFORM_NUMBER);
+/*Essa função cria a fila de comando e o contexto usando um device especificado*/
 int locl_CreateCmdQueue(int locl_DEVICE_NUM);
-
+/*Usada somente internamente pela locl_explore*/
 int locl_ListDevice(devices *X, cl_device_id device);
-cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS );
+/*cria os buffers e enqueueWritre dos dados que serão enviados aos devices, recebe o tamanho e o tipo dos buffers*/
+cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a )
+
 // Table of all errors 
 void  locl_Errors(int i);
 

@@ -64,7 +64,6 @@ int lolc_Initialize_Platform(){
 		if(isEqual(aux_name,"AMD"))
 			locl_AMD = i;
 		
-		
 		if(isEqual(aux_name,"NVIDIA"))
 			locl_NVIDIA = i;
 	}		
@@ -556,7 +555,7 @@ int locl_CreateCmdQueue(int locl_DEVICE_NUMBER){
 	return 0;
 }
 
-cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS ){
+cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a ){
 	if(locl_INIT_DEVICE != 1)
 		return 4;
 	if(locl_INIT != 1)
@@ -569,8 +568,32 @@ cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS ){
 		printf ("Unable to create buffer for A\n");
 		exit(1);
 	}
+
+	status = clEnqueueWriteBuffer(locl_CMDQUEUE, bufferA, locl_FLAG1, 0, locl_DATASIZE, a, 0, NULL, NULL);
+    if (status != CL_SUCCESS) {
+        printf ("Unable to copy A to buffer\n");
+        exit(1);
+    }
+
 	return bufferA;
 }
+
+void locl_EnqueueWriteBuffer(cl_mem buffer, cl_bool locl_FLAGS, size_t locl_DATASIZE, void *a){
+	if(locl_INIT_DEVICE != 1)
+		return 4;
+	if(locl_INIT != 1)
+		return 1;	
+			
+	cl_int status;	
+	status = clEnqueueWriteBuffer(locl_CMDQUEUE, buffer, locl_FLAGS, 0, locl_DATASIZE, a, 0, NULL, NULL);
+    if (status != CL_SUCCESS) {
+        printf ("Unable to copy A to buffer\n");
+        exit(1);
+    }
+
+}
+
+
 
 char *DiscStr(char *name){
 	int i = 0;
