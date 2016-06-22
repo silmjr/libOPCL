@@ -69,7 +69,7 @@ int locl_CreateCmdQueue(int locl_DEVICE_NUM);
 /*Usada somente internamente pela locl_explore*/
 int locl_ListDevice(devices *X, cl_device_id device);
 /*cria os buffers e enqueueWritre dos dados que serão enviados aos devices, recebe o tamanho e o tipo dos buffers*/
-cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a )
+cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a);
 
 // Table of all errors 
 void  locl_Errors(int i);
