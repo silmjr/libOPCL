@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     double error;
     
     // Matriz size (square matrix)
-    int mSize = 512;
+    int mSize = 1024;
     
     if(argc >= 2)//Receber tamanho da matriz por linha de comando 
         mSize = atoi(argv[1]);
@@ -96,7 +96,7 @@ void gemm_CPU(double *a, double* b, double *c, int size)
     int i, j, k;
     double cValue;
     
-    for(i=0; i<size; i++)
+    for(i=0; i<size; i++) 
         for(j=0; j<size; j++){
             cValue = c[i*size+j];
             for(k=0; k<size; k++)
@@ -117,8 +117,8 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     // Use this to check the output of each API call
     cl_int status;  
-    
-    
+      
+     
     /*Fazer Função para leitura do arquivo  Nome do Arquivo, e String onde vai ficar o código fonte*/
     FILE *fp;
     char *source_str;

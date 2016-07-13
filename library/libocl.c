@@ -66,7 +66,8 @@ int lolc_Initialize_Platform(){
 		
 		if(isEqual(aux_name,"NVIDIA"))
 			locl_NVIDIA = i;
-	}		
+	}
+	return 0;		
 }
 int lolc_Initialize_Device(int locl_PLATFORM_NUM){
 	int j;
