@@ -14,7 +14,16 @@
 	#include <CL/cl.h>
 #endif
 
-int locl_AMD, locl_NVIDIA, locl_INTEL, locl_POCL, locl_ALL, locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
+#define locl_INTEL 0
+#define locl_AMD 1
+#define locl_NVIDIA 2 
+#define locl_POCL 3
+#define locl_PARALLELLA 4
+ 
+int listPlatforms[5];
+
+int locl_ALL, locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
+
 cl_uint locl_NUM_PLATFORMS;
 cl_uint locl_NUM_DEVICES;
 cl_platform_id *locl_PLATFORMS;
@@ -59,7 +68,7 @@ typedef struct{
 as plataformas disponíveis e vão ser criados index's para deixa o acesso mais simples.*/
 int lolc_Initialize_Platform();
 /*Essa função inicializa e cria index's de devices de uma plataforma específica. Recebe o número ou index da plataforma desejada*/
-int lolc_Initialize_Device(int locl_PLATFORM_NUM);
+int lolc_Initialize_Device(int index);
 
 /*Essa função cria estruturas com informações de todas as plataformas disponíveis no computador, listando as suas
 características. Recebe o número ou index da plataforma desejada. */
@@ -79,3 +88,4 @@ char *DiscStr(char *name);
 int isEqual(char *name, char *name2);
 
 #endif
+
