@@ -19,10 +19,10 @@
 #define locl_NVIDIA 2 
 #define locl_POCL 3
 #define locl_PARALLELLA 4
- 
-int listPlatforms[5];
+#define locl_ALL 5
+int listPlatforms[6];
 
-int locl_ALL, locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
+locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
 
 cl_uint locl_NUM_PLATFORMS;
 cl_uint locl_NUM_DEVICES;
@@ -31,6 +31,7 @@ cl_device_id *locl_DEVICES;
 
 cl_context locl_CONTEXT;
 cl_command_queue locl_CMDQUEUE;
+cl_program locl_program;
 
 
 typedef struct{
@@ -66,7 +67,7 @@ typedef struct{
 //Discover and list Platforms and Devices
 /*Função de inicialização de plataformas, necessária para todas aplicações, aqui será feita a varredura de todas
 as plataformas disponíveis e vão ser criados index's para deixa o acesso mais simples.*/
-int lolc_Initialize_Platform();
+int lolc_Initialize_Platforms();
 /*Essa função inicializa e cria index's de devices de uma plataforma específica. Recebe o número ou index da plataforma desejada*/
 int lolc_Initialize_Device(int index);
 
@@ -79,7 +80,8 @@ int locl_CreateCmdQueue(int locl_DEVICE_NUM);
 int locl_ListDevice(devices *X, cl_device_id device);
 /*cria os buffers e enqueueWritre dos dados que serão enviados aos devices, recebe o tamanho e o tipo dos buffers*/
 cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a);
-
+//Cria O programa a partir da string que será enviada pelo usuário
+int locl_CreateProgram(const char** source_str);
 // Table of all errors 
 void  locl_Errors(int i);
 

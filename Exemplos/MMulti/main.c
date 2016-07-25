@@ -146,7 +146,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 1: Descobrir e inicializar as plataformase  e Devices.
     //-----------------------------------------------------
     
-    error = lolc_Initialize_Platform();
+    error = lolc_Initialize_Platforms();
         locl_Errors(error);
     error = lolc_Initialize_Device(locl_POCL);  
         locl_Errors(error);
@@ -189,48 +189,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 7: Create and compile the program
     //----------------------------------------------------- 
     
-    /*cl_program clCreateProgramWithSource( cl_locl_CONTEXT locl_CONTEXT,(Contexto) 
-                                            cl_uint count, (Número de strings do array) 
-                                            const char** strings, (array de strings do código fonte) 
-                                            const size_t* lengths, (NULL se terminado em \0) 
-                                            cl_int* errcode_ret*/
-    
-    // Create a program using clCreateProgramWithSource()
-    cl_program program = clCreateProgramWithSource(locl_CONTEXT, 1, (const char**)&source_str,  NULL, &status);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to create a program from source\n");
-        exit(1);
-    }
-    /*cl_int clBuildProgram(cl_program program,(Objeto do programa)
-                            cl_uint num_locl_DEVICES,(Número de dispositivos para o qual o programa deve ser compilado. 0 compila para todos os dispositivos disponíveis ) 
-                            const cl_device_id* device_list,(Lista de dispositivos para o qual o programa deve ser compilado.)
-                            const char* options,
-                            void (CL_CALLBACK *pfn_notify)(cl_program program,
-                            void *user_data), void* user_data) */
-    // Build (compile) the program for the locl_DEVICES with
-    // clBuildProgram()
-    status = clBuildProgram(program, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, NULL); 
-    if (status != CL_SUCCESS) {
-        printf ("Unable to build a program, %d\n", status);
-        printf("CL_INVALID_PROGRAM %d\n", CL_INVALID_PROGRAM);
-        printf("CL_INVALID_VALUE %d\n", CL_INVALID_VALUE);
-        printf("CL_INVALID_VALUE %d\n", CL_INVALID_VALUE);
-        printf("CL_INVALID_DEVICE %d\n", CL_INVALID_DEVICE);
-        printf("CL_INVALID_BINARY %d\n", CL_INVALID_BINARY);
-        printf("CL_INVALID_BUILD_OPTIONS %d\n", CL_INVALID_BUILD_OPTIONS);
-        printf("CL_INVALID_OPERATION %d\n", CL_INVALID_OPERATION);
-        printf("CL_COMPILER_NOT_AVAILABLE %d\n", CL_COMPILER_NOT_AVAILABLE);
-        printf("CL_BUILD_PROGRAM_FAILURE %d\n", CL_BUILD_PROGRAM_FAILURE);
-        printf("CL_INVALID_OPERATION %d\n", CL_INVALID_OPERATION);
-        printf("CL_INVALID_OPERATION %d\n", CL_INVALID_OPERATION);
-        printf("CL_OUT_OF_RESOURCES %d\n", CL_OUT_OF_RESOURCES);
-        printf("CL_OUT_OF_HOST_MEMORY %d\n", CL_OUT_OF_HOST_MEMORY);
-        char logBuffer[10240];
-        clGetProgramBuildInfo(program, locl_DEVICES[0], CL_PROGRAM_BUILD_LOG, sizeof(logBuffer), logBuffer, NULL);
-        printf("CL Compilation failed:\n%s", logBuffer);
-        exit(1);
-    }
-    
+    locl_CreateProgram((const char**)&source_str);
     //-----------------------------------------------------
     // STEP 8: Create the kernel
     //----------------------------------------------------- 
@@ -242,9 +201,9 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // Use clCreateKernel() to create a kernel from the 
     // vector addition function (named "vecadd")
     if(t==0)
-        kernel = clCreateKernel(program, "gemm_OpenCL", &status);
+        kernel = clCreateKernel(locl_program, "gemm_OpenCL", &status);
     else
-        kernel = clCreateKernel(program, "gemm_OpenCL_local", &status);
+        kernel = clCreateKernel(locl_program, "gemm_OpenCL_local", &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to set a kernel from program\n");
         exit(1);
@@ -342,14 +301,14 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
         printf ("Unable to read the C buffer\n");
         exit(1);
     }
-    
+     
     //-----------------------------------------------------
     // STEP 13: Release OpenCL resources
     //----------------------------------------------------- 
     
     // Free OpenCL resources
     clReleaseKernel(kernel);
-    clReleaseProgram(program);
+    clReleaseProgram(locl_program);
     clReleaseCommandQueue(locl_CMDQUEUE);
     clReleaseMemObject(bufferA);
     clReleaseMemObject(bufferB);

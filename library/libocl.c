@@ -15,10 +15,15 @@
 short int locl_INIT = 0, locl_INIT_DEVICE = 0;
 
 /* Inicializa as variáveis que serão usadas como index e plataformas */
-int lolc_Initialize_Platform(){
+int lolc_Initialize_Platforms(){
 	//"Zerando" index's
-	listPlatfoms[5] = {-1, -1, -1, -1, -1};
-	locl_ALL = - 1;
+	listPlatforms[0] = -1;
+	listPlatforms[1] = -1;
+	listPlatforms[2] = -1;
+	listPlatforms[3] = -1;
+	listPlatforms[4] = -1;
+	listPlatforms[5] = -1;
+
 	locl_DEVICE_CPU = locl_DEVICE_ACCELERATOR = locl_DEVICE_GPU = -1;
 	
 	locl_INIT = 1;
@@ -29,7 +34,7 @@ int lolc_Initialize_Platform(){
 	
 	//Numero de plataformas disponíveis
 	cl_int status = clGetPlatformIDs(0, NULL, &locl_NUM_PLATFORMS);
-	locl_ALL = locl_NUM_PLATFORMS;
+	listPlatforms[locl_ALL] = locl_NUM_PLATFORMS;
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL locl_PLATFORMS available.\n");
@@ -111,7 +116,6 @@ int lolc_Initialize_Device(int locl_PLATFORM_NUM){
 			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 			
-
 			if (aux_type & CL_DEVICE_TYPE_GPU){
 				locl_DEVICE_GPU = j;
 			}
@@ -141,7 +145,7 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 	
 	if(listPlatforms[locl_PLATAFORM_NUMBER] == -1){
 		return 2;
-	}else if(locl_PLATAFORM_NUMBER == locl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available 
+	}else if(listPlatforms[locl_PLATAFORM_NUMBER] == locl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available 
 	
 		for (i = 0; i < locl_NUM_PLATFORMS; i++){
 
@@ -584,21 +588,40 @@ cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool 
 	return bufferA;
 }
 
-void locl_EnqueueWriteBuffer(cl_mem buffer, cl_bool locl_FLAGS, size_t locl_DATASIZE, void *a){
-	if(locl_INIT_DEVICE != 1)
-		return 4;
-	if(locl_INIT != 1)
-		return 1;	
-			
+int locl_CreateProgram(const char** source_str){
 	cl_int status;	
-	status = clEnqueueWriteBuffer(locl_CMDQUEUE, buffer, locl_FLAGS, 0, locl_DATASIZE, a, 0, NULL, NULL);
+
+	locl_program = clCreateProgramWithSource(locl_CONTEXT, 1, source_str,  NULL, &status);
     if (status != CL_SUCCESS) {
-        printf ("Unable to copy A to buffer\n");
+        printf ("Unable to create a program from source\n");
         exit(1);
     }
-
+    
+    // Build (compile) the program for the locl_DEVICES with
+    // clBuildProgram()
+    status = clBuildProgram(locl_program, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, NULL); 
+    if (status != CL_SUCCESS) {
+        printf ("Unable to build a program, %d\n", status);
+        printf("CL_INVALID_PROGRAM %d\n", CL_INVALID_PROGRAM);
+        printf("CL_INVALID_VALUE %d\n", CL_INVALID_VALUE);
+        printf("CL_INVALID_VALUE %d\n", CL_INVALID_VALUE);
+        printf("CL_INVALID_DEVICE %d\n", CL_INVALID_DEVICE);
+        printf("CL_INVALID_BINARY %d\n", CL_INVALID_BINARY);
+        printf("CL_INVALID_BUILD_OPTIONS %d\n", CL_INVALID_BUILD_OPTIONS);
+        printf("CL_INVALID_OPERATION %d\n", CL_INVALID_OPERATION);
+        printf("CL_COMPILER_NOT_AVAILABLE %d\n", CL_COMPILER_NOT_AVAILABLE);
+        printf("CL_BUILD_PROGRAM_FAILURE %d\n", CL_BUILD_PROGRAM_FAILURE);
+        printf("CL_INVALID_OPERATION %d\n", CL_INVALID_OPERATION);
+        printf("CL_INVALID_OPERATION %d\n", CL_INVALID_OPERATION);
+        printf("CL_OUT_OF_RESOURCES %d\n", CL_OUT_OF_RESOURCES);
+        printf("CL_OUT_OF_HOST_MEMORY %d\n", CL_OUT_OF_HOST_MEMORY);
+        char logBuffer[10240];
+        clGetProgramBuildInfo(locl_program, locl_DEVICES[0], CL_PROGRAM_BUILD_LOG, sizeof(logBuffer), logBuffer, NULL);
+        printf("CL Compilation failed:\n%s", logBuffer);
+        exit(1);
+    }
+    return 0;
 }
-
 
 
 char *DiscStr(char *name){
