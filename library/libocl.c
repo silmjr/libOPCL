@@ -24,6 +24,7 @@ int locl_Initialize_Platforms(){
 	listPlatforms[3] = -1;
 	listPlatforms[4] = -1;
 	listPlatforms[5] = -1;
+	listPlatforms[6] = -1;
 
 	locl_DEVICE_CPU = locl_DEVICE_ACCELERATOR = locl_DEVICE_GPU = -1;
 	
@@ -64,19 +65,22 @@ int locl_Initialize_Platforms(){
 
 		aux_name = DiscStr(dispPlat[i].Vendor); 
 		
-		if(isEqual(aux_name,"Intel"))
+		if(isEqual(aux_name,"Intel(R)"))
 			listPlatforms[locl_INTEL] = i;
+			
+		if(isEqual(aux_name,"Intel"))
+			listPlatforms[locl_INTEL_GPU] = i;
+
 
 		if(isEqual(aux_name,"The"))
 			listPlatforms[locl_POCL] = i;
-		
+			
 		if(isEqual(aux_name,"AMD"))
 			listPlatforms[locl_AMD] = i;
-		
+
 		if(isEqual(aux_name,"NVIDIA"))
 			listPlatforms[locl_NVIDIA] = i;
-
-		// Fazer a verificação para todos os tipos CPU, GPU e Accelerator
+		
 	}
 	return 0;		
 }
@@ -846,7 +850,7 @@ int locl_CreateProgram(const char** source_str){
 char *DiscStr(char *name){
 	int i = 0;
 	char aux[10];
-	while(isalpha(name[i])){
+	while(!isspace(name[i])){
 	
 		aux[i] = name [i];
 		i++;
@@ -857,13 +861,14 @@ char *DiscStr(char *name){
 
 int isEqual(char *name, char *name2){
 	int i = 0;
-	while(isalpha(name[i])){
-		if(name[i] != name2[i])
+	while(i < strlen(name2)){
+		if(name[i] != name2[i] || strlen(name2) != strlen(name))
 			return 0;
 		i++;
 	}
 		return 1;
 
+// Mudar de alfabeto para caracteres
 }
 
 int locl_Init(int locl_PLATFORM_NUM){
@@ -878,4 +883,5 @@ int locl_Init(int locl_PLATFORM_NUM){
     	error = locl_Explore( locl_PLATFORM_NUM);
 
 }
+
 

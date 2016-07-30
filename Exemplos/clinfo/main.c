@@ -1,4 +1,4 @@
-
+ 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -16,6 +16,6 @@
 int main(int argc, char *argv[]){	
 	
 	locl_Init(locl_ALL); 
-	locl_PrintInfo(locl_POCL);
+	locl_PrintInfo(locl_INTEL_GPU);
 
-}          
+}           

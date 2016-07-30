@@ -15,12 +15,13 @@
 #endif
 
 #define locl_INTEL 0
-#define locl_AMD 1
-#define locl_NVIDIA 2 
-#define locl_POCL 3
-#define locl_PARALLELLA 4
-#define locl_ALL 5
-int listPlatforms[6];
+#define locl_INTEL_GPU 1
+#define locl_AMD 2
+#define locl_NVIDIA 3 
+#define locl_POCL 4
+#define locl_PARALLELLA 5
+#define locl_ALL 6
+int listPlatforms[7];
 
 locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
 

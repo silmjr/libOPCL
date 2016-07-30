@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     double error;
     
     // Matriz size (square matrix)
-    int mSize = 1024;
+    int mSize = 512;
     
     if(argc >= 2)//Receber tamanho da matriz por linha de comando 
         mSize = atoi(argv[1]);
@@ -131,7 +131,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
         exit(1);
     }
     
-    fseek(fp, 0, SEEK_END);//Envia o cabeçote de leitura para o fim do arquivo.
+    fseek(fp, 0, SEEK_END);//Envia o cabeçote de leitura para o fim do arquivo.  
     long fSize = ftell(fp);//Retorna o tamanho do arquivo em bytes. 
     rewind(fp);//Retorna a leitura para o inicio do arquivo.
     
@@ -145,14 +145,14 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //-----------------------------------------------------
     // STEP 1: Descobrir e inicializar as plataformase  e Devices.
     //-----------------------------------------------------
-    locl_Init(locl_POCL); 
+    locl_Init(locl_INTEL_GPU); 
 
     //-----------------------------------------------------
     // STEP 2: Create a locl_CONTEXT e Fila de Comando 
     //----------------------------------------------------- 
         /*Criar index dos devices*/
         
-    error = locl_CreateCmdQueue(locl_DEVICE_CPU);
+    error = locl_CreateCmdQueue(locl_DEVICE_GPU);
     locl_Errors(error);
     
     //-----------------------------------------------------
@@ -306,7 +306,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     clReleaseKernel(kernel);
     clReleaseProgram(locl_program);
     clReleaseCommandQueue(locl_CMDQUEUE);
-    clReleaseMemObject(bufferA);
+    clReleaseMemObject(bufferA); 
     clReleaseMemObject(bufferB);
     clReleaseMemObject(bufferC);
     clReleaseContext(locl_CONTEXT);
@@ -316,7 +316,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     free(locl_DEVICES);
     
     return;
-    
+     
 }
 
 double comparaMatrizes(double* a, double* b, int size)
