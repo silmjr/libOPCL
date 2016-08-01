@@ -80,6 +80,11 @@ int locl_Initialize_Platforms(){
 
 		if(isEqual(aux_name,"NVIDIA"))
 			listPlatforms[locl_NVIDIA] = i;
+
+		if(isEqual(aux_name,"Brown"))
+			listPlatforms[locl_COPRTHR] = i;
+
+
 		
 	}
 	return 0;		

@@ -16,6 +16,6 @@
 int main(int argc, char *argv[]){	
 	
 	locl_Init(locl_ALL); 
-	locl_PrintInfo(locl_INTEL_GPU);
+	locl_PrintInfo(locl_ALL);
 
 }           

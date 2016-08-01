@@ -19,7 +19,7 @@
 #define locl_AMD 2
 #define locl_NVIDIA 3 
 #define locl_POCL 4
-#define locl_PARALLELLA 5
+#define locl_COPRTHR 5
 #define locl_ALL 6
 int listPlatforms[7];
 
