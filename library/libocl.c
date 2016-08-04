@@ -45,7 +45,9 @@ int locl_Initialize_Platforms(){
 	
 	
 	locl_PLATFORMS = malloc(sizeof(cl_platform_id)*locl_NUM_PLATFORMS);
-	plataforms dispPlat[locl_NUM_PLATFORMS];
+	
+	locl_DispPlats = malloc(sizeof(plataforms)*locl_NUM_PLATFORMS);
+	
 	status = clGetPlatformIDs(locl_NUM_PLATFORMS, locl_PLATFORMS, NULL);
 	if (status != CL_SUCCESS)
 	{
@@ -59,18 +61,17 @@ int locl_Initialize_Platforms(){
 		status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 	
-		dispPlat[i].Vendor = malloc(buffer_size);
-		status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VENDOR, buffer_size, dispPlat[i].Vendor, NULL);
+		locl_DispPlats[i].Vendor = malloc(buffer_size);
+		status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VENDOR, buffer_size, locl_DispPlats[i].Vendor, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		aux_name = DiscStr(dispPlat[i].Vendor); 
+		aux_name = DiscStr(locl_DispPlats[i].Vendor); 
 		
 		if(isEqual(aux_name,"Intel(R)"))
 			listPlatforms[locl_INTEL] = i;
 			
 		if(isEqual(aux_name,"Intel"))
 			listPlatforms[locl_INTEL_GPU] = i;
-
 
 		if(isEqual(aux_name,"The"))
 			listPlatforms[locl_POCL] = i;
@@ -152,105 +153,64 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER){
 	char *aux_name;
 	size_t buffer_size;	
 
-	plataforms *dispPlat = malloc(sizeof(plataforms)*locl_NUM_PLATFORMS);// Vector of avalaible locl_PLATFORMS 
-	
 	if(listPlatforms[locl_PLATAFORM_NUMBER] == -1){
 		return 2;
 	}else if(listPlatforms[locl_PLATAFORM_NUMBER] == locl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available 
-	
 		for (i = 0; i < locl_NUM_PLATFORMS; i++){
-
-			dispPlat[i].numPlat = i;	
-			printf("Platform Number: %d\n", dispPlat[i].numPlat);	
-
-			//Discover Name	
-			cl_int status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-			dispPlat[i].Name = malloc(buffer_size);
-			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_NAME, buffer_size, dispPlat[i].Name, NULL);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-			printf("Name: %s\n", dispPlat[i].Name);
-		
-			//Discover Vendor
-			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-			dispPlat[i].Vendor = malloc(buffer_size);
-			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VENDOR, buffer_size, dispPlat[i].Vendor, NULL);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-			printf("Vendor: %s\n", dispPlat[i].Vendor);
-		
-			//Discover Version
-			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-			dispPlat[i].Version = malloc(buffer_size);
-			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VERSION, buffer_size, dispPlat[i].Version, NULL);
-
-			printf("Version: %s\n", dispPlat[i].Version);
-		
+			printf("Platform Number: %d\n", locl_DispPlats[i].numPlat);	
+			printf("Name: %s\n", locl_DispPlats[i].Name);
+			printf("Vendor: %s\n", locl_DispPlats[i].Vendor);
+			printf("Version: %s\n", locl_DispPlats[i].Version);
 			
 			// END PLATFORMS
 			//INIT locl_DEVICES
-			status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+			cl_int status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 			if (status != CL_SUCCESS)
 			{
 				printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
 				exit(EXIT_FAILURE);
 			}
 
-			dispPlat[i].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
+			locl_DispPlats[i].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 			for (j = 0; j < locl_NUM_DEVICES; j++)
 			{
-				locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
-				status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
-				if (status != CL_SUCCESS)
-				{
-					printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
-					exit(EXIT_FAILURE);
-				}
-				dispPlat[i].MyDevices[j].numDevice = j;
-				printf("Device Number: %d\n", dispPlat[i].MyDevices[j].numDevice);	
-
-				locl_ListDevice(&aux, locl_DEVICES[j], 1);
-				dispPlat[i].MyDevices[j] = aux;
-			}
+				printf("Device Number: %d\n", locl_DispPlats[i].MyDevices[j].numDevice);	
+				locl_ListDevice(&locl_DispPlats[i].MyDevices[j], locl_DEVICES[j], 1);
+			}	
 		}
 	}else{
 
 		/* Imprimir informações especificas */		
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].numPlat = listPlatforms[locl_PLATAFORM_NUMBER];
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].numPlat = listPlatforms[locl_PLATAFORM_NUMBER];
 
-		printf("Platform Number: %d\n", dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].numPlat);	
+		printf("Platform Number: %d\n", locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].numPlat);	
 		//Discover Name	
 		cl_int status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Name = malloc(buffer_size);
-		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_NAME, buffer_size, dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Name, NULL);
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Name = malloc(buffer_size);
+		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_NAME, buffer_size, locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Name, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		printf("Name: %s\n", dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Name);
+		printf("Name: %s\n", locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Name);
 	
 		//Discover Vendor
 		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor = malloc(buffer_size);
-		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VENDOR, buffer_size, dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor, NULL);
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor = malloc(buffer_size);
+		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VENDOR, buffer_size, locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		printf("Vendor: %s\n", dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor);
+		printf("Vendor: %s\n", locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor);
 	
 		//Discover Version
 		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Version = malloc(buffer_size);
-		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, buffer_size, dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Version, NULL);
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Version = malloc(buffer_size);
+		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, buffer_size, locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Version, NULL);
 
-		printf("Version: %s\n", dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Version);
+		printf("Version: %s\n", locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Version);
 	
 		// END PLATFORMS
 
@@ -262,7 +222,7 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER){
 			exit(EXIT_FAILURE);
 		}
 
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 		for (j = 0; j < locl_NUM_DEVICES; j++)
 		{
 			locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
@@ -272,11 +232,11 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER){
 				printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
 				exit(EXIT_FAILURE);
 			}
-			dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice = j;
-			printf("Device Number: %d\n", dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice);	
+			locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice = j;
+			printf("Device Number: %d\n", locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice);	
 
 			locl_ListDevice(&aux, locl_DEVICES[j], 1);
-			dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j] = aux;
+			locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j] = aux;
 		}
 
 	}
@@ -284,48 +244,42 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER){
 }
 
 int locl_Explore(int locl_PLATAFORM_NUMBER){
-	
+
 	if(locl_INIT != 1)
 		return 1;
 	
 	int i, j;	
-	devices aux; /*Estrutura auxiliar de Devices*/
 	char *aux_name;
 	size_t buffer_size;	
 
-	plataforms *dispPlat = malloc(sizeof(plataforms)*locl_NUM_PLATFORMS);// Vector of avalaible locl_PLATFORMS 
-	
 	if(listPlatforms[locl_PLATAFORM_NUMBER] == -1){
 		return 2;
 	}else if(listPlatforms[locl_PLATAFORM_NUMBER] == locl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available 
-	
 		for (i = 0; i < locl_NUM_PLATFORMS; i++){
-
-			dispPlat[i].numPlat = i;	
-
+			locl_DispPlats[i].numPlat = i;	
+			
 			//Discover Name	
 			cl_int status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
 			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-			dispPlat[i].Name = malloc(buffer_size);
-			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_NAME, buffer_size, dispPlat[i].Name, NULL);
+			locl_DispPlats[i].Name = malloc(buffer_size);
+			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_NAME, buffer_size, locl_DispPlats[i].Name, NULL);
 			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
+			
 			//Discover Vendor
 			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
 			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-			dispPlat[i].Vendor = malloc(buffer_size);
-			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VENDOR, buffer_size, dispPlat[i].Vendor, NULL);
+			locl_DispPlats[i].Vendor = malloc(buffer_size);
+			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VENDOR, buffer_size, locl_DispPlats[i].Vendor, NULL);
 			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 			//Discover Version
 			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
 			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-			dispPlat[i].Version = malloc(buffer_size);
-			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VERSION, buffer_size, dispPlat[i].Version, NULL);
+			locl_DispPlats[i].Version = malloc(buffer_size);
+			status = clGetPlatformInfo(locl_PLATFORMS[i], CL_PLATFORM_VERSION, buffer_size, locl_DispPlats[i].Version, NULL);
 
-			
+			printf("Aki2\n");
+
 			// END PLATFORMS
 			//INIT locl_DEVICES
 			status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
@@ -335,9 +289,11 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 				exit(EXIT_FAILURE);
 			}
 
-			dispPlat[i].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
+			locl_DispPlats[i].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 			for (j = 0; j < locl_NUM_DEVICES; j++)
 			{
+				devices aux; /*Estrutura auxiliar de Devices*/
+
 				locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
 				status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
 				if (status != CL_SUCCESS)
@@ -345,23 +301,26 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 					printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
 					exit(EXIT_FAILURE);
 				}
-				dispPlat[i].MyDevices[j].numDevice = j;
-
+				
+				locl_DispPlats[i].MyDevices[j].numDevice = j;
 				locl_ListDevice(&aux, locl_DEVICES[j], 0);
-				dispPlat[i].MyDevices[j] = aux;
+				locl_DispPlats[i].MyDevices[j] = aux;
+				
+				//clfreeDevice(&aux);
+
 			}
 		}
 	}else{
 
 		/* Imprimir informações especificas */		
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].numPlat = listPlatforms[locl_PLATAFORM_NUMBER];
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].numPlat = listPlatforms[locl_PLATAFORM_NUMBER];
 
 		//Discover Name	
 		cl_int status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Name = malloc(buffer_size);
-		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_NAME, buffer_size, dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Name, NULL);
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Name = malloc(buffer_size);
+		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_NAME, buffer_size, locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Name, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 	
@@ -369,16 +328,16 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor = malloc(buffer_size);
-		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VENDOR, buffer_size, dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor, NULL);
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor = malloc(buffer_size);
+		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VENDOR, buffer_size, locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Vendor, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 	
 		//Discover Version
 		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Version = malloc(buffer_size);
-		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, buffer_size, dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].Version, NULL);
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Version = malloc(buffer_size);
+		status = clGetPlatformInfo(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, buffer_size, locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].Version, NULL);
 
 	
 		// END PLATFORMS
@@ -391,9 +350,11 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 			exit(EXIT_FAILURE);
 		}
 
-		dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
+		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 		for (j = 0; j < locl_NUM_DEVICES; j++)
 		{
+			devices aux; /*Estrutura auxiliar de Devices*/
+
 			locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
 			status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
 			if (status != CL_SUCCESS)
@@ -401,10 +362,10 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 				printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
 				exit(EXIT_FAILURE);
 			}
-			dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice = j;
+			locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice = j;
 
 			locl_ListDevice(&aux, locl_DEVICES[j], 0);
-			dispPlat[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j] = aux;
+			locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j] = aux;
 		}
 
 	}
@@ -419,190 +380,191 @@ int locl_ListDevice(devices *X, cl_device_id device, int tipo){
 	size_t buffer_size;	
 	//Name
 	int aux;
-	cl_int status = clGetDeviceInfo(device, CL_DEVICE_NAME, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+	if(tipo == 0){	
+		cl_int status = clGetDeviceInfo(device, CL_DEVICE_NAME, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->Name = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_NAME, buffer_size, X->Name, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	
-	//End Name
-	
-	//Vendor
-	status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		X->Name = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_NAME, buffer_size, X->Name, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		
+		//End Name
+		
+		//Vendor
+		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->Vendor = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, buffer_size, X->Vendor, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		X->Vendor = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, buffer_size, X->Vendor, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 
-	//End Vendor
+		//End Vendor
 
-	//Type
-	status = clGetDeviceInfo(device, CL_DEVICE_TYPE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	
-	X->Type = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_TYPE, buffer_size, &X->Type, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	
-	
-	//printf("%s\n", X->Type);
-	//End Type
+		//Type
+		status = clGetDeviceInfo(device, CL_DEVICE_TYPE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		
+		X->Type = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_TYPE, buffer_size, &X->Type, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		
+		
+		//printf("%s\n", X->Type);
+		//End Type
 
-	//Version
-	status = clGetDeviceInfo(device, CL_DEVICE_VERSION, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		//Version
+		status = clGetDeviceInfo(device, CL_DEVICE_VERSION, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->Version = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_VERSION, buffer_size, X->Version, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		X->Version = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_VERSION, buffer_size, &X->Version, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	
-	//End Version
-	
-	//AdressSpace
-	status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		
+		//End Version
+		
+		//AdressSpace
+		status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->AdressSpace = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, buffer_size, &X->AdressSpace, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	
-	//End AdressSpace
-	
-	//Endian
-	status = clGetDeviceInfo(device, CL_DEVICE_ENDIAN_LITTLE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		X->AdressSpace = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, buffer_size, &X->AdressSpace, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		
+		//End AdressSpace
+		
+		//Endian
+		status = clGetDeviceInfo(device, CL_DEVICE_ENDIAN_LITTLE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->LitleEndian = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_ENDIAN_LITTLE, buffer_size, X->LitleEndian, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	
-	//printf("%\n", X->LitleEndian);
-	//End Endian
-	
-	//Buffer
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		X->LitleEndian = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_ENDIAN_LITTLE, buffer_size, X->LitleEndian, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		
+		//printf("%\n", X->LitleEndian);
+		//End Endian
+		
+		//Buffer
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->MaxBufferSize = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, buffer_size, &X->MaxBufferSize, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	//Sizes
-	
-	//End Size 
-	
-	//End Buffer
-	
-	//MaxMemAlocSize
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_MEM_ALLOC_SIZE	, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		X->MaxBufferSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, buffer_size, &X->MaxBufferSize, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		//Sizes
+		
+		//End Size 
+		
+		//End Buffer
+		
+		//MaxMemAlocSize
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_MEM_ALLOC_SIZE	, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->MaxMemAlocSize = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_MEM_ALLOC_SIZE	, buffer_size, &X->MaxMemAlocSize, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		X->MaxMemAlocSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_MEM_ALLOC_SIZE	, buffer_size, &X->MaxMemAlocSize, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
+				
+		//End MaxMemAlocSize
+
+		//MaxParamSize;	
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		X->MaxParamSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, buffer_size, &X->MaxParamSize, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		
+		//End MaxParamSize;
+
+		//MaxGlobalMemSize;	
+		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		X->MaxGlobalMemSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, buffer_size, &X->MaxGlobalMemSize, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		//printf("%\n", X->MaxGlobalMemSize);
+		
+
+		//End MaxGlobalMemSize;
+
+		//MaxGlobalMemCacheSize	
+		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		X->MaxGlobalMemCacheSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, buffer_size, &X->MaxGlobalMemCacheSize, NULL);
+		
+		//End MaxGlobalMemCacheSize
+
+		//MaxLocalMemSize	
+		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		X->MaxLocalMemSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, buffer_size, &X->MaxLocalMemSize, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		
+
+		//printf("%\n", X->MaxLocalMemSize);
+		//End MaxLocalMemSize
+		
+		//MemType	
+		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		X->MemType = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, buffer_size, X->MemType, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		//printf("%\n", X->MemType);
+		//End MemType
+		
+		//MaxWorkItemDimensions	
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		X->MaxWorkItemDimensions = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, buffer_size, &X->MaxWorkItemDimensions, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		//printf("%\n", X->MaxWorkItemDimensions);	
+		//End MaxWorkItemDimensions		
+
+		//MaxWorkItem	
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		X->MaxWorkItem = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, buffer_size, &X->MaxWorkItem, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+
+		//printf("%d\n", X->MaxWorkItem);
+		//End MaxWorkItem
 			
-	//End MaxMemAlocSize
+		//MaxWorkGroupSize	
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	//MaxParamSize;	
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		X->MaxWorkGroupSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, buffer_size, &X->MaxWorkGroupSize, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->MaxParamSize = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, buffer_size, &X->MaxParamSize, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	
-	//End MaxParamSize;
-
-	//MaxGlobalMemSize;	
-	status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	X->MaxGlobalMemSize = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, buffer_size, &X->MaxGlobalMemSize, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	//printf("%\n", X->MaxGlobalMemSize);
-	
-
-	//End MaxGlobalMemSize;
-
-	//MaxGlobalMemCacheSize	
-	status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	X->MaxGlobalMemCacheSize = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, buffer_size, &X->MaxGlobalMemCacheSize, NULL);
-	
-	//End MaxGlobalMemCacheSize
-
-	//MaxLocalMemSize	
-	status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	X->MaxLocalMemSize = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, buffer_size, &X->MaxLocalMemSize, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	
-
-	//printf("%\n", X->MaxLocalMemSize);
-	//End MaxLocalMemSize
-	
-	//MemType	
-	status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	X->MemType = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, buffer_size, X->MemType, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	//printf("%\n", X->MemType);
-	//End MemType
-	
-	//MaxWorkItemDimensions	
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	X->MaxWorkItemDimensions = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, buffer_size, &X->MaxWorkItemDimensions, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	//printf("%\n", X->MaxWorkItemDimensions);	
-	//End MaxWorkItemDimensions		
-
-	//MaxWorkItem	
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	X->MaxWorkItem = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, buffer_size, &X->MaxWorkItem, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	//printf("%d\n", X->MaxWorkItem);
-	//End MaxWorkItem
+		//printf("%\n", X->MaxWorkGroupSize);	
+		//End MaxWorkGroupSize
 		
-	//MaxWorkGroupSize	
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		//MaxWorkItemSizes	
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-	X->MaxWorkGroupSize = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, buffer_size, &X->MaxWorkGroupSize, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	//printf("%\n", X->MaxWorkGroupSize);	
-	//End MaxWorkGroupSize
-	
-	//MaxWorkItemSizes	
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, 0, NULL, &buffer_size);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-	X->MaxWorkItemSizes = malloc(buffer_size);
-	status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, buffer_size, &X->MaxWorkItemSizes, NULL);
-	if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-		
-	if(tipo == 1){
+		X->MaxWorkItemSizes = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, buffer_size, &X->MaxWorkItemSizes, NULL);
+		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+	}
+	else if(tipo == 1){
 		if(locl_INIT != 1)
 		return 1;
 		
@@ -880,13 +842,33 @@ int locl_Init(int locl_PLATFORM_NUM){
   	int error;
   	error = locl_Initialize_Platforms();
         locl_Errors(error);
-    
     if(locl_PLATFORM_NUM < locl_ALL)
     	error = locl_Initialize_Device(locl_PLATFORM_NUM);  
-    
     locl_Errors(error);
     	error = locl_Explore( locl_PLATFORM_NUM);
-
 }
 
 
+int locl_Finalize(){
+	free(locl_DispPlats);
+}
+
+int freeDevice(devices *x){
+	free(x->Name);	
+	free(x->Vendor);	
+	free(x->Type);	
+	free(x->Version);	
+	free(x->AdressSpace);	
+	free(x->LitleEndian);	
+	free(x->MaxBufferSize);	
+	free(x->MaxMemAlocSize);	
+	free(x->MaxParamSize);	
+	free(x->MaxGlobalMemSize);	
+	free(x->MaxGlobalMemCacheSize);	
+	free(x->MaxLocalMemSize);	
+	free(x->MemType);	
+	free(x->MaxWorkItem);	
+	free(x->MaxWorkGroupSize);
+	free(x->MaxWorkItemDimensions);
+	free(x->MaxWorkItemSizes);
+}

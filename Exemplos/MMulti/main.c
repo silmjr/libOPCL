@@ -145,14 +145,14 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //-----------------------------------------------------
     // STEP 1: Descobrir e inicializar as plataformase  e Devices.
     //-----------------------------------------------------
-    locl_Init(locl_INTEL_GPU); 
+    locl_Init(locl_POCL); 
 
     //-----------------------------------------------------
     // STEP 2: Create a locl_CONTEXT e Fila de Comando 
     //----------------------------------------------------- 
         /*Criar index dos devices*/
         
-    error = locl_CreateCmdQueue(locl_DEVICE_GPU);
+    error = locl_CreateCmdQueue(locl_DEVICE_CPU);
     locl_Errors(error);
     
     //-----------------------------------------------------

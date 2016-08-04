@@ -65,9 +65,15 @@ typedef struct{
 	devices *MyDevices;	
 }plataforms;
 
-//Discover and list Platforms and Devices
-//666
+plataforms *locl_DispPlats;
+
+
+
+// Inicialização e Finalização das Plataformas e Devices
 int locl_Init(int index);
+int locl_Finalize();
+int freeDevice();
+
 /*Função de inicialização de plataformas, necessária para todas aplicações, aqui será feita a varredura de todas
 as plataformas disponíveis e vão ser criados index's para deixa o acesso mais simples.*/
 int locl_Initialize_Platforms();//Função interna do locl_Init
