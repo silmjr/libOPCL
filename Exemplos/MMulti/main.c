@@ -145,7 +145,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //-----------------------------------------------------
     // STEP 1: Descobrir e inicializar as plataformase  e Devices.
     //-----------------------------------------------------
-    locl_Init(locl_POCL); 
+    locl_Init(locl_POCL);
 
     //-----------------------------------------------------
     // STEP 2: Create a locl_CONTEXT e Fila de Comando 
@@ -180,7 +180,6 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // com espaço suficiente para "segurar" os dados de saída.
     bufferC = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, c);
         
-    
     //-----------------------------------------------------
     // STEP 4: Create and compile the program
     //----------------------------------------------------- 
@@ -204,6 +203,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
         printf ("Unable to set a kernel from program\n");
         exit(1);
     }
+    
     
     
     //-----------------------------------------------------
@@ -234,6 +234,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
         printf ("Unable to set third kernel argument\n");
         exit(1);
     }
+
     
     //-----------------------------------------------------
     // STEP 7: Configure the work-item structure
@@ -302,7 +303,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 10: Release OpenCL resources
     //----------------------------------------------------- 
     
-    // Free OpenCL resources
+    //Free OpenCL resources
     clReleaseKernel(kernel);
     clReleaseProgram(locl_program);
     clReleaseCommandQueue(locl_CMDQUEUE);
@@ -312,8 +313,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     clReleaseContext(locl_CONTEXT);
     
     free(source_str);
-    free(locl_PLATFORMS);
-    free(locl_DEVICES);
+    
     
     return;
      

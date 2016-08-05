@@ -23,7 +23,7 @@
 #define locl_ALL 6
 int listPlatforms[7];
 
-locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
+int locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
 
 cl_uint locl_NUM_PLATFORMS;
 cl_uint locl_NUM_DEVICES;
@@ -86,7 +86,7 @@ int locl_Explore(int locl_PLATAFORM_NUMBER);// Somente impressão de algo que j�
 /*Essa função cria a fila de comando e o contexto usando um device especificado*/
 int locl_CreateCmdQueue(int locl_DEVICE_NUM);
 /*Usada somente internamente pela locl_explore*/
-int locl_ListDevice(devices *X, cl_device_id device, int tipo);
+int locl_ListDevice(plataforms *X, cl_device_id device, int tipo);
 /*cria os buffers e enqueueWritre dos dados que serão enviados aos devices, recebe o tamanho e o tipo dos buffers*/
 cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a);
 //Cria O programa a partir da string que será enviada pelo usuário
