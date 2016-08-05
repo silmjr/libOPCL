@@ -198,8 +198,6 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER){
 
 		for (j = 0; j < locl_NUM_DEVICES; j++)
 		{
-			locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
-			status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, &locl_DEVICES, NULL);
 			if (status != CL_SUCCESS)
 			{
 				printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
