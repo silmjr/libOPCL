@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     double error;
     
     // Matriz size (square matrix)
-    int mSize = 512;
+    int mSize = 1024;
     
     if(argc >= 2)//Receber tamanho da matriz por linha de comando 
         mSize = atoi(argv[1]);
