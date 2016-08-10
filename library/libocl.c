@@ -66,7 +66,7 @@ int locl_Initialize_Platforms(){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 		aux_name = DiscStr(locl_DispPlats[i].Vendor); 
-		
+		printf("%s\n",aux_name);
 		if(isEqual(aux_name,"Intel(R)"))
 			listPlatforms[locl_INTEL] = i;
 			
@@ -756,7 +756,7 @@ int locl_CreateProgram(const char** source_str){
 
 char *DiscStr(char *name){
 	int i = 0;
-	char aux[10];
+	char aux[10] = {' ', ' ', ' ', ' ', ' ', ' ',' ',' ',' ',' '};
 	while(!isspace(name[i])){
 	
 		aux[i] = name [i];
@@ -768,9 +768,11 @@ char *DiscStr(char *name){
 
 int isEqual(char *name, char *name2){
 	int i = 0;
-	while(i < strlen(name2)){
-		if(name[i] != name2[i] || strlen(name2) != strlen(name))
+	while(!isspace(name[i])){
+		printf("%c, %c \n", name[i], name2[i]);
+		if(name[i] != name2[i]){
 			return 0;
+		}
 		i++;
 	}
 		return 1;
