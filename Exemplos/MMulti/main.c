@@ -143,18 +143,11 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //printf("%F\n", c[0]);
     
     //-----------------------------------------------------
-    // STEP 1: Descobrir e inicializar as plataformase  e Devices.
+    // STEP 1: Descobrir e inicializar as plataformas, Devices e Create a locl_CONTEXT e Fila de Comando 
     //-----------------------------------------------------
-    locl_Init(locl_INTEL);
 
-    //-----------------------------------------------------
-    // STEP 2: Create a locl_CONTEXT e Fila de Comando 
-    //----------------------------------------------------- 
-        /*Criar index dos devices*/
-        
-    error = locl_CreateCmdQueue(locl_DEVICE_CPU);
-    locl_Errors(error);
-    
+    locl_Init(locl_INTEL, locl_DEVICE_CPU);
+
     //-----------------------------------------------------
     // STEP 3: Criar buffers do device e Escrever os dados do host para os locl_DEVICES de buffers
     //----------------------------------------------------- 
@@ -181,31 +174,14 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     bufferC = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, c);
         
     //-----------------------------------------------------
-    // STEP 4: Create and compile the program
+    // STEP 4: Create and compile the program and Create the kernel
     //----------------------------------------------------- 
-    locl_CreateProgram((const char**)&source_str);
 
-    //-----------------------------------------------------
-    // STEP 5: Create the kernel
-    //----------------------------------------------------- 
-    /*cl_kernel clCreateKernel(cl_program program,(Objeto do programa)
-                               const char* kernel_name,(Nome da função definida no Codigo Fonte)
-                               cl_int* errcode_ret) (local para armazenar erro de chamada)*/
-    cl_kernel kernel = NULL;
-    
-    // Use clCreateKernel() to create a kernel from the 
-    // vector addition function (named "vecadd")
     if(t==0)
-        kernel = clCreateKernel(locl_program, "gemm_OpenCL", &status);
+        locl_CreateProgram((const char**)&source_str, "gemm_OpenCL");
     else
-        kernel = clCreateKernel(locl_program, "gemm_OpenCL_local", &status);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to set a kernel from program\n");
-        exit(1);
-    }
-    
-    
-    
+        locl_CreateProgram((const char**)&source_str, "gemm_OpenCL_local");   
+        
     //-----------------------------------------------------
     // STEP 6: Set the kernel arguments
     //----------------------------------------------------- 
@@ -219,17 +195,17 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
                           size_t arg_size,(comprimento de cada dado do argumento)
                           const void* arg_value)ponteiro para os dados do argumento.*/
 
-    status = clSetKernelArg(kernel, 0, sizeof(cl_mem), &bufferA);
+    status = clSetKernelArg(locl_KERNEL, 0, sizeof(cl_mem), &bufferA);
     if (status != CL_SUCCESS) {
         printf ("Unable to set first kernel argument\n");
         exit(1);
     }
-    status = clSetKernelArg(kernel, 1, sizeof(cl_mem), &bufferB);
+    status = clSetKernelArg(locl_KERNEL, 1, sizeof(cl_mem), &bufferB);
     if (status != CL_SUCCESS) {
         printf ("Unable to set second kernel argument\n");
         exit(1);
     }
-    status = clSetKernelArg(kernel, 2, sizeof(cl_mem), &bufferC);
+    status = clSetKernelArg(locl_KERNEL , 2, sizeof(cl_mem), &bufferC);
     if (status != CL_SUCCESS) {
         printf ("Unable to set third kernel argument\n");
         exit(1);
@@ -270,8 +246,8 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // clEnqueueNDRangeKernel().
     // 'globalWorkSize' is the 1D dimension of the 
     // work-items
-    status = clEnqueueNDRangeKernel(locl_CMDQUEUE, kernel, 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
-    status = clSetKernelArg(kernel, 2, sizeof(cl_mem), &bufferC);
+    status = clEnqueueNDRangeKernel(locl_CMDQUEUE, locl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
+    status = clSetKernelArg(locl_KERNEL , 2, sizeof(cl_mem), &bufferC);
     if (status != CL_SUCCESS) {
         printf ("Unable to run the kernel on NDRange\n");
         exit(1);
@@ -304,8 +280,8 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     //----------------------------------------------------- 
     
     //Free OpenCL resources
-    clReleaseKernel(kernel);
-    clReleaseProgram(locl_program);
+    clReleaseKernel(locl_KERNEL );
+    clReleaseProgram(locl_PROGRAM);
     clReleaseCommandQueue(locl_CMDQUEUE);
     clReleaseMemObject(bufferA); 
     clReleaseMemObject(bufferB);

@@ -18,14 +18,7 @@ short int locl_INIT = 0, locl_INIT_DEVICE = 0;
 
 int locl_Initialize_Platforms(){
 	//"Zerando" index's
-	listPlatforms[0] = -1;
-	listPlatforms[1] = -1;
-	listPlatforms[2] = -1;
-	listPlatforms[3] = -1;
-	listPlatforms[4] = -1;
-	listPlatforms[5] = -1;
-	listPlatforms[6] = -1;
-
+	listPlatforms[0] = listPlatforms[1] = listPlatforms[2] = listPlatforms[3] = listPlatforms[4] = listPlatforms[5] = listPlatforms[6] = -1;
 	locl_DEVICE_CPU = locl_DEVICE_ACCELERATOR = locl_DEVICE_GPU = -1;
 	
 	locl_INIT = 1;
@@ -66,7 +59,6 @@ int locl_Initialize_Platforms(){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 		aux_name = DiscStr(locl_DispPlats[i].Vendor); 
-		printf("%s\n",aux_name);
 		if(isEqual(aux_name,"Intel(R)"))
 			listPlatforms[locl_INTEL] = i;
 			
@@ -98,7 +90,7 @@ int locl_Initialize_Device(int locl_PLATFORM_NUM){
 	locl_INIT_DEVICE = 1;
 
 	if(listPlatforms[locl_PLATFORM_NUM] > locl_NUM_PLATFORMS || listPlatforms[locl_PLATFORM_NUM] == -1 )
-		return 3;
+		return 2;
 	else{	
 		
 		//INIT DEVICES
@@ -109,16 +101,18 @@ int locl_Initialize_Device(int locl_PLATFORM_NUM){
 			exit(EXIT_FAILURE);
 		}
 		
+		locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);		
+
+		status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[locl_PLATFORM_NUM]], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
+		if (status != CL_SUCCESS)
+		{
+			printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
+			exit(EXIT_FAILURE);
+		}
+		
 		for (j = 0; j < locl_NUM_DEVICES; j++){
 			//aux_type = NULL;
-			locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
-			status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[locl_PLATFORM_NUM]], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
-			if (status != CL_SUCCESS)
-			{
-				printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
-				exit(EXIT_FAILURE);
-			}
-
+		
 			status = clGetDeviceInfo(locl_DEVICES[j], CL_DEVICE_TYPE, 0, NULL, &buffer_size);
 			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -255,23 +249,20 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 				printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
 				exit(EXIT_FAILURE);
 			}
+
+			locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
+			status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
+			if (status != CL_SUCCESS)
+			{
+				printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
+				exit(EXIT_FAILURE);
+			}
+
 			locl_DispPlats[i].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 			for (j = 0; j < locl_NUM_DEVICES; j++)
 			{
-				devices aux; /*Estrutura auxiliar de Devices*/
-
-				locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
-				status = clGetDeviceIDs(locl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
-				if (status != CL_SUCCESS)
-				{
-					printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
-					exit(EXIT_FAILURE);
-				}
-				
 				locl_DispPlats[i].MyDevices[j].numDevice = j;
 				locl_ListDevice(&locl_DispPlats[i], locl_DEVICES[j], 0);
-
-				
 			}
 		}
 	}else{
@@ -314,19 +305,17 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 			exit(EXIT_FAILURE);
 		}
 
+		locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
+		status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
+		if (status != CL_SUCCESS)
+		{
+			printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
+			exit(EXIT_FAILURE);
+		}
+
 		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 		for (j = 0; j < locl_NUM_DEVICES; j++)
 		{
-			devices aux; /*Estrutura auxiliar de Devices*/
-
-			locl_DEVICES = malloc(sizeof(cl_device_id)*locl_NUM_DEVICES);
-			status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[locl_PLATAFORM_NUMBER]], CL_DEVICE_TYPE_ALL, locl_NUM_DEVICES, locl_DEVICES, NULL);
-			if (status != CL_SUCCESS)
-			{
-				printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
-				exit(EXIT_FAILURE);
-			}
-
 			locl_ListDevice(&locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]], locl_DEVICES[j], 0);
 			locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice = j;
 		}
@@ -522,17 +511,13 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 	else if(tipo == 1){
 		if(locl_INIT != 1)
 			return 1;
-		//Name
-				
+		//Name		
 		printf("Name: %s\n", X->MyDevices->Name);
-		//End Name
 		
 		//Vendor
 		printf("Vendor: %s\n", X->MyDevices->Vendor);
-		//End Vendor
 
 		//Type
-				
 		if(X->MyDevices->Type & CL_DEVICE_TYPE_GPU)
 			printf("Type: GPU\n");
 
@@ -542,41 +527,28 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		if(X->MyDevices->Type & CL_DEVICE_TYPE_ACCELERATOR)
 			printf("Type: ACCELERATOR\n");
 
-		
-		//End Type
-
 		//Version
 		printf("Version: %s\n", X->MyDevices->Version);
-		//End Version
 		
 		//AdressSpace
 		printf("Address space size: %u\n", X->MyDevices->AdressSpace);
-		//End AdressSpace
 		
 		//Endian
-		
 		if(X->MyDevices->LitleEndian)
 			printf("Litlle Endian: Yes\n");
 		else	
 			printf("Litlle Endian:  No\n");
-		//printf("%\n", X->MyDevices->LitleEndian);
-		//End Endian
 		
-		//Buffer
-		
-		//Sizes
+		//Buffer Size
 		if (X->MyDevices->MaxBufferSize > 1023 && X->MyDevices->MaxBufferSize < 1048576)
 			printf("Max Buffer Size: %llu KB\n", (int)X->MyDevices->MaxBufferSize/1024);
 		else if (X->MyDevices->MaxBufferSize > 1048576 && X->MyDevices->MaxBufferSize < 1073741824)
 			printf("Max Buffer Size: %llu MB\n", (int)X->MyDevices->MaxBufferSize/1048576);
 		else if (X->MyDevices->MaxBufferSize > 1073741824)
 			printf("Max Buffer Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxBufferSize/1073741824, (long int)((long int)X->MyDevices->MaxBufferSize%1073741824)/1048576);
-		//End Size 
 		
-		//End Buffer
 		
 		//MaxMemAlocSize
-		
 		if (X->MyDevices->MaxMemAlocSize > 1023 && X->MyDevices->MaxMemAlocSize < 1048576)
 			printf("Max Aloc Size: %llu KB\n", (int)X->MyDevices->MaxMemAlocSize/1024);
 		else if (X->MyDevices->MaxMemAlocSize> 1048576 && X->MyDevices->MaxMemAlocSize < 1073741824)
@@ -584,17 +556,10 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		else if (X->MyDevices->MaxMemAlocSize > 1073741824)
 			printf("Max Aloc Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxMemAlocSize/1073741824, (long int)((long int)X->MyDevices->MaxMemAlocSize%1073741824)/1048576);
 
-		
-		//End MaxMemAlocSize
-		
 		//MaxParamSize;	
-		
 		printf("Max Parameter size: %zu\n", X->MyDevices->MaxParamSize);
-		//End MaxParamSize;
-
-		//MaxGlobalMemSize;	
 		
-		//printf("%\n", *X->MyDevices->MaxGlobalMemSize);
+		//MaxGlobalMemSize;	
 		if (X->MyDevices->MaxGlobalMemSize > 1023 && X->MyDevices->MaxGlobalMemSize < 1048576)
 			printf("Max Global Size: %llu KB\n", (int)X->MyDevices->MaxGlobalMemSize/1024);
 		else if (X->MyDevices->MaxGlobalMemSize > 1048576 && X->MyDevices->MaxGlobalMemSize < 1073741824)
@@ -602,10 +567,7 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		else if (X->MyDevices->MaxGlobalMemSize > 1073741824)
 			printf("Max Global Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxGlobalMemSize/1073741824, (long int)((long int)X->MyDevices->MaxGlobalMemSize%1073741824)/1048576);
 		
-		//End MaxGlobalMemSize;
-
 		//MaxGlobalMemCacheSize	
-		
 		if (X->MyDevices->MaxGlobalMemCacheSize> 1023 && X->MyDevices->MaxGlobalMemCacheSize < 1048576)
 			printf("Max Cache Mem Size: %llu KB\n", (int)X->MyDevices->MaxGlobalMemCacheSize/1024);
 		else if (X->MyDevices->MaxGlobalMemCacheSize> 1048576 && X->MyDevices->MaxGlobalMemCacheSize< 1073741824)
@@ -613,9 +575,7 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		else if (X->MyDevices->MaxGlobalMemCacheSize > 1073741824)
 			printf("Max Cache Mem Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxGlobalMemCacheSize/1073741824, (long int)((long int)X->MyDevices->MaxGlobalMemCacheSize%1073741824)/1048576);
 
-		//End MaxGlobalMemCacheSize
-		//MaxLocalMemSize	
-		
+		//MaxLocalMemSize			
 		if (X->MyDevices->MaxLocalMemSize> 1023 && X->MyDevices->MaxLocalMemSize < 1048576)
 			printf("Max Local Mem Size: %llu KB\n", (int)X->MyDevices->MaxLocalMemSize/1024);
 		else if (X->MyDevices->MaxLocalMemSize> 1048576 && X->MyDevices->MaxLocalMemSize< 1073741824)
@@ -623,35 +583,24 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		else if (X->MyDevices->MaxLocalMemSize > 1073741824)
 			printf("Max Local Mem Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxLocalMemSize/1073741824, (long int)((long int)X->MyDevices->MaxLocalMemSize%1073741824)/1048576);
 
-		//End MaxLocalMemSize
-		
 		//MemType	
 		//printf("%\n", X->MyDevices->MemType);
-		//End MemType
 		
 		//MaxWorkItemDimensions	
 		printf("Max Work Item Dimensions: %zu\n", X->MyDevices->MaxWorkItemDimensions);		
-		//printf("%\n", X->MyDevices->MaxWorkItemDimensions);	
-		//End MaxWorkItemDimensions		
-				
-		printf("Max Work Group Size: %zu\n", X->MyDevices->MaxWorkGroupSize);		
-		//printf("%\n", X->MyDevices->MaxWorkGroupSize);	
-		//End MaxWorkGroupSize
 		
+		//MaxWorkGroupSize
+		printf("Max Work Group Size: %zu\n", X->MyDevices->MaxWorkGroupSize);			
 		
 		//MaxWorkItemSizes	
-		
 		printf("Max Work Items Sizes: %u\n", X->MyDevices->MaxWorkItemSizes);		
-		//printf("%\n", X->MyDevices->MaxWorkItemSizes);	
-		//End MaxWorkItemSizes
 		printf("\n");
-		}
+	}
 		return 0;
 }
 
 void locl_Errors(int i){
 	switch(i){
-		//Mudar ordem de erros 3 e 4
 		case 0:
 		break;
 		case 1:
@@ -662,17 +611,14 @@ void locl_Errors(int i){
 			printf("The platform doesn't exist\n");
 			exit(1);
 		break;
-		
 		case 3:
-			printf ("The device doens't exist\n");
-			exit(1);
-		break;
-		case 4:
 			printf ("OpenCL Devices is not initialized\n");
 			exit(1);
 		break;
-
-
+		case 4:
+			printf ("The device doens't exist\n");
+			exit(1);
+		break;
 	}
 }
 
@@ -718,10 +664,10 @@ cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool 
 	return bufferA;
 }
 
-int locl_CreateProgram(const char** source_str){
+int locl_CreateProgram(const char** source_str, char *kernel){
 	cl_int status;	
 
-	locl_program = clCreateProgramWithSource(locl_CONTEXT, 1, source_str,  NULL, &status);
+	locl_PROGRAM = clCreateProgramWithSource(locl_CONTEXT, 1, source_str,  NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create a program from source\n");
         exit(1);
@@ -729,7 +675,7 @@ int locl_CreateProgram(const char** source_str){
     
     // Build (compile) the program for the locl_DEVICES with
     // clBuildProgram()
-    status = clBuildProgram(locl_program, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, NULL); 
+    status = clBuildProgram(locl_PROGRAM, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, NULL); 
     if (status != CL_SUCCESS) {
         printf ("Unable to build a program, %d\n", status);
         printf("CL_INVALID_PROGRAM %d\n", CL_INVALID_PROGRAM);
@@ -746,10 +692,18 @@ int locl_CreateProgram(const char** source_str){
         printf("CL_OUT_OF_RESOURCES %d\n", CL_OUT_OF_RESOURCES);
         printf("CL_OUT_OF_HOST_MEMORY %d\n", CL_OUT_OF_HOST_MEMORY);
         char logBuffer[10240];
-        clGetProgramBuildInfo(locl_program, locl_DEVICES[0], CL_PROGRAM_BUILD_LOG, sizeof(logBuffer), logBuffer, NULL);
+        clGetProgramBuildInfo(locl_PROGRAM, locl_DEVICES[0], CL_PROGRAM_BUILD_LOG, sizeof(logBuffer), logBuffer, NULL);
         printf("CL Compilation failed:\n%s", logBuffer);
         exit(1);
     }
+
+    // Use clCreateKernel() to create a kernel from the 
+    locl_KERNEL = clCreateKernel(locl_PROGRAM, kernel, &status);
+    if (status != CL_SUCCESS) {
+        printf ("Unable to set a kernel from program\n");
+        exit(1);
+    }
+
     return 0;
 }
 
@@ -769,7 +723,6 @@ char *DiscStr(char *name){
 int isEqual(char *name, char *name2){
 	int i = 0;
 	while(!isspace(name[i])){
-		printf("%c, %c \n", name[i], name2[i]);
 		if(name[i] != name2[i]){
 			return 0;
 		}
@@ -780,14 +733,23 @@ int isEqual(char *name, char *name2){
 // Mudar de alfabeto para caracteres
 }
 
-int locl_Init(int locl_PLATFORM_NUM){
+int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM){
   	int error;
   	error = locl_Initialize_Platforms();
         locl_Errors(error);
-    if(locl_PLATFORM_NUM < locl_ALL)
+    
+    if(locl_PLATFORM_NUM < locl_ALL){
     	error = locl_Initialize_Device(locl_PLATFORM_NUM);  
-    locl_Errors(error);
-    	error = locl_Explore( locl_PLATFORM_NUM);
+    	locl_Errors(error);
+    }
+
+    error = locl_Explore( locl_PLATFORM_NUM);
+    	locl_Errors(error);
+
+    if(locl_PLATFORM_NUM < locl_ALL){
+    	error = locl_CreateCmdQueue(locl_DEVICE_NUM);
+    	locl_Errors(error);
+    }
     return 0;
 }
 

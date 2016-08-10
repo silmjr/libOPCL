@@ -32,8 +32,8 @@ cl_device_id *locl_DEVICES;
 
 cl_context locl_CONTEXT;
 cl_command_queue locl_CMDQUEUE;
-cl_program locl_program;
-
+cl_program locl_PROGRAM;
+cl_kernel locl_KERNEL;
 
 typedef struct{
 	int numDevice;
@@ -70,7 +70,7 @@ plataforms *locl_DispPlats;
 
 
 // Inicialização e Finalização das Plataformas e Devices
-int locl_Init(int index);
+int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM);
 int locl_Finalize();
 int freeDevice();
 
@@ -89,12 +89,13 @@ int locl_CreateCmdQueue(int locl_DEVICE_NUM);
 int locl_ListDevice(plataforms *X, cl_device_id device, int tipo);
 /*cria os buffers e enqueueWritre dos dados que serão enviados aos devices, recebe o tamanho e o tipo dos buffers*/
 cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a);
-//Cria O programa a partir da string que será enviada pelo usuário
-int locl_CreateProgram(const char** source_str);
+//Cria O programa a partir da string que será enviada pelo usuário, 
+// e cria o kernel, recebe uma string com o nome do kernel desejado como atributo
+int locl_CreateProgram(const char** source_str, char *kernel);
 // Table of all errors 
 void  locl_Errors(int i);
 
-
+//Imprime informações das plataformas e Devices
 int locl_PrintInfo(int locl_PLATAFORM_NUMBER);
 
 //Aux Functions
