@@ -149,7 +149,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     locl_Init(locl_INTEL, locl_DEVICE_CPU);
 
     //-----------------------------------------------------
-    // STEP 3: Criar buffers do device e Escrever os dados do host para os locl_DEVICES de buffers
+    // STEP 2: Criar buffers do device e Escrever os dados do host para os locl_DEVICES de buffers
     //----------------------------------------------------- 
     
     /*cl_mem clCreateBuffer(cl_locl_CONTEXT locl_CONTEXT,
@@ -174,7 +174,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     bufferC = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, c);
         
     //-----------------------------------------------------
-    // STEP 4: Create and compile the program and Create the kernel
+    // STEP 3: Create and compile the program and Create the kernel
     //----------------------------------------------------- 
 
     if(t==0)
@@ -183,7 +183,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
         locl_CreateProgram((const char**)&source_str, "gemm_OpenCL_local");   
         
     //-----------------------------------------------------
-    // STEP 6: Set the kernel arguments
+    // STEP 4: Set the kernel arguments
     //----------------------------------------------------- 
         
     // Associate the input and output buffers with the 
@@ -213,7 +213,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
 
     
     //-----------------------------------------------------
-    // STEP 7: Configure the work-item structure
+    // STEP 5: Configure the work-item structure
     //----------------------------------------------------- 
     
     // Define an index space (global work size) of work 
@@ -230,7 +230,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     localWorkSize[1] = BSIZE;
     
     //-----------------------------------------------------
-    // STEP 8: Enqueue the kernel for execution
+    // STEP 6: Enqueue the kernel for execution
     //----------------------------------------------------- 
     /*cl_int clEnqueueNDRangeKernel(cl_command_queue command_queue,(Fila de comandos)
                                     cl_kernel kernel,(Kernel a ser executado)
@@ -254,7 +254,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     }
     
     //-----------------------------------------------------
-    // STEP 9: Read the output buffer back to the host
+    // STEP 7: Read the output buffer back to the host
     //----------------------------------------------------- 
     /*cl_int clEnqueueReadBuffer(cl_queue queue,(fila de comandos)
                                  cl_mem buffer, (objeto de memória do tipo buffer a ser lido)
@@ -276,7 +276,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     }
      
     //-----------------------------------------------------
-    // STEP 10: Release OpenCL resources
+    // STEP 8: Release OpenCL resources
     //----------------------------------------------------- 
     
     //Free OpenCL resources

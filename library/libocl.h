@@ -72,7 +72,6 @@ plataforms *locl_DispPlats;
 // Inicialização e Finalização das Plataformas e Devices
 int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM);
 int locl_Finalize();
-int freeDevice();
 
 /*Função de inicialização de plataformas, necessária para todas aplicações, aqui será feita a varredura de todas
 as plataformas disponíveis e vão ser criados index's para deixa o acesso mais simples.*/
@@ -84,7 +83,7 @@ int locl_Initialize_Device(int index);//Função interna do locl_Init
 características. Recebe o número ou index da plataforma desejada. */
 int locl_Explore(int locl_PLATAFORM_NUMBER);// Somente impressão de algo que já existe 
 /*Essa função cria a fila de comando e o contexto usando um device especificado*/
-int locl_CreateCmdQueue(int locl_DEVICE_NUM);
+int locl_CreateCmdQueue(int locl_PLATAFORM_NUMBER ,int locl_DEVICE_NUMBER);
 /*Usada somente internamente pela locl_explore*/
 int locl_ListDevice(plataforms *X, cl_device_id device, int tipo);
 /*cria os buffers e enqueueWritre dos dados que serão enviados aos devices, recebe o tamanho e o tipo dos buffers*/

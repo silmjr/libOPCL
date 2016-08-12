@@ -622,11 +622,13 @@ void locl_Errors(int i){
 	}
 }
 
-int locl_CreateCmdQueue(int locl_DEVICE_NUMBER){
+int locl_CreateCmdQueue(int locl_PLATAFORM_NUMBER ,int locl_DEVICE_NUMBER){
+	cl_context_properties props[] = {(cl_context_properties)locl_PLATAFORM_NUMBER, 0}; 
+
 	if(locl_INIT_DEVICE != 1)
 		return 4;	
 	cl_int status;
-	locl_CONTEXT = clCreateContext(NULL, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, &status);
+	locl_CONTEXT = clCreateContext(props, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, &status);
 	
 	if(locl_DEVICE_NUMBER > locl_NUM_DEVICES){
 		return 3;
@@ -747,7 +749,7 @@ int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM){
     	locl_Errors(error);
 
     if(locl_PLATFORM_NUM < locl_ALL){
-    	error = locl_CreateCmdQueue(locl_DEVICE_NUM);
+    	error = locl_CreateCmdQueue(locl_PLATFORM_NUM, locl_DEVICE_NUM);
     	locl_Errors(error);
     }
     return 0;
