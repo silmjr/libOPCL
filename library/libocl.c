@@ -623,11 +623,15 @@ void locl_Errors(int i){
 }
 
 int locl_CreateCmdQueue(int locl_PLATAFORM_NUMBER ,int locl_DEVICE_NUMBER){
-	cl_context_properties props[] = {(cl_context_properties)locl_PLATAFORM_NUMBER, 0}; 
+	cl_context_properties props[3] = {
+      (cl_context_properties)CL_CONTEXT_PLATFORM,
+      (cl_context_properties)locl_PLATAFORM_NUMBER,
+      (cl_context_properties)0};
 
 	if(locl_INIT_DEVICE != 1)
 		return 4;	
 	cl_int status;
+	
 	locl_CONTEXT = clCreateContext(props, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, &status);
 	
 	if(locl_DEVICE_NUMBER > locl_NUM_DEVICES){
