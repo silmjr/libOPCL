@@ -191,15 +191,9 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER){
 
 		for (j = 0; j < locl_NUM_DEVICES; j++)
 		{
-			if (status != CL_SUCCESS)
-			{
-				printf(" Cannot get the list of OpenCL locl_DEVICES.\n");
-				exit(EXIT_FAILURE);
-			}
 			printf("Device Number: %d\n", locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice);	
 
-			locl_ListDevice(&locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]], locl_DEVICES[j], 1);
-			
+			locl_ListDevice(&locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]], locl_DEVICES[j], 1);	
 		}
 
 	}
@@ -627,7 +621,7 @@ int locl_CreateCmdQueue(int locl_PLATAFORM_NUMBER ,int locl_DEVICE_NUMBER){
 	if(locl_INIT_DEVICE != 1)
 		return 4;	
 	cl_int status;
-	locl_CONTEXT = clCreateContext(NULL, locl_DEVICE_NUMBER  + 1, locl_DEVICES, NULL, NULL, &status);
+	locl_CONTEXT = clCreateContext(NULL, locl_NUM_DEVICES, locl_DEVICES, NULL, NULL, &status);
 	
 	if(locl_DEVICE_NUMBER > locl_NUM_DEVICES){
 		return 3;
@@ -708,6 +702,16 @@ int locl_CreateProgram(const char** source_str, char *kernel){
     return 0;
 }
 
+int locl_SetKernelArg(cl_int i, size_t tipo,const void *buffer){
+	cl_int status;
+	status = clSetKernelArg(locl_KERNEL, i, sizeof(tipo), &buffer);
+    if (status != CL_SUCCESS) {
+        printf ("Unable to set kernel argument\n");
+        exit(1);
+    }
+    return 0; 
+}
+
 
 char *DiscStr(char *name){
 	int i = 0;
@@ -739,7 +743,7 @@ int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM){
   	error = locl_Initialize_Platforms();
         locl_Errors(error);
     
-    if(locl_PLATFORM_NUM < locl_ALL){
+    if(locl_PLATFORM_NUM < locl_ALL && locl_DEVICE_NUM != 1){
     	error = locl_Initialize_Device(locl_PLATFORM_NUM);  
     	locl_Errors(error);
     }
@@ -747,7 +751,7 @@ int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM){
     error = locl_Explore( locl_PLATFORM_NUM);
     	locl_Errors(error);
 
-    if(locl_PLATFORM_NUM < locl_ALL){
+    if(locl_PLATFORM_NUM < locl_ALL && locl_DEVICE_NUM != 1){
     	error = locl_CreateCmdQueue(locl_PLATFORM_NUM, locl_DEVICE_NUM);
     	locl_Errors(error);
     }

@@ -14,6 +14,7 @@
 	#include <CL/cl.h>
 #endif
 
+//Index's de plataformas disponíveis
 #define locl_INTEL 0
 #define locl_INTEL_GPU 1
 #define locl_AMD 2
@@ -21,20 +22,28 @@
 #define locl_POCL 4
 #define locl_COPRTHR 5
 #define locl_ALL 6
+//Vetor com os números das plataformas (Default é -1)
 int listPlatforms[7];
-
-int locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU;
-
+//Tipos de Devices que existem 
+int locl_DEVICE_CPU, locl_DEVICE_ACCELERATOR, locl_DEVICE_GPU; 
+//Número total de plataformas 
 cl_uint locl_NUM_PLATFORMS;
-cl_uint locl_NUM_DEVICES;
+//Número total de devices de uma plataforma específica
+cl_uint locl_NUM_DEVICES; //Fazer um vetor similar ao das plataformas
+//Vetor de plataformas (Função interna do OPENCL)
 cl_platform_id *locl_PLATFORMS;
+//Vetor de devices (Função interna do OPENCL)
 cl_device_id *locl_DEVICES;
-
+//Contexto
 cl_context locl_CONTEXT;
+//Command queue
 cl_command_queue locl_CMDQUEUE;
+//Program
 cl_program locl_PROGRAM;
+//Kernel
 cl_kernel locl_KERNEL;
 
+//Estruturas onde serão armazenadas todas informações de Plataformas e Devices
 typedef struct{
 	int numDevice;
 	char *Name;	
@@ -65,36 +74,47 @@ typedef struct{
 	devices *MyDevices;	
 }plataforms;
 
+//Vetor de Estruturas
 plataforms *locl_DispPlats;
 
-
-
-// Inicialização e Finalização das Plataformas e Devices
+/*locl_Init, função essencial para o funcionamento da plataforma, recebe como atributo os index's da(s) plataforma(s) e device(s) desejado(s), 
+e é responsável por inicializar as plataformas, os devices, preencher as estruturas com as informações disponíveis na máquina, cria a fila de comando 
+e o contexto para a plataforma e o device específicado. Caso o index seja locl_ALL e 0, não criará a fila de comando e o contexto*/
 int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM);
+
+/*Essa função libera a memória usada durante a execução do código*/
 int locl_Finalize();
 
-/*Função de inicialização de plataformas, necessária para todas aplicações, aqui será feita a varredura de todas
-as plataformas disponíveis e vão ser criados index's para deixa o acesso mais simples.*/
-int locl_Initialize_Platforms();//Função interna do locl_Init
-/*Essa função inicializa e cria index's de devices de uma plataforma específica. Recebe o número ou index da plataforma desejada*/
-int locl_Initialize_Device(int index);//Função interna do locl_Init
+/*Iniciará todas as plataformas disponíveis no computador, essa função só é usada internamente pela locl_Initialize*/
+int locl_Initialize_Platforms();
 
-/*Essa função cria estruturas com informações de todas as plataformas disponíveis no computador, listando as suas
-características. Recebe o número ou index da plataforma desejada. */
-int locl_Explore(int locl_PLATAFORM_NUMBER);// Somente impressão de algo que já existe 
-/*Essa função cria a fila de comando e o contexto usando um device especificado*/
+/*Inicia os devices de uma plataforma especifíca, recebe um index de plataforma como atributo e essa função só é usada internamente pela locl_Initialize*/
+int locl_Initialize_Device(int index);
+
+/*Grava todas as informações disponíveis na máquina nas estruturas essa função só é usada internamente pela locl_Initialize*/
+int locl_Explore(int locl_PLATAFORM_NUMBER);
+
+/*Cria o contexto e a fila de comando, recebe como atributo os index das plataformas 
+e dos devices desejados essa função só é usada internamente pela locl_Initialize*/
 int locl_CreateCmdQueue(int locl_PLATAFORM_NUMBER ,int locl_DEVICE_NUMBER);
-/*Usada somente internamente pela locl_explore*/
+
+/*Essa função é usada internamente pela locl_Explore, recebe como referencia a estrura de plataformas, device e tipo, tipo 0 só salva as informações
+tipo 1 imprime todas as informações*/
 int locl_ListDevice(plataforms *X, cl_device_id device, int tipo);
-/*cria os buffers e enqueueWritre dos dados que serão enviados aos devices, recebe o tamanho e o tipo dos buffers*/
+
+//Cria os buffers, recebe o tamanho do buffer, se é de leitura ou escrita, e o que se deseja colocar no buffer
 cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a);
-//Cria O programa a partir da string que será enviada pelo usuário, 
-// e cria o kernel, recebe uma string com o nome do kernel desejado como atributo
+
+//Compila o kernel do programa, recebe o arquivo e o nome do kernel
 int locl_CreateProgram(const char** source_str, char *kernel);
-// Table of all errors 
+
+//Cria os argumentos do kernel, recebe um inteiro, que é a ordem em que o argumento foi criado no código, o tipo, e o que deseja  setar no kernel 
+int locl_SetKernelArg(cl_int i, size_t tipo, const void* buffer);
+
+//Lista os erros no programa 
 void  locl_Errors(int i);
 
-//Imprime informações das plataformas e Devices
+//Imprime as informações do dispositivo 
 int locl_PrintInfo(int locl_PLATAFORM_NUMBER);
 
 //Aux Functions
@@ -103,4 +123,4 @@ int isEqual(char *name, char *name2);
 
 #endif
 
-/*Documentar esse negócio todo*/
+

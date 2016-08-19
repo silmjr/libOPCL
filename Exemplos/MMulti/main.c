@@ -195,21 +195,11 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
                           size_t arg_size,(comprimento de cada dado do argumento)
                           const void* arg_value)ponteiro para os dados do argumento.*/
 
-    status = clSetKernelArg(locl_KERNEL, 0, sizeof(cl_mem), &bufferA);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to set first kernel argument\n");
-        exit(1);
-    }
-    status = clSetKernelArg(locl_KERNEL, 1, sizeof(cl_mem), &bufferB);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to set second kernel argument\n");
-        exit(1);
-    }
-    status = clSetKernelArg(locl_KERNEL , 2, sizeof(cl_mem), &bufferC);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to set third kernel argument\n");
-        exit(1);
-    }
+    locl_SetKernelArg(0, sizeof(cl_mem), bufferA);
+    
+    locl_SetKernelArg(1, sizeof(cl_mem), bufferB);
+
+    locl_SetKernelArg(2, sizeof(cl_mem), bufferC);
 
     
     //-----------------------------------------------------
@@ -247,11 +237,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // 'globalWorkSize' is the 1D dimension of the 
     // work-items
     status = clEnqueueNDRangeKernel(locl_CMDQUEUE, locl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
-    status = clSetKernelArg(locl_KERNEL , 2, sizeof(cl_mem), &bufferC);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to run the kernel on NDRange\n");
-        exit(1);
-    }
+    locl_SetKernelArg(2, sizeof(cl_mem), bufferC);
     
     //-----------------------------------------------------
     // STEP 7: Read the output buffer back to the host

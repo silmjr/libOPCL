@@ -15,7 +15,7 @@
 
 int main(int argc, char *argv[]){	
 	
-   	locl_Init(locl_ALL, 0);
+   	locl_Init(locl_ALL, -1);
 	locl_PrintInfo(locl_ALL);
 	locl_Finalize();
 
