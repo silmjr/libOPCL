@@ -269,11 +269,11 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     clReleaseKernel(locl_KERNEL );
     clReleaseProgram(locl_PROGRAM);
     clReleaseCommandQueue(locl_CMDQUEUE);
+    clReleaseContext(locl_CONTEXT);
     clReleaseMemObject(bufferA); 
     clReleaseMemObject(bufferB);
     clReleaseMemObject(bufferC);
-    clReleaseContext(locl_CONTEXT);
-    
+    locl_Finalize();
     free(source_str);
     
     
