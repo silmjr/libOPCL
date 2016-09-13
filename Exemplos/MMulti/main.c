@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <ctype.h> 
-#include "libocl.h"
+#include <libocl.h>
 #include <omp.h>
 
 
@@ -146,7 +146,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // STEP 1: Descobrir e inicializar as plataformas, Devices e Create a locl_CONTEXT e Fila de Comando 
     //-----------------------------------------------------
 
-    locl_Init(locl_INTEL, locl_DEVICE_CPU);
+    locl_Init(locl_NVIDIA, locl_DEVICE_GPU);
 
     //-----------------------------------------------------
     // STEP 2: Criar buffers do device e Escrever os dados do host para os locl_DEVICES de buffers
