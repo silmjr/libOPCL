@@ -1,5 +1,5 @@
 #!/bin/bash
-cd library
+cp libocl.h /usr/include
 cp libocl.so /usr/lib
 chmod 0755 /usr/lib/libocl.so
 /sbin/ldconfig 

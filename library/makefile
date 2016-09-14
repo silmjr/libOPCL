@@ -5,3 +5,5 @@ clean:
 	rm -rf *.o
 mrproper: clean
 	rm -rf libocl
+install: 
+	./install.sh 
