@@ -7,3 +7,5 @@ mrproper: clean
 	rm -rf libocl
 install: 
 	./install.sh 
+uninstall: 
+	./uninstall.sh 

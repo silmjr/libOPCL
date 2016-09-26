@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <ctype.h>
-#include "libocl.h"
+#include <libocl.h>
 
 #ifdef __APPLE__
 	#include <OpenCL/cl.h>
@@ -1120,6 +1120,1250 @@ int isEqual(char *name, char *name2){
 
 // Mudar de alfabeto para caracteres
 }
+/*------------Funções de Get da plataforma-------------*/
+//recuperar numero da plataforma
+int locl_getNumPlatform(int index){
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	return locl_DispPlats[listPlatforms[index]].numPlat;
+}
+
+//recuperar nome da plaforma 
+char *locl_getNamePlatform(int index){
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	return locl_DispPlats[listPlatforms[index]].Name;
+}
+
+//Recuperar o vendor da plataforma
+char *locl_getVendorPlatform(int index){
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	return locl_DispPlats[listPlatforms[index]].Vendor;
+}
+
+//recuperar as extensões
+char *locl_getExtensiosPlatform(int index){
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	return locl_DispPlats[listPlatforms[index]].Extensions;
+}
+/*------------Funções de Get do device-------------*/
+
+//Recuperar número do device
+int locl_getNumDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].numDevice;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar nome do device
+char* locl_getNameDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Name;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar vendor do device
+char* locl_getVendorDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Vendor;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar vendorId do device
+cl_uint* locl_getVendorIdDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].VendorId;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Profile do device
+char* locl_getProfileDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Profile;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar available do device
+cl_bool* locl_getAvailableDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Available;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Version do device
+char* locl_getVersionDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Version;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+//Recuperar Drive Version do device
+char* locl_getDriveVersionDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].DriverVersion;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar compilerAvailable do device
+cl_bool* locl_getCompilerAvailableDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].CompilerAvailable;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Adress Space do device
+cl_uint* locl_getAdressSpaceDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].AdressSpace;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Endian do device
+cl_bool* locl_getLitleEndianDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].LitleEndian;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar ErrorCorrection do device
+cl_bool* locl_getErrorCorrectionDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].ErrorCorrection;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar AdressAlingment do device
+cl_uint* locl_getAdressAlingmentDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].AdressAligment;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar SmallAlingment do device
+cl_uint* locl_getSmallAlingmentDevice(int index, cl_device_type type){int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].SmallestAlignment;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar ResolutionTimer do device
+size_t* locl_getResolutionTimerDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].ResolutionTimer;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxClock do device
+cl_uint* locl_getMaxClockDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxClock;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxComputeUnits do device
+cl_uint* locl_getMaxComputeUnitsDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxComputeUnits;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxConstantArgs do device
+cl_uint* locl_getMaxConstantArgsDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxConstantArgs;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxBufferSize do device
+cl_ulong* locl_getMaxBufferSizeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxBufferSize;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxMemAlocSize do device
+cl_ulong* locl_getMaxMemAlocSizeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxMemAlocSize;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxParamSize do device
+size_t* locl_getMaxParamSizeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxParamSize;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar exec_capabilities do device
+cl_device_exec_capabilities* locl_getExecutionCapabilitiesDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].ExecutionCapabilities;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxGlobalMemSize do device
+cl_ulong* locl_getMaxGlobalMemSizeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxGlobalMemSize;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxGlobalMemCacheSize do device
+cl_ulong* locl_getMaxGlobalMemCacheSizeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxGlobalMemCacheSize;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar GlobalMemLineChaceSize do device
+cl_uint* locl_getGlobalMemLineChaceSizeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].GlobalMemLineCacheSize;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxLocalMemSize do device
+cl_ulong* locl_getMaxLocalMemSizeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxLocalMemSize;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar LocalMemType do device
+cl_device_local_mem_type* locl_getLocalMemTypeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MemType;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+
+//Recuperar CacheMemType do device
+cl_device_mem_cache_type* locl_getCacheMemTypeDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].GlobalMemCahcheType;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxWorkGroups do device
+size_t* locl_getMaxWorkGroupsDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxWorkGroupSize;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxWorkItem do device
+/*Modificar
+size_t locl_getMaxWorkItemsDevice(int index, cl_device_type type);
+*/
+//Recuperar MaxWorkItemDimensions do device
+cl_uint* locl_getMaxWorkItemsDimensionsDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxWorkItemDimensions;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxWorkItemSizes do device
+size_t* locl_getMaxWorkItemSizesDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxWorkItemSizes;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Max2dHeight do device
+size_t* locl_getMax2dHeightDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Max2dHeight;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Max2dWidth do device
+size_t* locl_getMax2dWidthDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Max2dWidth;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Max3dDepth do device
+size_t* locl_getMax3dDepthDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Max3dDepth;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Max3dHeight do device
+size_t* locl_getMax3dHeightDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Max3dHeight;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar Max3dWidth do device
+size_t* locl_getMax3dWidthDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Max3dWidth;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxReadImageArgs do device
+cl_uint* locl_getMaxReadImageArgsDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxReadImageArgs;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxWriteImageArgs do device
+cl_uint* locl_geMaxWriteImageArgsDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxWriteImageArgs;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar MaxSamplers do device
+cl_uint* locl_getMaxSamplersDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].MaxSamplers;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthChar do device
+cl_uint* locl_getPreferredVectorWidthCharDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].PreferredVectorWidthChar;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthShort do device
+cl_uint* locl_getPreferredVectorWidthShortDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].PreferredVectorWidthShort;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthInt do device
+cl_uint* locl_getPreferredVectorWidthInttDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].PreferredVectorWidthInt;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthLong do device
+cl_uint* locl_getPreferredVectorWidthLongDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].PreferredVectorWidthLong;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthFloat do device
+cl_uint* locl_getPreferredVectorWidthFloatDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].PreferredVectorWidthFloat;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthDouble do device
+cl_uint* locl_getPreferredVectorWidthDoubleDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].PreferredVectorWidthDouble;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthDouble do device
+cl_device_fp_config* locl_getSinglePrecisionFlatCapabilityDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].SinglePrecisionFlatCapability;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthDouble do device
+cl_device_fp_config* locl_getDoublePrecisionFlatCapabilityDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].DoublePrecisionFlatCapability;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
+
+//Recuperar PreferredVectorWidthDouble do device
+char* locl_getExtensionsDevice(int index, cl_device_type type){
+	int j; 
+	if (listPlatforms[index] == -1 )
+	{
+		locl_Errors(2);
+		exit(1);
+	}
+	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
+	if (status != CL_SUCCESS)
+	{
+		printf("Cannot get the number of OpenCL locl_DEVICES available on this platform.\n");
+			exit(EXIT_FAILURE);
+	}
+	for (j = 0; j < locl_NUM_DEVICES; j++)
+	{
+		if(locl_DispPlats[listPlatforms[index]].MyDevices[j].Type & type)
+			return locl_DispPlats[listPlatforms[index]].MyDevices[j].Extensions;
+		else{
+			locl_Errors(3);
+			exit(1);
+		}
+	}
+}
 
 int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM){
   	int error;
@@ -1144,5 +2388,4 @@ int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM){
 
 int locl_Finalize(){
 	free(locl_DispPlats);
-	
 }

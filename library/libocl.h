@@ -22,6 +22,10 @@
 #define locl_POCL 4
 #define locl_COPRTHR 5
 #define locl_ALL 6
+#define GPU CL_DEVICE_TYPE_GPU
+#define CPU CL_DEVICE_TYPE_CPU
+#define ACCELERATOR CL_DEVICE_TYPE_ACCELERATOR
+
 //Vetor com os números das plataformas (Default é -1)
 int listPlatforms[7];
 //Tipos de Devices que existem 
@@ -153,6 +157,170 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER);
 //Aux Functions
 char *DiscStr(char *name);
 int isEqual(char *name, char *name2);
+
+/*------------Funções de Get da plataforma-------------*/
+//recuperar numero da plataforma
+int locl_getNumPlatform(int index);
+
+//recuperar nome da plaforma 
+char *locl_getNamePlatform(int index);
+
+//Recuperar o vendor da plataforma
+char *locl_getVendorPlatform(int index);
+
+//recuperar as extensões
+char *locl_getExtensiosPlatform(int index);
+/*------------Funções de Get do device-------------*/
+//Recuperar número do device
+int locl_getNumDevice(int index, cl_device_type type);
+
+//Recuperar nome do device
+char* locl_getNameDevice(int index, cl_device_type type);
+
+//Recuperar vendor do device
+char* locl_getVendorDevice(int index, cl_device_type type);
+
+//Recuperar vendorId do device
+cl_uint* locl_getVendorIdDevice(int index, cl_device_type type);
+
+//Recuperar Profile do device
+char* locl_getProfileDevice(int index, cl_device_type type);
+
+//Recuperar available do device
+cl_bool* locl_getAvailableDevice(int index, cl_device_type type);
+
+//Recuperar Version do device
+char* locl_getVersionDevice(int index, cl_device_type type);
+
+//Recuperar Drive Version do device
+char* locl_getDriveVersionDevice(int index, cl_device_type type);
+
+//Recuperar compilerAvailable do device
+cl_bool* locl_getCompilerAvailableDevice(int index, cl_device_type type);
+
+//Recuperar Adress Space do device
+cl_uint* locl_getAdressSpaceDevice(int index, cl_device_type type);
+
+//Recuperar Endian do device
+cl_bool* locl_getLitleEndianDevice(int index, cl_device_type type);
+
+//Recuperar ErrorCorrection do device
+cl_bool* locl_getErrorCorrectionDevice(int index, cl_device_type type);
+
+//Recuperar AdressAlingment do device
+cl_uint* locl_getAdressAlingmentDevice(int index, cl_device_type type);
+
+//Recuperar SmallAlingment do device
+cl_uint* locl_getSmallAlingmentDevice(int index, cl_device_type type);
+
+//Recuperar ResolutionTimer do device
+size_t* locl_getResolutionTimerDevice(int index, cl_device_type type);
+
+//Recuperar MaxClock do device
+cl_uint* locl_getMaxClockDevice(int index, cl_device_type type);
+
+//Recuperar MaxComputeUnits do device
+cl_uint* locl_getMaxComputeUnitsDevice(int index, cl_device_type type);
+
+//Recuperar MaxConstantArgs do device
+cl_uint* locl_getMaxConstantArgsDevice(int index, cl_device_type type);
+
+//Recuperar MaxBufferSize do device
+cl_ulong* locl_getMaxBufferSizeDevice(int index, cl_device_type type);
+
+//Recuperar MaxMemAlocSize do device
+cl_ulong* locl_getMaxMemAlocSizeDevice(int index, cl_device_type type);
+
+//Recuperar MaxParamSize do device
+size_t* locl_getMaxParamSizeDevice(int index, cl_device_type type);
+
+//Recuperar exec_capabilities do device
+cl_device_exec_capabilities* locl_getExecutionCapabilitiesDevice(int index, cl_device_type type);
+
+//Recuperar MaxGlobalMemSize do device
+cl_ulong* locl_getMaxGlobalMemSizeDevice(int index, cl_device_type type);
+
+//Recuperar MaxGlobalMemCacheSize do device
+cl_ulong* locl_getMaxGlobalMemCacheSizeDevice(int index, cl_device_type type);
+
+//Recuperar GlobalMemLineChaceSize do device
+cl_uint* locl_getGlobalMemLineChaceSizeDevice(int index, cl_device_type type);
+
+//Recuperar MaxLocalMemSize do device
+cl_ulong* locl_getMaxLocalMemSizeDevice(int index, cl_device_type type);
+
+//Recuperar LocalMemType do device
+cl_device_local_mem_type* locl_getLocalMemTypeDevice(int index, cl_device_type type);
+
+
+//Recuperar CacheMemType do device
+cl_device_mem_cache_type* locl_getCacheMemTypeDevice(int index, cl_device_type type);
+
+//Recuperar MaxWorkGroups do device
+size_t* locl_getMaxWorkGroupsDevice(int index, cl_device_type type);
+
+//Recuperar MaxWorkItem do device
+size_t* locl_getMaxWorkItemsDevice(int index, cl_device_type type);
+
+//Recuperar MaxWorkItemDimensions do device
+cl_uint* locl_getMaxWorkItemsDimensionsDevice(int index, cl_device_type type);
+
+//Recuperar MaxWorkItem do device
+size_t* locl_getMaxWorkItemsDevice(int index, cl_device_type type);
+
+//Recuperar MaxWorkItemSizes do device
+size_t* locl_getMaxWorkItemSizesDevice(int index, cl_device_type type);
+
+//Recuperar Max2dHeight do device
+size_t* locl_getMax2dHeightDevice(int index, cl_device_type type);
+
+//Recuperar Max2dWidth do device
+size_t* locl_getMax2dWidthDevice(int index, cl_device_type type);
+
+//Recuperar Max3dDepth do device
+size_t* locl_getMax3dDepthDevice(int index, cl_device_type type);
+
+//Recuperar Max3dHeight do device
+size_t* locl_getMax3dHeightDevice(int index, cl_device_type type);
+
+//Recuperar Max3dWidth do device
+size_t* locl_getMax3dWidthDevice(int index, cl_device_type type);
+
+//Recuperar MaxReadImageArgs do device
+cl_uint* locl_getMaxReadImageArgsDevice(int index, cl_device_type type);
+
+//Recuperar MaxWriteImageArgs do device
+cl_uint* locl_geMaxWriteImageArgsDevice(int index, cl_device_type type);
+
+//Recuperar MaxSamplers do device
+cl_uint* locl_getMaxSamplersDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthChar do device
+cl_uint* locl_getPreferredVectorWidthCharDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthShort do device
+cl_uint* locl_getPreferredVectorWidthShortDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthInt do device
+cl_uint* locl_getPreferredVectorWidthInttDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthLong do device
+cl_uint* locl_getPreferredVectorWidthLongDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthFloat do device
+cl_uint* locl_getPreferredVectorWidthFloatDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthDouble do device
+cl_uint* locl_getPreferredVectorWidthDoubleDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthDouble do device
+cl_device_fp_config* locl_getSinglePrecisionFlatCapabilityDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthDouble do device
+cl_device_fp_config* locl_getSinglePrecisionFlatCapabilityDevice(int index, cl_device_type type);
+
+//Recuperar PreferredVectorWidthDouble do device
+char* locl_getExtensionsDevice(int index, cl_device_type type);
 
 #endif
 

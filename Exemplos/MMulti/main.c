@@ -85,6 +85,7 @@ int main(int argc, char *argv[])
     
     // Free host resources
     free(A);
+    
     free(B);
     free(C_host);
     free(C_device);
