@@ -1117,47 +1117,42 @@ int isEqual(char *name, char *name2){
 		i++;
 	}
 		return 1;
-
-// Mudar de alfabeto para caracteres
 }
 /*------------Funções de Get da plataforma-------------*/
 //recuperar numero da plataforma
-int locl_getNumPlatform(int index){
+//Verifca a existencia da plataforma e se a biblioteca foi iniciada.
+void verifica(int index){
+	if(locl_INIT != 1){
+		locl_Errors (1);
+		exit(1);
+	}
 	if (listPlatforms[index] == -1 )
 	{
 		locl_Errors(2);
 		exit(1);
 	}
+}
+
+int locl_getNumPlatform(int index){
+	verifica(index);
 	return locl_DispPlats[listPlatforms[index]].numPlat;
 }
 
 //recuperar nome da plaforma 
 char *locl_getNamePlatform(int index){
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	return locl_DispPlats[listPlatforms[index]].Name;
 }
 
 //Recuperar o vendor da plataforma
 char *locl_getVendorPlatform(int index){
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	return locl_DispPlats[listPlatforms[index]].Vendor;
 }
 
 //recuperar as extensões
 char *locl_getExtensiosPlatform(int index){
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	return locl_DispPlats[listPlatforms[index]].Extensions;
 }
 /*------------Funções de Get do device-------------*/
@@ -1165,11 +1160,7 @@ char *locl_getExtensiosPlatform(int index){
 //Recuperar número do device
 int locl_getNumDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1190,11 +1181,7 @@ int locl_getNumDevice(int index, cl_device_type type){
 //Recuperar nome do device
 char* locl_getNameDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1215,11 +1202,7 @@ char* locl_getNameDevice(int index, cl_device_type type){
 //Recuperar vendor do device
 char* locl_getVendorDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1240,11 +1223,7 @@ char* locl_getVendorDevice(int index, cl_device_type type){
 //Recuperar vendorId do device
 cl_uint* locl_getVendorIdDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1265,11 +1244,7 @@ cl_uint* locl_getVendorIdDevice(int index, cl_device_type type){
 //Recuperar Profile do device
 char* locl_getProfileDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1290,11 +1265,7 @@ char* locl_getProfileDevice(int index, cl_device_type type){
 //Recuperar available do device
 cl_bool* locl_getAvailableDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1315,11 +1286,7 @@ cl_bool* locl_getAvailableDevice(int index, cl_device_type type){
 //Recuperar Version do device
 char* locl_getVersionDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1339,11 +1306,7 @@ char* locl_getVersionDevice(int index, cl_device_type type){
 //Recuperar Drive Version do device
 char* locl_getDriveVersionDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1364,11 +1327,7 @@ char* locl_getDriveVersionDevice(int index, cl_device_type type){
 //Recuperar compilerAvailable do device
 cl_bool* locl_getCompilerAvailableDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1389,11 +1348,7 @@ cl_bool* locl_getCompilerAvailableDevice(int index, cl_device_type type){
 //Recuperar Adress Space do device
 cl_uint* locl_getAdressSpaceDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1414,11 +1369,7 @@ cl_uint* locl_getAdressSpaceDevice(int index, cl_device_type type){
 //Recuperar Endian do device
 cl_bool* locl_getLitleEndianDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1439,11 +1390,7 @@ cl_bool* locl_getLitleEndianDevice(int index, cl_device_type type){
 //Recuperar ErrorCorrection do device
 cl_bool* locl_getErrorCorrectionDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1464,11 +1411,7 @@ cl_bool* locl_getErrorCorrectionDevice(int index, cl_device_type type){
 //Recuperar AdressAlingment do device
 cl_uint* locl_getAdressAlingmentDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1488,11 +1431,7 @@ cl_uint* locl_getAdressAlingmentDevice(int index, cl_device_type type){
 
 //Recuperar SmallAlingment do device
 cl_uint* locl_getSmallAlingmentDevice(int index, cl_device_type type){int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1513,11 +1452,7 @@ cl_uint* locl_getSmallAlingmentDevice(int index, cl_device_type type){int j;
 //Recuperar ResolutionTimer do device
 size_t* locl_getResolutionTimerDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1538,11 +1473,7 @@ size_t* locl_getResolutionTimerDevice(int index, cl_device_type type){
 //Recuperar MaxClock do device
 cl_uint* locl_getMaxClockDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1563,11 +1494,7 @@ cl_uint* locl_getMaxClockDevice(int index, cl_device_type type){
 //Recuperar MaxComputeUnits do device
 cl_uint* locl_getMaxComputeUnitsDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1588,11 +1515,7 @@ cl_uint* locl_getMaxComputeUnitsDevice(int index, cl_device_type type){
 //Recuperar MaxConstantArgs do device
 cl_uint* locl_getMaxConstantArgsDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1613,11 +1536,7 @@ cl_uint* locl_getMaxConstantArgsDevice(int index, cl_device_type type){
 //Recuperar MaxBufferSize do device
 cl_ulong* locl_getMaxBufferSizeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1638,11 +1557,7 @@ cl_ulong* locl_getMaxBufferSizeDevice(int index, cl_device_type type){
 //Recuperar MaxMemAlocSize do device
 cl_ulong* locl_getMaxMemAlocSizeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1663,11 +1578,7 @@ cl_ulong* locl_getMaxMemAlocSizeDevice(int index, cl_device_type type){
 //Recuperar MaxParamSize do device
 size_t* locl_getMaxParamSizeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1688,11 +1599,7 @@ size_t* locl_getMaxParamSizeDevice(int index, cl_device_type type){
 //Recuperar exec_capabilities do device
 cl_device_exec_capabilities* locl_getExecutionCapabilitiesDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1713,11 +1620,7 @@ cl_device_exec_capabilities* locl_getExecutionCapabilitiesDevice(int index, cl_d
 //Recuperar MaxGlobalMemSize do device
 cl_ulong* locl_getMaxGlobalMemSizeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1738,11 +1641,7 @@ cl_ulong* locl_getMaxGlobalMemSizeDevice(int index, cl_device_type type){
 //Recuperar MaxGlobalMemCacheSize do device
 cl_ulong* locl_getMaxGlobalMemCacheSizeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1763,11 +1662,7 @@ cl_ulong* locl_getMaxGlobalMemCacheSizeDevice(int index, cl_device_type type){
 //Recuperar GlobalMemLineChaceSize do device
 cl_uint* locl_getGlobalMemLineChaceSizeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1788,11 +1683,7 @@ cl_uint* locl_getGlobalMemLineChaceSizeDevice(int index, cl_device_type type){
 //Recuperar MaxLocalMemSize do device
 cl_ulong* locl_getMaxLocalMemSizeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1813,11 +1704,7 @@ cl_ulong* locl_getMaxLocalMemSizeDevice(int index, cl_device_type type){
 //Recuperar LocalMemType do device
 cl_device_local_mem_type* locl_getLocalMemTypeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1839,11 +1726,7 @@ cl_device_local_mem_type* locl_getLocalMemTypeDevice(int index, cl_device_type t
 //Recuperar CacheMemType do device
 cl_device_mem_cache_type* locl_getCacheMemTypeDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1864,11 +1747,7 @@ cl_device_mem_cache_type* locl_getCacheMemTypeDevice(int index, cl_device_type t
 //Recuperar MaxWorkGroups do device
 size_t* locl_getMaxWorkGroupsDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1893,11 +1772,7 @@ size_t locl_getMaxWorkItemsDevice(int index, cl_device_type type);
 //Recuperar MaxWorkItemDimensions do device
 cl_uint* locl_getMaxWorkItemsDimensionsDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1918,11 +1793,7 @@ cl_uint* locl_getMaxWorkItemsDimensionsDevice(int index, cl_device_type type){
 //Recuperar MaxWorkItemSizes do device
 size_t* locl_getMaxWorkItemSizesDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1943,11 +1814,7 @@ size_t* locl_getMaxWorkItemSizesDevice(int index, cl_device_type type){
 //Recuperar Max2dHeight do device
 size_t* locl_getMax2dHeightDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1968,11 +1835,7 @@ size_t* locl_getMax2dHeightDevice(int index, cl_device_type type){
 //Recuperar Max2dWidth do device
 size_t* locl_getMax2dWidthDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -1993,11 +1856,7 @@ size_t* locl_getMax2dWidthDevice(int index, cl_device_type type){
 //Recuperar Max3dDepth do device
 size_t* locl_getMax3dDepthDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2018,11 +1877,7 @@ size_t* locl_getMax3dDepthDevice(int index, cl_device_type type){
 //Recuperar Max3dHeight do device
 size_t* locl_getMax3dHeightDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2043,11 +1898,7 @@ size_t* locl_getMax3dHeightDevice(int index, cl_device_type type){
 //Recuperar Max3dWidth do device
 size_t* locl_getMax3dWidthDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2068,11 +1919,7 @@ size_t* locl_getMax3dWidthDevice(int index, cl_device_type type){
 //Recuperar MaxReadImageArgs do device
 cl_uint* locl_getMaxReadImageArgsDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2093,11 +1940,7 @@ cl_uint* locl_getMaxReadImageArgsDevice(int index, cl_device_type type){
 //Recuperar MaxWriteImageArgs do device
 cl_uint* locl_geMaxWriteImageArgsDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2118,11 +1961,7 @@ cl_uint* locl_geMaxWriteImageArgsDevice(int index, cl_device_type type){
 //Recuperar MaxSamplers do device
 cl_uint* locl_getMaxSamplersDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2143,11 +1982,7 @@ cl_uint* locl_getMaxSamplersDevice(int index, cl_device_type type){
 //Recuperar PreferredVectorWidthChar do device
 cl_uint* locl_getPreferredVectorWidthCharDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2168,11 +2003,7 @@ cl_uint* locl_getPreferredVectorWidthCharDevice(int index, cl_device_type type){
 //Recuperar PreferredVectorWidthShort do device
 cl_uint* locl_getPreferredVectorWidthShortDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2193,11 +2024,7 @@ cl_uint* locl_getPreferredVectorWidthShortDevice(int index, cl_device_type type)
 //Recuperar PreferredVectorWidthInt do device
 cl_uint* locl_getPreferredVectorWidthInttDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2218,11 +2045,7 @@ cl_uint* locl_getPreferredVectorWidthInttDevice(int index, cl_device_type type){
 //Recuperar PreferredVectorWidthLong do device
 cl_uint* locl_getPreferredVectorWidthLongDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2243,11 +2066,7 @@ cl_uint* locl_getPreferredVectorWidthLongDevice(int index, cl_device_type type){
 //Recuperar PreferredVectorWidthFloat do device
 cl_uint* locl_getPreferredVectorWidthFloatDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2268,11 +2087,7 @@ cl_uint* locl_getPreferredVectorWidthFloatDevice(int index, cl_device_type type)
 //Recuperar PreferredVectorWidthDouble do device
 cl_uint* locl_getPreferredVectorWidthDoubleDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2293,11 +2108,7 @@ cl_uint* locl_getPreferredVectorWidthDoubleDevice(int index, cl_device_type type
 //Recuperar PreferredVectorWidthDouble do device
 cl_device_fp_config* locl_getSinglePrecisionFlatCapabilityDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2318,11 +2129,7 @@ cl_device_fp_config* locl_getSinglePrecisionFlatCapabilityDevice(int index, cl_d
 //Recuperar PreferredVectorWidthDouble do device
 cl_device_fp_config* locl_getDoublePrecisionFlatCapabilityDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
@@ -2343,11 +2150,7 @@ cl_device_fp_config* locl_getDoublePrecisionFlatCapabilityDevice(int index, cl_d
 //Recuperar PreferredVectorWidthDouble do device
 char* locl_getExtensionsDevice(int index, cl_device_type type){
 	int j; 
-	if (listPlatforms[index] == -1 )
-	{
-		locl_Errors(2);
-		exit(1);
-	}
+	verifica(index);
 	cl_int status = clGetDeviceIDs(locl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &locl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{

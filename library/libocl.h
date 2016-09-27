@@ -157,6 +157,7 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER);
 //Aux Functions
 char *DiscStr(char *name);
 int isEqual(char *name, char *name2);
+void verifica(int index);
 
 /*------------Funções de Get da plataforma-------------*/
 //recuperar numero da plataforma
