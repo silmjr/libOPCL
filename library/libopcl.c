@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <ctype.h>
-#include <libocl.h>
+#include "libopcl.h"
 
 #ifdef __APPLE__
 	#include <OpenCL/cl.h>

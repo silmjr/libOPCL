@@ -1,6 +1,5 @@
 #!/bin/bash
-rm /usr/include/libocl.h
-rm /usr/lib/libocl.so
-unset LD_LIBRARY_PATH
+rm /usr/include/libopcl.h
+rm /usr/lib/libopcl.so
 
 exit 

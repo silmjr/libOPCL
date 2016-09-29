@@ -1,5 +1,5 @@
-#ifndef LIBOCL_H
-#define LIBOCL_H
+#ifndef LIBOPCL_H
+#define LIBOPCL_H
 
 #include <stdlib.h>
 #include <stdio.h>

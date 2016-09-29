@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <ctype.h> 
-#include <libocl.h>
+#include <libopcl.h>
 #include <omp.h>
 
 
