@@ -1087,7 +1087,7 @@ int locl_CreateProgram(const char** source_str, char *kernel){
 
 int locl_SetKernelArg(cl_int i, size_t tipo,const void *buffer){
 	cl_int status;
-	status = clSetKernelArg(locl_KERNEL, i, sizeof(tipo), &buffer);
+	status = clSetKernelArg(locl_KERNEL, i, tipo, buffer);
     if (status != CL_SUCCESS) {
         printf ("Unable to set kernel argument\n");
         exit(1);

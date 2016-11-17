@@ -21,8 +21,8 @@
 
 #define BSIZE 4
 
-void gemm_CPU(double *a, double* b, double *c, int size);// Serial 
-void gemm_OpenCL(double *a, double* b, double *c, int size, int t); //OpenCl
+void gemm_CPU(double *a, double* b, double *c, int size, double alfa, double beta);// Serial 
+void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, double beta); //OpenCl
 double comparaMatrizes(double* a, double* b, int size);
 void printMatrix(double *a, int size);
 
@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
     double error;
     
     // Matriz size (square matrix)
+    double alfa = 0.3, beta = 0.4;
     int mSize = 1024;
     
     if(argc >= 2)//Receber tamanho da matriz por linha de comando 
@@ -65,14 +66,14 @@ int main(int argc, char *argv[])
     }
 
     start = omp_get_wtime();
-    gemm_CPU(A, B, C_host, mSize);
+    gemm_CPU(A,B,C_host,mSize, alfa, beta);
     stop = omp_get_wtime();
     t_s = stop - start;
     printf("Result Ok! time - %f\n", t_s);
     //printMatrix(C_host, mSize);
     
     start = omp_get_wtime();
-    gemm_OpenCL(A, B, C_device, mSize, 0);
+    gemm_OpenCL(A, B, C_device, mSize, 0,  alfa,  beta);
 
     stop = omp_get_wtime();
     t_p = stop - start;
@@ -92,23 +93,22 @@ int main(int argc, char *argv[])
 }
 
 
-void gemm_CPU(double *a, double* b, double *c, int size)
+void gemm_CPU(double *a, double* b, double *c, int size, double alfa, double beta)
 {
     int i, j, k;
-    double cValue;
+    float cValue;
     
-    for(i=0; i<size; i++) 
+    for(i=0; i<size; i++)
         for(j=0; j<size; j++){
             cValue = c[i*size+j];
             for(k=0; k<size; k++)
                 cValue += a[i*size+k]*b[k*size+j];
-            c[i*size+j] = cValue;
+            c[i*size+j] = alfa* cValue + beta*c[i*size+j];
         }
         
         return;
 }
-
-void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
+void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, double beta)
 {
     // Elements in each array
     const int elements = size*size;   
@@ -126,7 +126,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     size_t source_size;
     
     //Carregando o arquivo com o Kernel 
-    fp = fopen("gemm-kernel.cl", "r");
+    fp = fopen("dgemm-kernelGlobal.cl", "r");
     if (!fp) {
         fprintf(stderr, "Failed to load kernel.\n");
         exit(1);
@@ -172,14 +172,14 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     
     // Use clCreateBuffer() para criar o objeto (d_B) 
     // com espaço suficiente para "segurar" os dados de saída.
-    bufferC = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, c);
+    bufferC = locl_CreateBuffer(datasize, CL_MEM_READ_WRITE, CL_FALSE, c);
         
     //-----------------------------------------------------
     // STEP 3: Create and compile the program and Create the kernel
     //----------------------------------------------------- 
 
     if(t==0)
-        locl_CreateProgram((const char**)&source_str, "gemm_OpenCL");
+        locl_CreateProgram((const char**)&source_str, "dgemm");
     else
         locl_CreateProgram((const char**)&source_str, "gemm_OpenCL_local");   
         
@@ -196,11 +196,30 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
                           size_t arg_size,(comprimento de cada dado do argumento)
                           const void* arg_value)ponteiro para os dados do argumento.*/
 
-    locl_SetKernelArg(0, sizeof(cl_mem), bufferA);
     
-    locl_SetKernelArg(1, sizeof(cl_mem), bufferB);
+    locl_SetKernelArg(0, sizeof( int), &size);
+    
+    locl_SetKernelArg(1, sizeof(int), &size);
+    
+    locl_SetKernelArg(2, sizeof(int), &size);
+    
+    locl_SetKernelArg(3, sizeof(double), &alfa);
 
-    locl_SetKernelArg(2, sizeof(cl_mem), bufferC);
+    locl_SetKernelArg(4, sizeof(cl_mem), &bufferA);
+
+    locl_SetKernelArg(5, sizeof(int), &size);
+
+    locl_SetKernelArg(6, sizeof(cl_mem), &bufferB);
+
+    locl_SetKernelArg(7, sizeof(int), &size);
+
+    locl_SetKernelArg(8, sizeof(double), &beta);
+
+    locl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
+
+    locl_SetKernelArg(10, sizeof(int), &size);
+
+    
 
     
     //-----------------------------------------------------
@@ -238,7 +257,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t)
     // 'globalWorkSize' is the 1D dimension of the 
     // work-items
     status = clEnqueueNDRangeKernel(locl_CMDQUEUE, locl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
-    locl_SetKernelArg(2, sizeof(cl_mem), bufferC);
+    locl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
     
     //-----------------------------------------------------
     // STEP 7: Read the output buffer back to the host
