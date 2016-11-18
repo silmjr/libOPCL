@@ -168,7 +168,7 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER){
 			for (j = 0; j < locl_NUM_DEVICES; j++)
 			{
 				printf("Device Number: %d\n", locl_DispPlats[i].MyDevices[j].numDevice);	
-				locl_ListDevice(&locl_DispPlats[i], locl_DEVICES[j], 1);
+				locl_ListDevice(&locl_DispPlats[i].MyDevices[j], locl_DEVICES[j], 1);
 			}
 		}
 	}else{
@@ -195,7 +195,7 @@ int locl_PrintInfo(int locl_PLATAFORM_NUMBER){
 		{
 			printf("Device Number: %d\n", locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice);	
 
-			locl_ListDevice(&locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]], locl_DEVICES[j], 1);	
+			locl_ListDevice(&locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j], locl_DEVICES[j], 1);	
 		}
 
 	}
@@ -264,7 +264,7 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 			for (j = 0; j < locl_NUM_DEVICES; j++)
 			{
 				locl_DispPlats[i].MyDevices[j].numDevice = j;
-				locl_ListDevice(&locl_DispPlats[i], locl_DEVICES[j], 0);
+				locl_ListDevice(&locl_DispPlats[i].MyDevices[j], locl_DEVICES[j], 0);
 			}
 		}
 	}else{
@@ -318,7 +318,7 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 		locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices = malloc(sizeof(devices)*locl_NUM_DEVICES);
 		for (j = 0; j < locl_NUM_DEVICES; j++)
 		{
-			locl_ListDevice(&locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]], locl_DEVICES[j], 0);
+			locl_ListDevice(&locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j], locl_DEVICES[j], 0);
 			locl_DispPlats[listPlatforms[locl_PLATAFORM_NUMBER]].MyDevices[j].numDevice = j;
 		}
 
@@ -326,7 +326,7 @@ int locl_Explore(int locl_PLATAFORM_NUMBER){
 	return 0;
 }
 
-int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
+int locl_ListDevice(devices *X, cl_device_id device, int tipo){
 	if(locl_INIT != 1)
 		return 1;
 	
@@ -338,9 +338,9 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_NAME, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Name = malloc(buffer_size);
+		X->Name = malloc(buffer_size);
 		
-		status = clGetDeviceInfo(device, CL_DEVICE_NAME, buffer_size, X->MyDevices->Name, NULL);
+		status = clGetDeviceInfo(device, CL_DEVICE_NAME, buffer_size, X->Name, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Name
 		
@@ -348,8 +348,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Vendor = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, buffer_size, X->MyDevices->Vendor, NULL);
+		X->Vendor = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, buffer_size, X->Vendor, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Vendor
 
@@ -357,8 +357,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_TYPE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		
-		X->MyDevices->Type = *(cl_device_type*) malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_TYPE, buffer_size, &X->MyDevices->Type, NULL);
+		X->Type = *(cl_device_type*) malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_TYPE, buffer_size, &X->Type, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Type
 
@@ -366,8 +366,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR_ID, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->VendorId = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR_ID, buffer_size, &X->MyDevices->VendorId, NULL);
+		X->VendorId = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR_ID, buffer_size, &X->VendorId, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End VendorID
 
@@ -375,9 +375,9 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PROFILE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Profile = malloc(buffer_size);
+		X->Profile = malloc(buffer_size);
 		
-		status = clGetDeviceInfo(device, CL_DEVICE_PROFILE, buffer_size, X->MyDevices->Profile, NULL);
+		status = clGetDeviceInfo(device, CL_DEVICE_PROFILE, buffer_size, X->Profile, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Name
 
@@ -385,8 +385,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_AVAILABLE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Available = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_AVAILABLE, buffer_size, &X->MyDevices->Available, NULL);
+		X->Available = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_AVAILABLE, buffer_size, &X->Available, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Device Available
 
@@ -394,8 +394,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_VERSION, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Version = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_VERSION, buffer_size, X->MyDevices->Version, NULL);
+		X->Version = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_VERSION, buffer_size, X->Version, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Version
 
@@ -403,8 +403,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DRIVER_VERSION, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->DriverVersion = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DRIVER_VERSION, buffer_size, X->MyDevices->DriverVersion, NULL);
+		X->DriverVersion = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DRIVER_VERSION, buffer_size, X->DriverVersion, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Version
 
@@ -412,8 +412,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_COMPILER_AVAILABLE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->CompilerAvailable = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_COMPILER_AVAILABLE, buffer_size, &X->MyDevices->CompilerAvailable, NULL);
+		X->CompilerAvailable = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_COMPILER_AVAILABLE, buffer_size, &X->CompilerAvailable, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End CompilerAvailable
 		
@@ -421,8 +421,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->AdressSpace = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, buffer_size, &X->MyDevices->AdressSpace, NULL);
+		X->AdressSpace = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, buffer_size, &X->AdressSpace, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End AdressSpace
 		
@@ -430,8 +430,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_ENDIAN_LITTLE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->LitleEndian = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_ENDIAN_LITTLE, buffer_size, X->MyDevices->LitleEndian, NULL);
+		X->LitleEndian = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_ENDIAN_LITTLE, buffer_size, X->LitleEndian, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Endian
 
@@ -439,8 +439,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_ERROR_CORRECTION_SUPPORT, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->ErrorCorrection = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_ERROR_CORRECTION_SUPPORT, buffer_size, X->MyDevices->ErrorCorrection, NULL);
+		X->ErrorCorrection = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_ERROR_CORRECTION_SUPPORT, buffer_size, X->ErrorCorrection, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End ErrorCorrection
 		
@@ -448,8 +448,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MEM_BASE_ADDR_ALIGN, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->AdressAligment = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MEM_BASE_ADDR_ALIGN, buffer_size, &X->MyDevices->AdressAligment, NULL);
+		X->AdressAligment = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MEM_BASE_ADDR_ALIGN, buffer_size, &X->AdressAligment, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End AdressAligment
 
@@ -457,8 +457,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->SmallestAlignment = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE, buffer_size, &X->MyDevices->SmallestAlignment, NULL);
+		X->SmallestAlignment = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE, buffer_size, &X->SmallestAlignment, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End SmalltestAligment
 		
@@ -466,8 +466,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PROFILING_TIMER_RESOLUTION, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->ResolutionTimer = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_PROFILING_TIMER_RESOLUTION, buffer_size, &X->MyDevices->ResolutionTimer, NULL);
+		X->ResolutionTimer = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_PROFILING_TIMER_RESOLUTION, buffer_size, &X->ResolutionTimer, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End ResolutionTimer
 		
@@ -476,8 +476,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CLOCK_FREQUENCY, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxClock = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CLOCK_FREQUENCY, buffer_size, &X->MyDevices->MaxClock, NULL);
+		X->MaxClock = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CLOCK_FREQUENCY, buffer_size, &X->MaxClock, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxClock
 		
@@ -485,8 +485,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxComputeUnits = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, buffer_size, &X->MyDevices->MaxComputeUnits, NULL);
+		X->MaxComputeUnits = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, buffer_size, &X->MaxComputeUnits, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxComputeUnits
 
@@ -494,8 +494,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxConstantArgs = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, buffer_size, &X->MyDevices->MaxConstantArgs, NULL);
+		X->MaxConstantArgs = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, buffer_size, &X->MaxConstantArgs, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxConstantArgs
 
@@ -503,8 +503,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxBufferSize = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, buffer_size, &X->MyDevices->MaxBufferSize, NULL);
+		X->MaxBufferSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, buffer_size, &X->MaxBufferSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//EndBuffer
 		
@@ -512,8 +512,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_ARGS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxMemAlocSize = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_ARGS, buffer_size, &X->MyDevices->MaxMemAlocSize, NULL);
+		X->MaxMemAlocSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_ARGS, buffer_size, &X->MaxMemAlocSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxMemAlocSize
 
@@ -521,8 +521,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxParamSize = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, buffer_size, &X->MyDevices->MaxParamSize, NULL);
+		X->MaxParamSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, buffer_size, &X->MaxParamSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxParamSize;
 
@@ -530,8 +530,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_EXECUTION_CAPABILITIES, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->ExecutionCapabilities = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_EXECUTION_CAPABILITIES, buffer_size, X->MyDevices->ExecutionCapabilities, NULL);
+		X->ExecutionCapabilities = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_EXECUTION_CAPABILITIES, buffer_size, X->ExecutionCapabilities, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End ExecutionCapabilities
 
@@ -539,8 +539,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxGlobalMemSize = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, buffer_size, &X->MyDevices->MaxGlobalMemSize, NULL);
+		X->MaxGlobalMemSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, buffer_size, &X->MaxGlobalMemSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxGlobalMemSize;
 
@@ -548,16 +548,16 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxGlobalMemCacheSize = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, buffer_size, &X->MyDevices->MaxGlobalMemCacheSize, NULL);
+		X->MaxGlobalMemCacheSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, buffer_size, &X->MaxGlobalMemCacheSize, NULL);
 		//End MaxGlobalMemCacheSize
 
 		//GlobalMemLineCacheSize	
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->GlobalMemLineCacheSize = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE, buffer_size, &X->MyDevices->GlobalMemLineCacheSize, NULL);
+		X->GlobalMemLineCacheSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE, buffer_size, &X->GlobalMemLineCacheSize, NULL);
 		//End CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE
 
 
@@ -565,8 +565,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxLocalMemSize = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, buffer_size, &X->MyDevices->MaxLocalMemSize, NULL);
+		X->MaxLocalMemSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, buffer_size, &X->MaxLocalMemSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxLocalMemSize
 		
@@ -574,8 +574,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MemType = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, buffer_size, X->MyDevices->MemType, NULL);
+		X->MemType = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, buffer_size, X->MemType, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MemType
 		
@@ -583,8 +583,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_TYPE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->GlobalMemCahcheType = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_TYPE, buffer_size, X->MyDevices->GlobalMemCahcheType, NULL);
+		X->GlobalMemCahcheType = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_TYPE, buffer_size, X->GlobalMemCahcheType, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End GlobalMemCahcheType
 		
@@ -592,20 +592,20 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxWorkItemDimensions = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, buffer_size, &X->MyDevices->MaxWorkItemDimensions, NULL);
+		X->MaxWorkItemDimensions = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, buffer_size, &X->MaxWorkItemDimensions, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxWorkItemDimensions		
 
-		//printf("%d\n", X->MyDevices->MaxWorkItem);
+		//printf("%d\n", X->MaxWorkItem);
 		//End MaxWorkItem
 			
 		//MaxWorkGroupSize	
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxWorkGroupSize = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, buffer_size, &X->MyDevices->MaxWorkGroupSize, NULL);
+		X->MaxWorkGroupSize = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, buffer_size, &X->MaxWorkGroupSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxWorkGroupSize
 		
@@ -613,8 +613,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxWorkItemSizes = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, buffer_size, &X->MyDevices->MaxWorkItemSizes, NULL);
+		X->MaxWorkItemSizes = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, buffer_size, &X->MaxWorkItemSizes, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//EndMaxWorkItemSizes
 
@@ -622,8 +622,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_HEIGHT, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Max2dHeight = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_HEIGHT, buffer_size, &X->MyDevices->Max2dHeight, NULL);
+		X->Max2dHeight = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_HEIGHT, buffer_size, &X->Max2dHeight, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max2dHeight
 
@@ -631,8 +631,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_WIDTH, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Max2dWidth = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_WIDTH, buffer_size, &X->MyDevices->Max2dWidth, NULL);
+		X->Max2dWidth = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_WIDTH, buffer_size, &X->Max2dWidth, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max2dWidth
 		
@@ -640,8 +640,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_DEPTH, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Max3dDepth = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_DEPTH, buffer_size, &X->MyDevices->Max3dDepth, NULL);
+		X->Max3dDepth = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_DEPTH, buffer_size, &X->Max3dDepth, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max3dDepth
 
@@ -649,8 +649,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_HEIGHT, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Max3dHeight = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_HEIGHT, buffer_size, &X->MyDevices->Max3dHeight, NULL);
+		X->Max3dHeight = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_HEIGHT, buffer_size, &X->Max3dHeight, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max3dHeight
 
@@ -658,8 +658,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_WIDTH, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Max3dWidth = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_WIDTH, buffer_size, &X->MyDevices->Max3dWidth, NULL);
+		X->Max3dWidth = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_WIDTH, buffer_size, &X->Max3dWidth, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max3dWidth
 
@@ -667,8 +667,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_READ_IMAGE_ARGS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxReadImageArgs = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_READ_IMAGE_ARGS, buffer_size, &X->MyDevices->MaxReadImageArgs, NULL);
+		X->MaxReadImageArgs = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_READ_IMAGE_ARGS, buffer_size, &X->MaxReadImageArgs, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxReadImageArgs
 
@@ -676,8 +676,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WRITE_IMAGE_ARGS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxWriteImageArgs = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WRITE_IMAGE_ARGS, buffer_size, &X->MyDevices->MaxWriteImageArgs, NULL);
+		X->MaxWriteImageArgs = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WRITE_IMAGE_ARGS, buffer_size, &X->MaxWriteImageArgs, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxWriteImageArgs
 
@@ -685,8 +685,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_SAMPLERS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->MaxSamplers = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_MAX_SAMPLERS, buffer_size, &X->MyDevices->MaxSamplers, NULL);
+		X->MaxSamplers = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_MAX_SAMPLERS, buffer_size, &X->MaxSamplers, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxSamplers
 
@@ -694,8 +694,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->PreferredVectorWidthChar = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR, buffer_size, &X->MyDevices->PreferredVectorWidthChar, NULL);
+		X->PreferredVectorWidthChar = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR, buffer_size, &X->PreferredVectorWidthChar, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//PreferredVectorWidthChar
 
@@ -703,8 +703,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_SHORT, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->PreferredVectorWidthShort = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_SHORT, buffer_size, &X->MyDevices->PreferredVectorWidthShort, NULL);
+		X->PreferredVectorWidthShort = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_SHORT, buffer_size, &X->PreferredVectorWidthShort, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//PreferredVectorWidthShort
 
@@ -712,8 +712,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_INT, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->PreferredVectorWidthInt = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_INT, buffer_size, &X->MyDevices->PreferredVectorWidthInt, NULL);
+		X->PreferredVectorWidthInt = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_INT, buffer_size, &X->PreferredVectorWidthInt, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//PreferredVectorWidthInt
 
@@ -721,8 +721,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_LONG, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->PreferredVectorWidthLong = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_LONG, buffer_size, &X->MyDevices->PreferredVectorWidthLong, NULL);
+		X->PreferredVectorWidthLong = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_LONG, buffer_size, &X->PreferredVectorWidthLong, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//PreferredVectorWidthChar
 
@@ -730,8 +730,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->PreferredVectorWidthFloat = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT, buffer_size, &X->MyDevices->PreferredVectorWidthFloat, NULL);
+		X->PreferredVectorWidthFloat = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT, buffer_size, &X->PreferredVectorWidthFloat, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//PreferredVectorWidthChar
 
@@ -739,8 +739,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_DOUBLE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->PreferredVectorWidthDouble = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_DOUBLE, buffer_size, &X->MyDevices->PreferredVectorWidthDouble, NULL);
+		X->PreferredVectorWidthDouble = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_DOUBLE, buffer_size, &X->PreferredVectorWidthDouble, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//PreferredVectorWidthChar
 
@@ -748,8 +748,8 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
-		X->MyDevices->Extensions = malloc(buffer_size);
-		status = clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, buffer_size, X->MyDevices->Extensions, NULL);
+		X->Extensions = malloc(buffer_size);
+		status = clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, buffer_size, X->Extensions, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//Extensions
 
@@ -759,99 +759,99 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		if(locl_INIT != 1)
 			return 1;
 		//Name		
-		printf("Name: %s\n", X->MyDevices->Name);
+		printf("Name: %s\n", X->Name);
 		
 		//Vendor
-		printf("Vendor: %s\n", X->MyDevices->Vendor);
+		printf("Vendor: %s\n", X->Vendor);
 
 		//Type
-		if(X->MyDevices->Type & CL_DEVICE_TYPE_GPU)
+		if(X->Type & CL_DEVICE_TYPE_GPU)
 			printf("Type: GPU\n");
 
-		if(X->MyDevices->Type & CL_DEVICE_TYPE_CPU)
+		if(X->Type & CL_DEVICE_TYPE_CPU)
 			printf("Type: CPU\n");
 		
-		if(X->MyDevices->Type & CL_DEVICE_TYPE_ACCELERATOR)
+		if(X->Type & CL_DEVICE_TYPE_ACCELERATOR)
 			printf("Type: ACCELERATOR\n");
 
 		//Vendor Id
-		printf("Vendor Id: %u\n", X->MyDevices->VendorId);
+		printf("Vendor Id: %u\n", X->VendorId);
 
 		//Profile
-		printf("Profile: %s\n", X->MyDevices->Profile);
+		printf("Profile: %s\n", X->Profile);
 
 		//Available
-		if(X->MyDevices->Available)
+		if(X->Available)
 			printf("Available: Yes\n");
 		else	
 			printf("Available:  No\n");
 
 		//Version
-		printf("Version: %s\n", X->MyDevices->Version);
+		printf("Version: %s\n", X->Version);
 
 		//DriverVersion
-		printf("Driver Version: %s\n", X->MyDevices->DriverVersion);
+		printf("Driver Version: %s\n", X->DriverVersion);
 		
 		//CompilerAvailable
-		if(X->MyDevices->CompilerAvailable)
+		if(X->CompilerAvailable)
 			printf("Compiler Available: Yes\n");
 		else	
 			printf("Compiler Available:  No\n");
 
 		//AdressSpace
-		printf("Address space size: %u\n", X->MyDevices->AdressSpace);
+		printf("Address space size: %u\n", X->AdressSpace);
 		
 		//Endian
-		if(X->MyDevices->LitleEndian)
+		if(X->LitleEndian)
 			printf("Litlle Endian: Yes\n");
 		else	
 			printf("Litlle Endian:  No\n");
 
 		//ErrorCorrection
-		if(X->MyDevices->ErrorCorrection)
+		if(X->ErrorCorrection)
 			printf("Error Correction: Yes\n");
 		else	
 			printf("Error Correction:  No\n");
 
 		//AdressAligment
-		printf("Adress Aligment: %u\n", X->MyDevices->AdressAligment);
+		printf("Adress Aligment: %u\n", X->AdressAligment);
 
 		//SmallestAlignment
-		printf("Smallest Alignment: %u\n", X->MyDevices->SmallestAlignment);
+		printf("Smallest Alignment: %u\n", X->SmallestAlignment);
 
 		//ResolutionTimer;	
-		printf("Resolution Timer: %zu\n", X->MyDevices->ResolutionTimer);		
+		printf("Resolution Timer: %zu\n", X->ResolutionTimer);		
 
 		//MaxClock
-		printf("Max Clock: %u\n", X->MyDevices->MaxClock);
+		printf("Max Clock: %u\n", X->MaxClock);
 
 		//MaxComputeUnits
-		printf("Max Compute Units: %u\n", X->MyDevices->MaxComputeUnits);
+		printf("Max Compute Units: %u\n", X->MaxComputeUnits);
 
 		//MaxConstantArgs
-		printf("Max Constant Args: %u\n", X->MyDevices->MaxConstantArgs);
+		printf("Max Constant Args: %u\n", X->MaxConstantArgs);
 
 		//Buffer Size
-		if (X->MyDevices->MaxBufferSize > 1023 && X->MyDevices->MaxBufferSize < 1048576)
-			printf("Max Buffer Size: %llu KB\n", (int)X->MyDevices->MaxBufferSize/1024);
-		else if (X->MyDevices->MaxBufferSize > 1048576 && X->MyDevices->MaxBufferSize < 1073741824)
-			printf("Max Buffer Size: %llu MB\n", (int)X->MyDevices->MaxBufferSize/1048576);
-		else if (X->MyDevices->MaxBufferSize > 1073741824)
-			printf("Max Buffer Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxBufferSize/1073741824, (long int)((long int)X->MyDevices->MaxBufferSize%1073741824)/1048576);
+		if (X->MaxBufferSize > 1023 && X->MaxBufferSize < 1048576)
+			printf("Max Buffer Size: %llu KB\n", (int)X->MaxBufferSize/1024);
+		else if (X->MaxBufferSize > 1048576 && X->MaxBufferSize < 1073741824)
+			printf("Max Buffer Size: %llu MB\n", (int)X->MaxBufferSize/1048576);
+		else if (X->MaxBufferSize > 1073741824)
+			printf("Max Buffer Size: %llu GB %llu MB\n", (long int)X->MaxBufferSize/1073741824, (long int)((long int)X->MaxBufferSize%1073741824)/1048576);
 		
 		
 		//MaxMemAlocSize
-		if (X->MyDevices->MaxMemAlocSize > 1023 && X->MyDevices->MaxMemAlocSize < 1048576)
-			printf("Max Aloc Size: %llu KB\n", (int)X->MyDevices->MaxMemAlocSize/1024);
-		else if (X->MyDevices->MaxMemAlocSize> 1048576 && X->MyDevices->MaxMemAlocSize < 1073741824)
-			printf("Max Aloc Size: %llu MB\n", (int)X->MyDevices->MaxMemAlocSize/1048576);
-		else if (X->MyDevices->MaxMemAlocSize > 1073741824)
-			printf("Max Aloc Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxMemAlocSize/1073741824, (long int)((long int)X->MyDevices->MaxMemAlocSize%1073741824)/1048576);
+		if (X->MaxMemAlocSize > 1023 && X->MaxMemAlocSize < 1048576)
+			printf("Max Aloc Size: %llu KB\n", (int)X->MaxMemAlocSize/1024);
+		else if (X->MaxMemAlocSize> 1048576 && X->MaxMemAlocSize < 1073741824)
+			printf("Max Aloc Size: %llu MB\n", (int)X->MaxMemAlocSize/1048576);
+		else if (X->MaxMemAlocSize > 1073741824)
+			printf("Max Aloc Size: %llu GB %llu MB\n", (long int)X->MaxMemAlocSize/1073741824, (long int)((long int)X->MaxMemAlocSize%1073741824)/1048576);
 
 		//MaxParamSize;	
-		printf("Max Parameter size: %zu\n", X->MyDevices->MaxParamSize);
+		printf("Max Parameter size: %zu\n", X->MaxParamSize);
 
-		switch (*((cl_device_exec_capabilities*)X->MyDevices->ExecutionCapabilities))
+		switch (*((cl_device_exec_capabilities*)X->ExecutionCapabilities))
 		{	
 	  		case CL_EXEC_KERNEL:
 				printf("OpenCL kernels\n");
@@ -863,33 +863,33 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		}
 		
 		//MaxGlobalMemSize;	
-		if (X->MyDevices->MaxGlobalMemSize > 1023 && X->MyDevices->MaxGlobalMemSize < 1048576)
-			printf("Max Global Size: %llu KB\n", (int)X->MyDevices->MaxGlobalMemSize/1024);
-		else if (X->MyDevices->MaxGlobalMemSize > 1048576 && X->MyDevices->MaxGlobalMemSize < 1073741824)
-			printf("Max Global Size: %llu MB\n", (int)X->MyDevices->MaxGlobalMemSize/1048576);
-		else if (X->MyDevices->MaxGlobalMemSize > 1073741824)
-			printf("Max Global Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxGlobalMemSize/1073741824, (long int)((long int)X->MyDevices->MaxGlobalMemSize%1073741824)/1048576);
+		if (X->MaxGlobalMemSize > 1023 && X->MaxGlobalMemSize < 1048576)
+			printf("Max Global Size: %llu KB\n", (int)X->MaxGlobalMemSize/1024);
+		else if (X->MaxGlobalMemSize > 1048576 && X->MaxGlobalMemSize < 1073741824)
+			printf("Max Global Size: %llu MB\n", (int)X->MaxGlobalMemSize/1048576);
+		else if (X->MaxGlobalMemSize > 1073741824)
+			printf("Max Global Size: %llu GB %llu MB\n", (long int)X->MaxGlobalMemSize/1073741824, (long int)((long int)X->MaxGlobalMemSize%1073741824)/1048576);
 		
 		//MaxGlobalMemCacheSize	
-		if (X->MyDevices->MaxGlobalMemCacheSize> 1023 && X->MyDevices->MaxGlobalMemCacheSize < 1048576)
-			printf("Max Cache Mem Size: %llu KB\n", (int)X->MyDevices->MaxGlobalMemCacheSize/1024);
-		else if (X->MyDevices->MaxGlobalMemCacheSize> 1048576 && X->MyDevices->MaxGlobalMemCacheSize< 1073741824)
-			printf("Max Cache Mem Size: %llu MB\n", (int)X->MyDevices->MaxGlobalMemCacheSize/1048576);
-		else if (X->MyDevices->MaxGlobalMemCacheSize > 1073741824)
-			printf("Max Cache Mem Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxGlobalMemCacheSize/1073741824, (long int)((long int)X->MyDevices->MaxGlobalMemCacheSize%1073741824)/1048576);
+		if (X->MaxGlobalMemCacheSize> 1023 && X->MaxGlobalMemCacheSize < 1048576)
+			printf("Max Cache Mem Size: %llu KB\n", (int)X->MaxGlobalMemCacheSize/1024);
+		else if (X->MaxGlobalMemCacheSize> 1048576 && X->MaxGlobalMemCacheSize< 1073741824)
+			printf("Max Cache Mem Size: %llu MB\n", (int)X->MaxGlobalMemCacheSize/1048576);
+		else if (X->MaxGlobalMemCacheSize > 1073741824)
+			printf("Max Cache Mem Size: %llu GB %llu MB\n", (long int)X->MaxGlobalMemCacheSize/1073741824, (long int)((long int)X->MaxGlobalMemCacheSize%1073741824)/1048576);
 
 		//GlobalMemLineCacheSize;	
-		printf("Global Mem Line Cache Size: %zu\n", X->MyDevices->GlobalMemLineCacheSize);
+		printf("Global Mem Line Cache Size: %zu\n", X->GlobalMemLineCacheSize);
 
 		//MaxLocalMemSize			
-		if (X->MyDevices->MaxLocalMemSize> 1023 && X->MyDevices->MaxLocalMemSize < 1048576)
-			printf("Max Local Mem Size: %llu KB\n", (int)X->MyDevices->MaxLocalMemSize/1024);
-		else if (X->MyDevices->MaxLocalMemSize> 1048576 && X->MyDevices->MaxLocalMemSize< 1073741824)
-			printf("Max Local Mem Size: %llu MB\n", (int)X->MyDevices->MaxLocalMemSize/1048576);
-		else if (X->MyDevices->MaxLocalMemSize > 1073741824)
-			printf("Max Local Mem Size: %llu GB %llu MB\n", (long int)X->MyDevices->MaxLocalMemSize/1073741824, (long int)((long int)X->MyDevices->MaxLocalMemSize%1073741824)/1048576);
+		if (X->MaxLocalMemSize> 1023 && X->MaxLocalMemSize < 1048576)
+			printf("Max Local Mem Size: %llu KB\n", (int)X->MaxLocalMemSize/1024);
+		else if (X->MaxLocalMemSize> 1048576 && X->MaxLocalMemSize< 1073741824)
+			printf("Max Local Mem Size: %llu MB\n", (int)X->MaxLocalMemSize/1048576);
+		else if (X->MaxLocalMemSize > 1073741824)
+			printf("Max Local Mem Size: %llu GB %llu MB\n", (long int)X->MaxLocalMemSize/1073741824, (long int)((long int)X->MaxLocalMemSize%1073741824)/1048576);
 
-		switch (*((cl_device_local_mem_type*)X->MyDevices->MemType))
+		switch (*((cl_device_local_mem_type*)X->MemType))
 		{	
 	  		case CL_NONE:
 				printf("Device Mem Type: None\n");
@@ -903,7 +903,7 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 			break;
 		}
 
-		switch (*((cl_device_mem_cache_type*)X->MyDevices->GlobalMemCahcheType))
+		switch (*((cl_device_mem_cache_type*)X->GlobalMemCahcheType))
 		{	
 	  		case CL_NONE:
 				printf("Device Cache Mem Type: \n");
@@ -919,57 +919,57 @@ int locl_ListDevice(plataforms *X, cl_device_id device, int tipo){
 		
 		
 		//MaxWorkGroupSize
-		printf("Max Work Group Size: %zu\n", X->MyDevices->MaxWorkGroupSize);			
+		printf("Max Work Group Size: %zu\n", X->MaxWorkGroupSize);			
 		
 		//MaxWorkItemDimensions	
-		printf("Max Work Item Dimensions: %zu\n", X->MyDevices->MaxWorkItemDimensions);		
+		printf("Max Work Item Dimensions: %zu\n", X->MaxWorkItemDimensions);		
 		
 		//MaxWorkItemSizes	
-		printf("Max Work Items Sizes: %u\n", X->MyDevices->MaxWorkItemSizes);		
+		printf("Max Work Items Sizes: %u\n", X->MaxWorkItemSizes);		
 
 		//Max2dHeight
-		printf("Max 2D Height: %zu\n", X->MyDevices->Max2dHeight);			
+		printf("Max 2D Height: %zu\n", X->Max2dHeight);			
 		
 		//Max2dWidth
-		printf("Max 2D Width: %zu\n", X->MyDevices->Max2dWidth);			
+		printf("Max 2D Width: %zu\n", X->Max2dWidth);			
 		
 		//Max3dDepth
-		printf("Max 3D Depth: %zu\n", X->MyDevices->Max3dDepth);			
+		printf("Max 3D Depth: %zu\n", X->Max3dDepth);			
 		
 		//Max3dHeight
-		printf("Max 3D Height: %zu\n", X->MyDevices->Max3dHeight);
+		printf("Max 3D Height: %zu\n", X->Max3dHeight);
 		
 		//Max3dWidth			
-		printf("Max 3D Width: %zu\n", X->MyDevices->Max3dWidth);	
+		printf("Max 3D Width: %zu\n", X->Max3dWidth);	
 
 		//MaxReadImageArgs
-		printf("Max Read Image Args: %u\n", X->MyDevices->MaxReadImageArgs);		
+		printf("Max Read Image Args: %u\n", X->MaxReadImageArgs);		
 
 		//MaxWriteImageArgs
-		printf("Max Write Image Args: %u\n", X->MyDevices->MaxWriteImageArgs);
+		printf("Max Write Image Args: %u\n", X->MaxWriteImageArgs);
 
 		//MaxSamplers
-		printf("Max Samplers: %u\n", X->MyDevices->MaxSamplers);
+		printf("Max Samplers: %u\n", X->MaxSamplers);
 
 		//PreferredVectorWidthChar
-		printf("Preferred Vector Width Char: %u\n", X->MyDevices->PreferredVectorWidthChar);
+		printf("Preferred Vector Width Char: %u\n", X->PreferredVectorWidthChar);
 
 		//PreferredVectorWidthShort
-		printf("Preferred Vector Width Short: %u\n", X->MyDevices->PreferredVectorWidthShort);
+		printf("Preferred Vector Width Short: %u\n", X->PreferredVectorWidthShort);
 
 		//PreferredVectorWidthInt
-		printf("Preferred Vector Width Int: %u\n", X->MyDevices->PreferredVectorWidthInt);
+		printf("Preferred Vector Width Int: %u\n", X->PreferredVectorWidthInt);
 
 		//PreferredVectorWidthLong
-		printf("Preferred Vector Width Long: %u\n", X->MyDevices->PreferredVectorWidthLong);
+		printf("Preferred Vector Width Long: %u\n", X->PreferredVectorWidthLong);
 
 		//PreferredVectorWidthFloat
-		printf("Preferred Vector Width Float: %u\n", X->MyDevices->	PreferredVectorWidthFloat);
+		printf("Preferred Vector Width Float: %u\n", X->	PreferredVectorWidthFloat);
 
 		//PreferredVectorWidthDouble
-		printf("Preferred Vector Width Double: %u\n", X->MyDevices->	PreferredVectorWidthDouble);	
+		printf("Preferred Vector Width Double: %u\n", X->	PreferredVectorWidthDouble);	
 
-		printf("Extensions:\n%s", X->MyDevices->Extensions);
+		printf("Extensions:\n%s", X->Extensions);
 
 		printf("\n");
 	}
@@ -2173,7 +2173,7 @@ int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM){
   	error = locl_Initialize_Platforms();
         locl_Errors(error);
     
-    if(locl_PLATFORM_NUM < locl_ALL && locl_DEVICE_NUM != 1){
+    if(locl_PLATFORM_NUM < locl_ALL && locl_DEVICE_NUM != -1){
     	error = locl_Initialize_Device(locl_PLATFORM_NUM);  
     	locl_Errors(error);
     }
@@ -2181,7 +2181,7 @@ int locl_Init(int locl_PLATFORM_NUM, int locl_DEVICE_NUM){
     error = locl_Explore( locl_PLATFORM_NUM);
     	locl_Errors(error);
 
-    if(locl_PLATFORM_NUM < locl_ALL && locl_DEVICE_NUM != 1){
+    if(locl_PLATFORM_NUM < locl_ALL && locl_DEVICE_NUM != -1){
     	error = locl_CreateCmdQueue(locl_PLATFORM_NUM, locl_DEVICE_NUM);
     	locl_Errors(error);
     }

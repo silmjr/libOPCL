@@ -137,7 +137,7 @@ int locl_CreateCmdQueue(int locl_PLATAFORM_NUMBER ,int locl_DEVICE_NUMBER);
 
 /*Essa função é usada internamente pela locl_Explore, recebe como referencia a estrura de plataformas, device e tipo, tipo 0 só salva as informações
 tipo 1 imprime todas as informações*/
-int locl_ListDevice(plataforms *X, cl_device_id device, int tipo);
+int locl_ListDevice(devices *X, cl_device_id device, int tipo);
 
 //Cria os buffers, recebe o tamanho do buffer, se é de leitura ou escrita, e o que se deseja colocar no buffer
 cl_mem locl_CreateBuffer(size_t locl_DATASIZE, cl_mem_flags locl_FLAGS, cl_bool locl_FLAG1, void *a);
