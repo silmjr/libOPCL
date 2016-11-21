@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['lopcl_5fcreatecmdqueue',['lopcl_CreateCmdQueue',['../libopcl_8c.html#a01cefabdfdf5129d31846566baeecf57',1,'lopcl_CreateCmdQueue(int lopcl_PLATAFORM_NUMBER, int lopcl_DEVICE_NUMBER):&#160;libopcl.c'],['../libopcl_8h.html#a01cefabdfdf5129d31846566baeecf57',1,'lopcl_CreateCmdQueue(int lopcl_PLATAFORM_NUMBER, int lopcl_DEVICE_NUMBER):&#160;libopcl.c']]],
+  ['lopcl_5fexplore',['lopcl_Explore',['../libopcl_8c.html#a636c9dc956196f8fad74c89fa9972712',1,'lopcl_Explore(int lopcl_PLATAFORM_NUMBER):&#160;libopcl.c'],['../libopcl_8h.html#a636c9dc956196f8fad74c89fa9972712',1,'lopcl_Explore(int lopcl_PLATAFORM_NUMBER):&#160;libopcl.c']]],
+  ['lopcl_5ffinalize',['lopcl_Finalize',['../libopcl_8c.html#a4c00f581e8429b3adc15d0b7daccd186',1,'lopcl_Finalize():&#160;libopcl.c'],['../libopcl_8h.html#a7a201b693e4b7aff37d09e850a3462d6',1,'lopcl_Finalize(void):&#160;libopcl.c']]],
+  ['lopcl_5finit',['lopcl_Init',['../libopcl_8c.html#ade7c32a3125e006727c4f4d04b450e4a',1,'lopcl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM):&#160;libopcl.c'],['../libopcl_8h.html#ade7c32a3125e006727c4f4d04b450e4a',1,'lopcl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM):&#160;libopcl.c']]],
+  ['lopcl_5finitialize_5fdevice',['lopcl_Initialize_Device',['../libopcl_8c.html#aa178b97f0e7d5dcba28b857a66da859c',1,'lopcl_Initialize_Device(int lopcl_PLATFORM_NUM):&#160;libopcl.c'],['../libopcl_8h.html#a524555dcb0362b5debf652431458c67b',1,'lopcl_Initialize_Device(int index):&#160;libopcl.c']]],
+  ['lopcl_5finitialize_5fplatforms',['lopcl_Initialize_Platforms',['../libopcl_8c.html#a099fb9f1a92d1612079b14de5ea0e658',1,'lopcl_Initialize_Platforms():&#160;libopcl.c'],['../libopcl_8h.html#a6a75e3ca186681b5e0c745896b96e113',1,'lopcl_Initialize_Platforms(void):&#160;libopcl.c']]],
+  ['lopcl_5flistdevice',['lopcl_ListDevice',['../libopcl_8c.html#a979e7dd0aede945b5ddde015e6f0a9cd',1,'lopcl_ListDevice(devices *X, cl_device_id device, int tipo):&#160;libopcl.c'],['../libopcl_8h.html#a979e7dd0aede945b5ddde015e6f0a9cd',1,'lopcl_ListDevice(devices *X, cl_device_id device, int tipo):&#160;libopcl.c']]]
+];

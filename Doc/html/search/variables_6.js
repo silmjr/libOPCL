@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['max2dheight',['Max2dHeight',['../structdevices.html#add04e0f60e2a9e3f67cceca10f8c3685',1,'devices']]],
+  ['max2dwidth',['Max2dWidth',['../structdevices.html#a18f56dc01b4463c4ded05b3d35c829d8',1,'devices']]],
+  ['max3ddepth',['Max3dDepth',['../structdevices.html#acaf6beb0a2264711c7819587a4459ac2',1,'devices']]],
+  ['max3dheight',['Max3dHeight',['../structdevices.html#a556a1e11d72df9890409b935d0582f89',1,'devices']]],
+  ['max3dwidth',['Max3dWidth',['../structdevices.html#ab44a9760cf2dc77618720a2a5828e8e9',1,'devices']]],
+  ['maxbuffersize',['MaxBufferSize',['../structdevices.html#aa075a9705e12e7e949f89b1306f59585',1,'devices']]],
+  ['maxclock',['MaxClock',['../structdevices.html#a386df2295358d2717730bc1db4539671',1,'devices']]],
+  ['maxcomputeunits',['MaxComputeUnits',['../structdevices.html#aec780718e368f1df19727f500a921c7d',1,'devices']]],
+  ['maxconstantargs',['MaxConstantArgs',['../structdevices.html#adfc4f33bb5055dc345007f64acbe7feb',1,'devices']]],
+  ['maxglobalmemcachesize',['MaxGlobalMemCacheSize',['../structdevices.html#a75e0abd182f71d9ccdacaefa759183e1',1,'devices']]],
+  ['maxglobalmemsize',['MaxGlobalMemSize',['../structdevices.html#a5ddc90720316ce7161f26263d83d4693',1,'devices']]],
+  ['maxlocalmemsize',['MaxLocalMemSize',['../structdevices.html#a55b41f48a237ce3e06b0d5f68f518ae9',1,'devices']]],
+  ['maxmemalocsize',['MaxMemAlocSize',['../structdevices.html#a3969a7352c8edd8b1b057630a0d7e8e1',1,'devices']]],
+  ['maxparamsize',['MaxParamSize',['../structdevices.html#ab4f9581fce5ea973d57f55dafb765831',1,'devices']]],
+  ['maxreadimageargs',['MaxReadImageArgs',['../structdevices.html#af060538b760d37d69f1e5995af4928d9',1,'devices']]],
+  ['maxsamplers',['MaxSamplers',['../structdevices.html#a9a25cdc63c37597479a8863ffc94440c',1,'devices']]],
+  ['maxworkgroupsize',['MaxWorkGroupSize',['../structdevices.html#a77489d32adab13bba6b5b38f1f4505ee',1,'devices']]],
+  ['maxworkitem',['MaxWorkItem',['../structdevices.html#aa500c0395fbaacdcfb07c6fb48b09c57',1,'devices']]],
+  ['maxworkitemdimensions',['MaxWorkItemDimensions',['../structdevices.html#af3747549c39fc0c0ce1dfe8c9ebf402a',1,'devices']]],
+  ['maxworkitemsizes',['MaxWorkItemSizes',['../structdevices.html#af79cf84f1d71d8481d3e04a79294d0ed',1,'devices']]],
+  ['maxwriteimageargs',['MaxWriteImageArgs',['../structdevices.html#accf0de8457f8fdb7b72b6e2103c79cd4',1,'devices']]],
+  ['memtype',['MemType',['../structdevices.html#a0453d0dbf9d90d86ecb62c5cb23cbf5c',1,'devices']]],
+  ['mydevices',['MyDevices',['../structplataforms.html#adcd439f5e569e26a6614e6ab344d72d2',1,'plataforms']]]
+];

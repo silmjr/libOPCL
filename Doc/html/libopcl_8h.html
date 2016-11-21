@@ -1,0 +1,723 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.12"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LibOPCL: Referência do Arquivo libopcl.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">LibOPCL
+   </div>
+   <div id="projectbrief">Biblioteca Portável para aplicações paralelas baseadas em OpenCL</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.8.12 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Busca');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Busca');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('libopcl_8h.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Estruturas de Dados</a> &#124;
+<a href="#define-members">Definições e Macros</a> &#124;
+<a href="#func-members">Funções</a> &#124;
+<a href="#var-members">Variáveis</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência do Arquivo libopcl.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Esse arquivo contém as definições e declarações das funções que compõe a biblioteca libOPCL.  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;ctype.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;CL/cl.h&gt;</code><br />
+</div>
+<p><a href="libopcl_8h_source.html">Vá para o código-fonte deste arquivo.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Estruturas de Dados</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdevices.html">devices</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structplataforms.html">plataforms</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Definições e Macros</h2></td></tr>
+<tr class="memitem:a75f1eebd271ca8914df7714e7f177cd1"><td class="memItemLeft" align="right" valign="top"><a id="a75f1eebd271ca8914df7714e7f177cd1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a75f1eebd271ca8914df7714e7f177cd1">lopcl_INTEL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a75f1eebd271ca8914df7714e7f177cd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador atribuído a plataforma INTEL. <br /></td></tr>
+<tr class="separator:a75f1eebd271ca8914df7714e7f177cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfa865efa9d2e5963828429c3afeb1bb"><td class="memItemLeft" align="right" valign="top"><a id="acfa865efa9d2e5963828429c3afeb1bb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#acfa865efa9d2e5963828429c3afeb1bb">lopcl_INTEL_GPU</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:acfa865efa9d2e5963828429c3afeb1bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador atribuído a plataforma INTEL GPU. <br /></td></tr>
+<tr class="separator:acfa865efa9d2e5963828429c3afeb1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0dc658d05f9740c04bc5e33df479611"><td class="memItemLeft" align="right" valign="top"><a id="ab0dc658d05f9740c04bc5e33df479611"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#ab0dc658d05f9740c04bc5e33df479611">lopcl_AMD</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:ab0dc658d05f9740c04bc5e33df479611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador atribuído a plataforma AMD. <br /></td></tr>
+<tr class="separator:ab0dc658d05f9740c04bc5e33df479611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82fc159d29b83847b73408babea2dea7"><td class="memItemLeft" align="right" valign="top"><a id="a82fc159d29b83847b73408babea2dea7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a82fc159d29b83847b73408babea2dea7">lopcl_NVIDIA</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memdesc:a82fc159d29b83847b73408babea2dea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador atribuído a plataforma NVIDIA . <br /></td></tr>
+<tr class="separator:a82fc159d29b83847b73408babea2dea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd1877ff219ae50f2b395e14dbc71260"><td class="memItemLeft" align="right" valign="top"><a id="acd1877ff219ae50f2b395e14dbc71260"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#acd1877ff219ae50f2b395e14dbc71260">lopcl_POCL</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memdesc:acd1877ff219ae50f2b395e14dbc71260"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador atribuído a plataforma POCL. <br /></td></tr>
+<tr class="separator:acd1877ff219ae50f2b395e14dbc71260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12429a41efb454b2a606761a72e5934e"><td class="memItemLeft" align="right" valign="top"><a id="a12429a41efb454b2a606761a72e5934e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a12429a41efb454b2a606761a72e5934e">lopcl_COPRTHR</a>&#160;&#160;&#160;5</td></tr>
+<tr class="memdesc:a12429a41efb454b2a606761a72e5934e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador atribuído a plataforma COPRTHR. <br /></td></tr>
+<tr class="separator:a12429a41efb454b2a606761a72e5934e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af51a602386dd5dc395a830a308ff605c"><td class="memItemLeft" align="right" valign="top"><a id="af51a602386dd5dc395a830a308ff605c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#af51a602386dd5dc395a830a308ff605c">lopcl_ALL</a>&#160;&#160;&#160;6</td></tr>
+<tr class="memdesc:af51a602386dd5dc395a830a308ff605c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador atribuído para referencia a todas plataformas disponíveis em uma máquina. <br /></td></tr>
+<tr class="separator:af51a602386dd5dc395a830a308ff605c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39cb9803524b6f3b783344b2f89867b4"><td class="memItemLeft" align="right" valign="top"><a id="a39cb9803524b6f3b783344b2f89867b4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a39cb9803524b6f3b783344b2f89867b4">GPU</a>&#160;&#160;&#160;CL_DEVICE_TYPE_GPU</td></tr>
+<tr class="memdesc:a39cb9803524b6f3b783344b2f89867b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro para device do tipo GPU. <br /></td></tr>
+<tr class="separator:a39cb9803524b6f3b783344b2f89867b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad703205f9a4d4bb6af9c25257c23ce6d"><td class="memItemLeft" align="right" valign="top"><a id="ad703205f9a4d4bb6af9c25257c23ce6d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#ad703205f9a4d4bb6af9c25257c23ce6d">CPU</a>&#160;&#160;&#160;CL_DEVICE_TYPE_CPU</td></tr>
+<tr class="memdesc:ad703205f9a4d4bb6af9c25257c23ce6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro para device do tipo CPU. <br /></td></tr>
+<tr class="separator:ad703205f9a4d4bb6af9c25257c23ce6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1dc295cb5bbb0f8fa57eb0fa66f0203"><td class="memItemLeft" align="right" valign="top"><a id="af1dc295cb5bbb0f8fa57eb0fa66f0203"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#af1dc295cb5bbb0f8fa57eb0fa66f0203">ACCELERATOR</a>&#160;&#160;&#160;CL_DEVICE_TYPE_ACCELERATOR</td></tr>
+<tr class="memdesc:af1dc295cb5bbb0f8fa57eb0fa66f0203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro para device do tipo ACCELERATOR. <br /></td></tr>
+<tr class="separator:af1dc295cb5bbb0f8fa57eb0fa66f0203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:ade7c32a3125e006727c4f4d04b450e4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#ade7c32a3125e006727c4f4d04b450e4a">lopcl_Init</a> (int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM)</td></tr>
+<tr class="separator:ade7c32a3125e006727c4f4d04b450e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a201b693e4b7aff37d09e850a3462d6"><td class="memItemLeft" align="right" valign="top"><a id="a7a201b693e4b7aff37d09e850a3462d6"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a7a201b693e4b7aff37d09e850a3462d6">lopcl_Finalize</a> (void)</td></tr>
+<tr class="memdesc:a7a201b693e4b7aff37d09e850a3462d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">lopcl_Finaliza, função libera a memória usada durante a execução do programa. <br /></td></tr>
+<tr class="separator:a7a201b693e4b7aff37d09e850a3462d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a75e3ca186681b5e0c745896b96e113"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a6a75e3ca186681b5e0c745896b96e113">lopcl_Initialize_Platforms</a> (void)</td></tr>
+<tr class="separator:a6a75e3ca186681b5e0c745896b96e113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a524555dcb0362b5debf652431458c67b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a524555dcb0362b5debf652431458c67b">lopcl_Initialize_Device</a> (int index)</td></tr>
+<tr class="separator:a524555dcb0362b5debf652431458c67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a636c9dc956196f8fad74c89fa9972712"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a636c9dc956196f8fad74c89fa9972712">lopcl_Explore</a> (int lopcl_PLATAFORM_NUMBER)</td></tr>
+<tr class="separator:a636c9dc956196f8fad74c89fa9972712"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01cefabdfdf5129d31846566baeecf57"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a01cefabdfdf5129d31846566baeecf57">lopcl_CreateCmdQueue</a> (int lopcl_PLATAFORM_NUMBER, int lopcl_DEVICE_NUMBER)</td></tr>
+<tr class="separator:a01cefabdfdf5129d31846566baeecf57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a979e7dd0aede945b5ddde015e6f0a9cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a979e7dd0aede945b5ddde015e6f0a9cd">lopcl_ListDevice</a> (<a class="el" href="structdevices.html">devices</a> *X, cl_device_id device, int tipo)</td></tr>
+<tr class="separator:a979e7dd0aede945b5ddde015e6f0a9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7d02cba236e075fa87ce7a4bb05ef3c"><td class="memItemLeft" align="right" valign="top"><a id="af7d02cba236e075fa87ce7a4bb05ef3c"></a>
+cl_mem&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_CreateBuffer</b> (size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bool lopcl_FLAG1, void *a)</td></tr>
+<tr class="separator:af7d02cba236e075fa87ce7a4bb05ef3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6b85c3609a9b0310f33f1929a1040ab"><td class="memItemLeft" align="right" valign="top"><a id="aa6b85c3609a9b0310f33f1929a1040ab"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_CreateProgram</b> (const char **source_str, char *kernel)</td></tr>
+<tr class="separator:aa6b85c3609a9b0310f33f1929a1040ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affccb59435b5513c8729a76a78d8ed30"><td class="memItemLeft" align="right" valign="top"><a id="affccb59435b5513c8729a76a78d8ed30"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_SetKernelArg</b> (cl_int i, size_t tipo, const void *buffer)</td></tr>
+<tr class="separator:affccb59435b5513c8729a76a78d8ed30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2d862d99ffb4cc655984078aa0973b8"><td class="memItemLeft" align="right" valign="top"><a id="aa2d862d99ffb4cc655984078aa0973b8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_Errors</b> (int i)</td></tr>
+<tr class="separator:aa2d862d99ffb4cc655984078aa0973b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4fce0f8a8f1d65d5a2750243ed05239"><td class="memItemLeft" align="right" valign="top"><a id="ae4fce0f8a8f1d65d5a2750243ed05239"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_PrintInfo</b> (int lopcl_PLATAFORM_NUMBER)</td></tr>
+<tr class="separator:ae4fce0f8a8f1d65d5a2750243ed05239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaefe7391177edcf01114db3ee3061187"><td class="memItemLeft" align="right" valign="top"><a id="aaefe7391177edcf01114db3ee3061187"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>DiscStr</b> (char *name)</td></tr>
+<tr class="separator:aaefe7391177edcf01114db3ee3061187"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaec0ef60789904a8ae5253e759459f7b"><td class="memItemLeft" align="right" valign="top"><a id="aaec0ef60789904a8ae5253e759459f7b"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>isEqual</b> (char *name, char *name2)</td></tr>
+<tr class="separator:aaec0ef60789904a8ae5253e759459f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a283016088821514b5ce6d1c116f644ae"><td class="memItemLeft" align="right" valign="top"><a id="a283016088821514b5ce6d1c116f644ae"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>verifica</b> (int index)</td></tr>
+<tr class="separator:a283016088821514b5ce6d1c116f644ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad1aa3a5c31292f11f9027a59935b17"><td class="memItemLeft" align="right" valign="top"><a id="a3ad1aa3a5c31292f11f9027a59935b17"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getNumPlatform</b> (int index)</td></tr>
+<tr class="separator:a3ad1aa3a5c31292f11f9027a59935b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68dd16b42084d7dcbbc78ef1657250fa"><td class="memItemLeft" align="right" valign="top"><a id="a68dd16b42084d7dcbbc78ef1657250fa"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getNamePlatform</b> (int index)</td></tr>
+<tr class="separator:a68dd16b42084d7dcbbc78ef1657250fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad66b9dd0788ae6c2145a458f18422a34"><td class="memItemLeft" align="right" valign="top"><a id="ad66b9dd0788ae6c2145a458f18422a34"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getVendorPlatform</b> (int index)</td></tr>
+<tr class="separator:ad66b9dd0788ae6c2145a458f18422a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30babe50b4ab32c6a561f0b1904e8ee2"><td class="memItemLeft" align="right" valign="top"><a id="a30babe50b4ab32c6a561f0b1904e8ee2"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getExtensiosPlatform</b> (int index)</td></tr>
+<tr class="separator:a30babe50b4ab32c6a561f0b1904e8ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa24fb00a2001f07d8add06572cebffe"><td class="memItemLeft" align="right" valign="top"><a id="aaa24fb00a2001f07d8add06572cebffe"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getNumDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:aaa24fb00a2001f07d8add06572cebffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af495a26c50fec6e531c26994a3c164d4"><td class="memItemLeft" align="right" valign="top"><a id="af495a26c50fec6e531c26994a3c164d4"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getNameDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:af495a26c50fec6e531c26994a3c164d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a593e2fa3e583d068ec96adc4ead1d5ad"><td class="memItemLeft" align="right" valign="top"><a id="a593e2fa3e583d068ec96adc4ead1d5ad"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getVendorDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a593e2fa3e583d068ec96adc4ead1d5ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e040b2ba30a3e4ac20962a4ea6c3039"><td class="memItemLeft" align="right" valign="top"><a id="a1e040b2ba30a3e4ac20962a4ea6c3039"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getVendorIdDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a1e040b2ba30a3e4ac20962a4ea6c3039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ce45e5339794591fc5f6e476f90affb"><td class="memItemLeft" align="right" valign="top"><a id="a6ce45e5339794591fc5f6e476f90affb"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getProfileDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a6ce45e5339794591fc5f6e476f90affb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45b1afe9841b2ef388bba4c2281a39a3"><td class="memItemLeft" align="right" valign="top"><a id="a45b1afe9841b2ef388bba4c2281a39a3"></a>
+cl_bool *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getAvailableDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a45b1afe9841b2ef388bba4c2281a39a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28cd51d5bba2ea7ae59561f7b9998fbd"><td class="memItemLeft" align="right" valign="top"><a id="a28cd51d5bba2ea7ae59561f7b9998fbd"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getVersionDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a28cd51d5bba2ea7ae59561f7b9998fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba097f34f3fcdd0c0ac84a9479a5a8f2"><td class="memItemLeft" align="right" valign="top"><a id="aba097f34f3fcdd0c0ac84a9479a5a8f2"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getDriveVersionDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:aba097f34f3fcdd0c0ac84a9479a5a8f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4df159ccc650fad724db6fbe013a1688"><td class="memItemLeft" align="right" valign="top"><a id="a4df159ccc650fad724db6fbe013a1688"></a>
+cl_bool *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getCompilerAvailableDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a4df159ccc650fad724db6fbe013a1688"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19cdc21734961a5be5a8711f574b7ce9"><td class="memItemLeft" align="right" valign="top"><a id="a19cdc21734961a5be5a8711f574b7ce9"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getAdressSpaceDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a19cdc21734961a5be5a8711f574b7ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5616c4e257e791446f7872ec8f05b4d"><td class="memItemLeft" align="right" valign="top"><a id="af5616c4e257e791446f7872ec8f05b4d"></a>
+cl_bool *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getLitleEndianDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:af5616c4e257e791446f7872ec8f05b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb398944e2d44591d9a77240fe3ae9ac"><td class="memItemLeft" align="right" valign="top"><a id="abb398944e2d44591d9a77240fe3ae9ac"></a>
+cl_bool *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getErrorCorrectionDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:abb398944e2d44591d9a77240fe3ae9ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a173ec3237c342a215299aab4eb425564"><td class="memItemLeft" align="right" valign="top"><a id="a173ec3237c342a215299aab4eb425564"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getAdressAlingmentDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a173ec3237c342a215299aab4eb425564"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a643c7a83db46266c327ed212d4ce6eef"><td class="memItemLeft" align="right" valign="top"><a id="a643c7a83db46266c327ed212d4ce6eef"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getSmallAlingmentDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a643c7a83db46266c327ed212d4ce6eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a330b443375d33d6786a9572195a377"><td class="memItemLeft" align="right" valign="top"><a id="a8a330b443375d33d6786a9572195a377"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getResolutionTimerDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a8a330b443375d33d6786a9572195a377"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a685c6e204eecc4901f675a7fda65c238"><td class="memItemLeft" align="right" valign="top"><a id="a685c6e204eecc4901f675a7fda65c238"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxClockDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a685c6e204eecc4901f675a7fda65c238"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e5acfa22166ffd9bdd3d5e10f56c36e"><td class="memItemLeft" align="right" valign="top"><a id="a4e5acfa22166ffd9bdd3d5e10f56c36e"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxComputeUnitsDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a4e5acfa22166ffd9bdd3d5e10f56c36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0e241669a69ce3eb64234c10cff2c2d"><td class="memItemLeft" align="right" valign="top"><a id="ae0e241669a69ce3eb64234c10cff2c2d"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxConstantArgsDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:ae0e241669a69ce3eb64234c10cff2c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc2292192814c3a4c9959f769bbdd36f"><td class="memItemLeft" align="right" valign="top"><a id="abc2292192814c3a4c9959f769bbdd36f"></a>
+cl_ulong *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxBufferSizeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:abc2292192814c3a4c9959f769bbdd36f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac78f7da17d427a87a2c9c338f95fb26"><td class="memItemLeft" align="right" valign="top"><a id="aac78f7da17d427a87a2c9c338f95fb26"></a>
+cl_ulong *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxMemAlocSizeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:aac78f7da17d427a87a2c9c338f95fb26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7992512a5679763cb22ffab9f747e7c"><td class="memItemLeft" align="right" valign="top"><a id="aa7992512a5679763cb22ffab9f747e7c"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxParamSizeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:aa7992512a5679763cb22ffab9f747e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45d9ced687381d344714780bb4475b9f"><td class="memItemLeft" align="right" valign="top"><a id="a45d9ced687381d344714780bb4475b9f"></a>
+cl_device_exec_capabilities *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getExecutionCapabilitiesDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a45d9ced687381d344714780bb4475b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fbf304f2f9c6f3cc4d0079d9e61804e"><td class="memItemLeft" align="right" valign="top"><a id="a4fbf304f2f9c6f3cc4d0079d9e61804e"></a>
+cl_ulong *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxGlobalMemSizeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a4fbf304f2f9c6f3cc4d0079d9e61804e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e3a113e47fec3cf2c87e12845e5a9cb"><td class="memItemLeft" align="right" valign="top"><a id="a5e3a113e47fec3cf2c87e12845e5a9cb"></a>
+cl_ulong *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxGlobalMemCacheSizeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a5e3a113e47fec3cf2c87e12845e5a9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36b9efa643e9a6f24e0428aff55a293d"><td class="memItemLeft" align="right" valign="top"><a id="a36b9efa643e9a6f24e0428aff55a293d"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getGlobalMemLineChaceSizeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a36b9efa643e9a6f24e0428aff55a293d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a973cab73a13bb433ba90ab7e92411255"><td class="memItemLeft" align="right" valign="top"><a id="a973cab73a13bb433ba90ab7e92411255"></a>
+cl_ulong *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxLocalMemSizeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a973cab73a13bb433ba90ab7e92411255"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5512e479a22e30c5888d6686e95f99fb"><td class="memItemLeft" align="right" valign="top"><a id="a5512e479a22e30c5888d6686e95f99fb"></a>
+cl_device_local_mem_type *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getLocalMemTypeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a5512e479a22e30c5888d6686e95f99fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3dd1831da484da52f7ee853b85800d5"><td class="memItemLeft" align="right" valign="top"><a id="ac3dd1831da484da52f7ee853b85800d5"></a>
+cl_device_mem_cache_type *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getCacheMemTypeDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:ac3dd1831da484da52f7ee853b85800d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50530e75a18493dbc7079cff8e032325"><td class="memItemLeft" align="right" valign="top"><a id="a50530e75a18493dbc7079cff8e032325"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxWorkGroupsDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a50530e75a18493dbc7079cff8e032325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbea47525014dad0aec6a2a3bbd55e27"><td class="memItemLeft" align="right" valign="top"><a id="afbea47525014dad0aec6a2a3bbd55e27"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxWorkItemsDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:afbea47525014dad0aec6a2a3bbd55e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a449a000a751ce2acd2c3d271e378d983"><td class="memItemLeft" align="right" valign="top"><a id="a449a000a751ce2acd2c3d271e378d983"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxWorkItemsDimensionsDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a449a000a751ce2acd2c3d271e378d983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a461ef05df51c1153ad9a1794d1c8778d"><td class="memItemLeft" align="right" valign="top"><a id="a461ef05df51c1153ad9a1794d1c8778d"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxWorkItemSizesDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a461ef05df51c1153ad9a1794d1c8778d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ba6c9a2ea29852754ed4d6ae417f097"><td class="memItemLeft" align="right" valign="top"><a id="a1ba6c9a2ea29852754ed4d6ae417f097"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMax2dHeightDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a1ba6c9a2ea29852754ed4d6ae417f097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a962db47c38d9608f512854dd33787ed8"><td class="memItemLeft" align="right" valign="top"><a id="a962db47c38d9608f512854dd33787ed8"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMax2dWidthDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a962db47c38d9608f512854dd33787ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1acb9316eacac4bca52c47391d6866e4"><td class="memItemLeft" align="right" valign="top"><a id="a1acb9316eacac4bca52c47391d6866e4"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMax3dDepthDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a1acb9316eacac4bca52c47391d6866e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9a0490fe40fd362dd2fac251519bb8b"><td class="memItemLeft" align="right" valign="top"><a id="ae9a0490fe40fd362dd2fac251519bb8b"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMax3dHeightDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:ae9a0490fe40fd362dd2fac251519bb8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cf7426ad84f657e6f386a1f223d2a5a"><td class="memItemLeft" align="right" valign="top"><a id="a1cf7426ad84f657e6f386a1f223d2a5a"></a>
+size_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMax3dWidthDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a1cf7426ad84f657e6f386a1f223d2a5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59c6d69d6a7eba22d5c17b968b8096eb"><td class="memItemLeft" align="right" valign="top"><a id="a59c6d69d6a7eba22d5c17b968b8096eb"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxReadImageArgsDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a59c6d69d6a7eba22d5c17b968b8096eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5db2f4d8597294ff22340b00844356de"><td class="memItemLeft" align="right" valign="top"><a id="a5db2f4d8597294ff22340b00844356de"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_geMaxWriteImageArgsDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a5db2f4d8597294ff22340b00844356de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98c5f8b58d5f01626701489890ee03b1"><td class="memItemLeft" align="right" valign="top"><a id="a98c5f8b58d5f01626701489890ee03b1"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getMaxSamplersDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a98c5f8b58d5f01626701489890ee03b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17318648a7e4e46731d81e6b8db19f1d"><td class="memItemLeft" align="right" valign="top"><a id="a17318648a7e4e46731d81e6b8db19f1d"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getPreferredVectorWidthCharDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a17318648a7e4e46731d81e6b8db19f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cd6c8cf9aad617d9cbdf35ead9e0b95"><td class="memItemLeft" align="right" valign="top"><a id="a5cd6c8cf9aad617d9cbdf35ead9e0b95"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getPreferredVectorWidthShortDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a5cd6c8cf9aad617d9cbdf35ead9e0b95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeab05bafc59c73dea9defcc3c82652e0"><td class="memItemLeft" align="right" valign="top"><a id="aeab05bafc59c73dea9defcc3c82652e0"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getPreferredVectorWidthInttDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:aeab05bafc59c73dea9defcc3c82652e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a968aba99126ca9425710848efe716c56"><td class="memItemLeft" align="right" valign="top"><a id="a968aba99126ca9425710848efe716c56"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getPreferredVectorWidthLongDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a968aba99126ca9425710848efe716c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4074a1fd53839513b4e6e041ccb9354"><td class="memItemLeft" align="right" valign="top"><a id="ad4074a1fd53839513b4e6e041ccb9354"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getPreferredVectorWidthFloatDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:ad4074a1fd53839513b4e6e041ccb9354"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6642f6da0db2fc928c19034cd1fb2f1c"><td class="memItemLeft" align="right" valign="top"><a id="a6642f6da0db2fc928c19034cd1fb2f1c"></a>
+cl_uint *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getPreferredVectorWidthDoubleDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a6642f6da0db2fc928c19034cd1fb2f1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aa168f71e5d545d55878eaa2bf5ea62"><td class="memItemLeft" align="right" valign="top"><a id="a3aa168f71e5d545d55878eaa2bf5ea62"></a>
+cl_device_fp_config *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getSinglePrecisionFlatCapabilityDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a3aa168f71e5d545d55878eaa2bf5ea62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b50b6d5d26037d3c0f247c483747ab6"><td class="memItemLeft" align="right" valign="top"><a id="a2b50b6d5d26037d3c0f247c483747ab6"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>lopcl_getExtensionsDevice</b> (int index, cl_device_type type)</td></tr>
+<tr class="separator:a2b50b6d5d26037d3c0f247c483747ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:a03b35b4ca16ed674504bc73a805083f4"><td class="memItemLeft" align="right" valign="top"><a id="a03b35b4ca16ed674504bc73a805083f4"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a03b35b4ca16ed674504bc73a805083f4">listPlatforms</a> [7]</td></tr>
+<tr class="memdesc:a03b35b4ca16ed674504bc73a805083f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vetor responsável pelo armazenamento dos números das plataformas em uma máquina específica (Default é -1). <br /></td></tr>
+<tr class="separator:a03b35b4ca16ed674504bc73a805083f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14f95182a77e3153690aa7c2297c8617"><td class="memItemLeft" align="right" valign="top"><a id="a14f95182a77e3153690aa7c2297c8617"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a14f95182a77e3153690aa7c2297c8617">lopcl_DEVICE_CPU</a></td></tr>
+<tr class="memdesc:a14f95182a77e3153690aa7c2297c8617"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos CPU. <br /></td></tr>
+<tr class="separator:a14f95182a77e3153690aa7c2297c8617"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc90bbd438ab8be16a414d6f8e8d7897"><td class="memItemLeft" align="right" valign="top"><a id="abc90bbd438ab8be16a414d6f8e8d7897"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#abc90bbd438ab8be16a414d6f8e8d7897">lopcl_DEVICE_ACCELERATOR</a></td></tr>
+<tr class="memdesc:abc90bbd438ab8be16a414d6f8e8d7897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos ACCELERATOR. <br /></td></tr>
+<tr class="separator:abc90bbd438ab8be16a414d6f8e8d7897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1822006b4d975a90a796837f7c329681"><td class="memItemLeft" align="right" valign="top"><a id="a1822006b4d975a90a796837f7c329681"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a1822006b4d975a90a796837f7c329681">lopcl_DEVICE_GPU</a></td></tr>
+<tr class="memdesc:a1822006b4d975a90a796837f7c329681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos GPU. <br /></td></tr>
+<tr class="separator:a1822006b4d975a90a796837f7c329681"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44d6365c57fa01bf646133a793976d6e"><td class="memItemLeft" align="right" valign="top"><a id="a44d6365c57fa01bf646133a793976d6e"></a>
+cl_uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a44d6365c57fa01bf646133a793976d6e">lopcl_NUM_PLATFORMS</a></td></tr>
+<tr class="memdesc:a44d6365c57fa01bf646133a793976d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena o número total de plataformas em uma máquina. <br /></td></tr>
+<tr class="separator:a44d6365c57fa01bf646133a793976d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d6e180d133f66970e8c04198655f3df"><td class="memItemLeft" align="right" valign="top"><a id="a8d6e180d133f66970e8c04198655f3df"></a>
+cl_uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a8d6e180d133f66970e8c04198655f3df">lopcl_NUM_DEVICES</a></td></tr>
+<tr class="memdesc:a8d6e180d133f66970e8c04198655f3df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena número total de dispositivos de uma plataforma específica. <br /></td></tr>
+<tr class="separator:a8d6e180d133f66970e8c04198655f3df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81658d061241b4af69a03e4b58d592fb"><td class="memItemLeft" align="right" valign="top"><a id="a81658d061241b4af69a03e4b58d592fb"></a>
+cl_platform_id *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a81658d061241b4af69a03e4b58d592fb">lopcl_PLATFORMS</a></td></tr>
+<tr class="memdesc:a81658d061241b4af69a03e4b58d592fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena um vetor de plataformas (Usado pelo OPENCL). <br /></td></tr>
+<tr class="separator:a81658d061241b4af69a03e4b58d592fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa889f131410a86049886b93818db7e5a"><td class="memItemLeft" align="right" valign="top"><a id="aa889f131410a86049886b93818db7e5a"></a>
+cl_device_id *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#aa889f131410a86049886b93818db7e5a">lopcl_DEVICES</a></td></tr>
+<tr class="memdesc:aa889f131410a86049886b93818db7e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena um Vetor de dispositivos (Usado pelo OPENCL). <br /></td></tr>
+<tr class="separator:aa889f131410a86049886b93818db7e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae02a0c6bb72304251b9dc9968edb29f3"><td class="memItemLeft" align="right" valign="top"><a id="ae02a0c6bb72304251b9dc9968edb29f3"></a>
+cl_context&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#ae02a0c6bb72304251b9dc9968edb29f3">lopcl_CONTEXT</a></td></tr>
+<tr class="memdesc:ae02a0c6bb72304251b9dc9968edb29f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena um contexto para um dispositivo a ser escolhido. <br /></td></tr>
+<tr class="separator:ae02a0c6bb72304251b9dc9968edb29f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af57a50f399ecbe80bd418b9c482f549c"><td class="memItemLeft" align="right" valign="top"><a id="af57a50f399ecbe80bd418b9c482f549c"></a>
+cl_command_queue&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#af57a50f399ecbe80bd418b9c482f549c">lopcl_CMDQUEUE</a></td></tr>
+<tr class="memdesc:af57a50f399ecbe80bd418b9c482f549c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena uma fila de comando. <br /></td></tr>
+<tr class="separator:af57a50f399ecbe80bd418b9c482f549c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a09a35e78c242e7e47a12cb469f6c03"><td class="memItemLeft" align="right" valign="top"><a id="a8a09a35e78c242e7e47a12cb469f6c03"></a>
+cl_program&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a8a09a35e78c242e7e47a12cb469f6c03">lopcl_PROGRAM</a></td></tr>
+<tr class="memdesc:a8a09a35e78c242e7e47a12cb469f6c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena o programa (kernel) compilado. <br /></td></tr>
+<tr class="separator:a8a09a35e78c242e7e47a12cb469f6c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79b979fb204a8c19d91ded3ea3666494"><td class="memItemLeft" align="right" valign="top"><a id="a79b979fb204a8c19d91ded3ea3666494"></a>
+cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a79b979fb204a8c19d91ded3ea3666494">lopcl_KERNEL</a></td></tr>
+<tr class="memdesc:a79b979fb204a8c19d91ded3ea3666494"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena um kernel. <br /></td></tr>
+<tr class="separator:a79b979fb204a8c19d91ded3ea3666494"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a008e6fce6af63fffc29e9dc3edcdcac4"><td class="memItemLeft" align="right" valign="top"><a id="a008e6fce6af63fffc29e9dc3edcdcac4"></a>
+<a class="el" href="structplataforms.html">plataforms</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a008e6fce6af63fffc29e9dc3edcdcac4">lopcl_DispPlats</a></td></tr>
+<tr class="memdesc:a008e6fce6af63fffc29e9dc3edcdcac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vetor onde será armazenado todos os dados sobre plataformas e dispositivos presentes em uma máquina. <br /></td></tr>
+<tr class="separator:a008e6fce6af63fffc29e9dc3edcdcac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Descrição Detalhada</h2>
+<div class="textblock"><p>Esse arquivo contém as definições e declarações das funções que compõe a biblioteca libOPCL. </p>
+<dl class="section author"><dt>Autor</dt><dd>Silvano Moreira Junior </dd></dl>
+<dl class="section date"><dt>Data</dt><dd>21 novembro 2016 </dd></dl>
+<dl class="section see"><dt>Veja também</dt><dd><a href="https://github.com/silmjr/libOPCL">https://github.com/silmjr/libOPCL</a> </dd></dl>
+</div><h2 class="groupheader">Funções</h2>
+<a id="a01cefabdfdf5129d31846566baeecf57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01cefabdfdf5129d31846566baeecf57">&sect;&nbsp;</a></span>lopcl_CreateCmdQueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lopcl_CreateCmdQueue </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lopcl_PLATAFORM_NUMBER</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lopcl_DEVICE_NUMBER</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A função é responsável por criar o contexto OpenCL e a fila de comando. Essa função é usada internamente pela função locl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM). </p><dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>lopcl_PLATAFORM_NUM - Número inteiro que representa a plataforma escolhida. <a class="anchor" id="lopcl_PLATFORMS"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Identificador </th><th>Descrição </th></tr>
+<tr>
+<th>lopcl_INTEL </th><th>Seleciona e incializa a plataforma Intel, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_INTEL_GPU </th><th>Seleciona e incializa a plataforma Intel GPU, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_AMD </th><th>Seleciona e incializa a plataforma AMD, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_NVIDIA </th><th>Seleciona e incializa a plataforma NVIDIA, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_POCL </th><th>Seleciona e incializa a plataforma POCL, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_COPRTHR </th><th>Seleciona e incializa a plataforma COPRTHR, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_ALL </th><th><p class="starttd">Seleciona e incializa todas as plataformas disponíveis na máquina. &lt;&gt;</p>
+<p class="endtd"></p>
+</th></tr>
+</table>
+</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>lopcl_DEVICE_NUM - Número inteiro que representa o dispositivo escolhido. <a class="anchor" id="lopcl_DEVICES"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Identificador </th><th>Descrição </th></tr>
+<tr>
+<th>lopcl_DEVICE_CPU </th><th>Seleciona e incializa o dispositivo do tipo CPU, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_DEVICE_GPU </th><th>Seleciona e incializa o dispositivo do tipo GPU, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_DEVICE_ACCELERATOR </th><th>Seleciona e incializa o dispositivo do tipo ACCELERATOR, se disponível na máquina. &lt;&gt; </th></tr>
+</table>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a636c9dc956196f8fad74c89fa9972712"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a636c9dc956196f8fad74c89fa9972712">&sect;&nbsp;</a></span>lopcl_Explore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lopcl_Explore </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lopcl_PLATAFORM_NUMBER</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Função responsável por fazer a varredura na máquina usada, descobrindo todas as informações sobre as plataformas e dispositivos especificados, e armazenando esses dados nas estruturas correspondentes aos dispositivos e plataformas, tornando possível recuperar esses dados futuramente. Essa função é usada internamente pela função locl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM). </p><dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>index - Número inteiro que representa a plataforma escolhida. <a class="anchor" id="index"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Identificador </th><th>Descrição </th></tr>
+<tr>
+<th>lopcl_INTEL </th><th>Seleciona e incializa a plataforma Intel, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_INTEL_GPU </th><th>Seleciona e incializa a plataforma Intel GPU, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_AMD </th><th>Seleciona e incializa a plataforma AMD, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_NVIDIA </th><th>Seleciona e incializa a plataforma NVIDIA, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_POCL </th><th>Seleciona e incializa a plataforma POCL, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_COPRTHR </th><th>Seleciona e incializa a plataforma COPRTHR, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_ALL </th><th>Seleciona e incializa todas as plataformas disponíveis na máquina. &lt;&gt; </th></tr>
+</table>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ade7c32a3125e006727c4f4d04b450e4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade7c32a3125e006727c4f4d04b450e4a">&sect;&nbsp;</a></span>lopcl_Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lopcl_Init </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lopcl_PLATFORM_NUM</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lopcl_DEVICE_NUM</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A função é responsável por inicializar as plataformas, os dispositivos, preencher as estruturas com as informações disponíveis na máquina, criar a fila de comando e o contexto para a plataforma e o dispositivo específicados. Caso o index seja lopcl_ALL e 0, não criará a fila de comando e o contexto. </p><dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>lopcl_PLATAFORM_NUM - Número inteiro que representa a plataforma escolhida. <a class="anchor" id="lopcl_PLATFORMS"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Identificador </th><th>Descrição </th></tr>
+<tr>
+<th>lopcl_INTEL </th><th>Seleciona e incializa a plataforma Intel, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_INTEL_GPU </th><th>Seleciona e incializa a plataforma Intel GPU, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_AMD </th><th>Seleciona e incializa a plataforma AMD, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_NVIDIA </th><th>Seleciona e incializa a plataforma NVIDIA, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_POCL </th><th>Seleciona e incializa a plataforma POCL, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_COPRTHR </th><th>Seleciona e incializa a plataforma COPRTHR, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_ALL </th><th><p class="starttd">Seleciona e incializa todas as plataformas disponíveis na máquina. &lt;&gt;</p>
+<p class="endtd"></p>
+</th></tr>
+</table>
+</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>lopcl_DEVICE_NUM - Número inteiro que representa o dispositivo escolhido. <a class="anchor" id="lopcl_DEVICES"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Identificador </th><th>Descrição </th></tr>
+<tr>
+<th>lopcl_DEVICE_CPU </th><th>Seleciona e incializa o dispositivo do tipo CPU, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_DEVICE_GPU </th><th>Seleciona e incializa o dispositivo do tipo GPU, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_DEVICE_ACCELERATOR </th><th>Seleciona e incializa o dispositivo do tipo ACCELERATOR, se disponível na máquina. &lt;&gt; </th></tr>
+</table>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a524555dcb0362b5debf652431458c67b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a524555dcb0362b5debf652431458c67b">&sect;&nbsp;</a></span>lopcl_Initialize_Device()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lopcl_Initialize_Device </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Função responsável por fazer a varredura na máquina usada, descobrindo todos os dispositivos de uma plataforma especificada, atribuindo os valores correspondentes aos índices que correspondem a esses dispostivos. Essa função é usada internamente pela função locl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM). </p><dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>index - Número inteiro que representa a plataforma escolhida. <a class="anchor" id="index"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Identificador </th><th>Descrição </th></tr>
+<tr>
+<th>lopcl_INTEL </th><th>Seleciona e incializa a plataforma Intel, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_INTEL_GPU </th><th>Seleciona e incializa a plataforma Intel GPU, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_AMD </th><th>Seleciona e incializa a plataforma AMD, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_NVIDIA </th><th>Seleciona e incializa a plataforma NVIDIA, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_POCL </th><th>Seleciona e incializa a plataforma POCL, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_COPRTHR </th><th>Seleciona e incializa a plataforma COPRTHR, se disponível na máquina. </th></tr>
+<tr>
+<th>lopcl_ALL </th><th>Seleciona e incializa todas as plataformas disponíveis na máquina. &lt;&gt; </th></tr>
+</table>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6a75e3ca186681b5e0c745896b96e113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a75e3ca186681b5e0c745896b96e113">&sect;&nbsp;</a></span>lopcl_Initialize_Platforms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lopcl_Initialize_Platforms </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Função responsável por fazer a varredura na máquina usada, descobrindo todas plataformas disponiveis, atribuindo os valores correspondentes aos índices que correspondem as plataformas. Essa função é usada internamente pela função locl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM). </p>
+
+</div>
+</div>
+<a id="a979e7dd0aede945b5ddde015e6f0a9cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a979e7dd0aede945b5ddde015e6f0a9cd">&sect;&nbsp;</a></span>lopcl_ListDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lopcl_ListDevice </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdevices.html">devices</a> *&#160;</td>
+          <td class="paramname"><em>X</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cl_device_id&#160;</td>
+          <td class="paramname"><em>device</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>tipo</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Função responsável por recuperar as informações dos dispositivos de uma plataforma especifica. A função é usada internenamente pela <a class="el" href="libopcl_8h.html#a636c9dc956196f8fad74c89fa9972712">lopcl_Explore(int lopcl_PLATFORMA_NUMBER)</a> e pela função int lopcl_PrintInfo(int lopcl_PLATAFORM_NUMBER); </p><dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">devices</td><td>*X - Um ponteiro para uma estrutura de dispositivos. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cl_device_id</td><td>*devices A lista dos dispositivos OpenCL encontrados em uma plataforma. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">int</td><td>tipo <a class="anchor" id="lopcl_PLATFORMS"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Identificador </th><th>Descrição </th></tr>
+<tr>
+<th>0 </th><th>Faz uma varredura pela plataforma e armazena as informações do dispositivo na estrutura de dispositivos. </th></tr>
+<tr>
+<th>1 </th><th>Imprime todas as informações sobre o dispositivo que está disponível na estrtura. &lt;&gt; </th></tr>
+</table>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="libopcl_8h.html">libopcl.h</a></li>
+    <li class="footer">Gerado por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.12 </li>
+  </ul>
+</div>
+</body>
+</html>

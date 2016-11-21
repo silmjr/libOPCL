@@ -126,16 +126,16 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     //printf("%F\n", c[0]);
     
     //-----------------------------------------------------
-    // STEP 1: Descobrir e inicializar as plataformas, Devices e Create a locl_CONTEXT e Fila de Comando 
+    // STEP 1: Descobrir e inicializar as plataformas, Devices e Create a lopcl_CONTEXT e Fila de Comando 
     //-----------------------------------------------------
 
-    locl_Init(locl_NVIDIA, locl_DEVICE_GPU);
+    lopcl_Init(lopcl_NVIDIA, lopcl_DEVICE_GPU);
 
     //-----------------------------------------------------
-    // STEP 2: Criar buffers do device e Escrever os dados do host para os locl_DEVICES de buffers
+    // STEP 2: Criar buffers do device e Escrever os dados do host para os lopcl_DEVICES de buffers
     //----------------------------------------------------- 
     
-    /*cl_mem clCreateBuffer(cl_locl_CONTEXT locl_CONTEXT,
+    /*cl_mem clCreateBuffer(cl_lopcl_CONTEXT lopcl_CONTEXT,
                             cl_memflags flags, size_t size,
                             void* host_ptr,     
                             cl_int* errcode_ret) */
@@ -146,22 +146,22 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     
     // Use clCreateBuffer() para criar o objeto (d_A) 
     // Isso contêm os dados do Array A do Host.
-    bufferA = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, a);
+    bufferA = lopcl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, a);
 
     // Use clCreateBuffer() para criar o objeto (d_B) 
     // Isso contêm os dados do Array B do Host.
-    bufferB = locl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, b);
+    bufferB = lopcl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, b);
     
     // Use clCreateBuffer() para criar o objeto (d_B) 
     // com espaço suficiente para "segurar" os dados de saída.
-    bufferC = locl_CreateBuffer(datasize, CL_MEM_READ_WRITE, CL_FALSE, c);
+    bufferC = lopcl_CreateBuffer(datasize, CL_MEM_READ_WRITE, CL_FALSE, c);
         
     //-----------------------------------------------------
     // STEP 3: Create and compile the program and Create the kernel
     //----------------------------------------------------- 
 
     if(t==0)
-        locl_CreateProgram((const char**)&source_local, "dgemm");
+        lopcl_CreateProgram((const char**)&source_local, "dgemm");
             
     //-----------------------------------------------------
     // STEP 4: Set the kernel arguments
@@ -177,27 +177,27 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
                           const void* arg_value)ponteiro para os dados do argumento.*/
 
     
-    locl_SetKernelArg(0, sizeof( int), &size);
+    lopcl_SetKernelArg(0, sizeof( int), &size);
     
-    locl_SetKernelArg(1, sizeof(int), &size);
+    lopcl_SetKernelArg(1, sizeof(int), &size);
     
-    locl_SetKernelArg(2, sizeof(int), &size);
+    lopcl_SetKernelArg(2, sizeof(int), &size);
     
-    locl_SetKernelArg(3, sizeof(double), &alfa);
+    lopcl_SetKernelArg(3, sizeof(double), &alfa);
 
-    locl_SetKernelArg(4, sizeof(cl_mem), &bufferA);
+    lopcl_SetKernelArg(4, sizeof(cl_mem), &bufferA);
 
-    locl_SetKernelArg(5, sizeof(int), &size);
+    lopcl_SetKernelArg(5, sizeof(int), &size);
 
-    locl_SetKernelArg(6, sizeof(cl_mem), &bufferB);
+    lopcl_SetKernelArg(6, sizeof(cl_mem), &bufferB);
 
-    locl_SetKernelArg(7, sizeof(int), &size);
+    lopcl_SetKernelArg(7, sizeof(int), &size);
 
-    locl_SetKernelArg(8, sizeof(double), &beta);
+    lopcl_SetKernelArg(8, sizeof(double), &beta);
 
-    locl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
+    lopcl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
 
-    locl_SetKernelArg(10, sizeof(int), &size);
+    lopcl_SetKernelArg(10, sizeof(int), &size);
 
     
 
@@ -236,8 +236,8 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     // clEnqueueNDRangeKernel().
     // 'globalWorkSize' is the 1D dimension of the 
     // work-items
-    status = clEnqueueNDRangeKernel(locl_CMDQUEUE, locl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
-    locl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
+    status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
+    lopcl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
     
     //-----------------------------------------------------
     // STEP 7: Read the output buffer back to the host
@@ -255,7 +255,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     // Use clEnqueueReadBuffer() to read the OpenCL output  
     // buffer (bufferC) 
     // to the host output array (C)
-    status = clEnqueueReadBuffer(locl_CMDQUEUE, bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
+    status = clEnqueueReadBuffer(lopcl_CMDQUEUE, bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
     if (status != CL_SUCCESS) {
         printf ("Unable to read the C buffer\n");
         exit(1);
@@ -266,14 +266,14 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     //----------------------------------------------------- 
     
     //Free OpenCL resources
-    clReleaseKernel(locl_KERNEL );
-    clReleaseProgram(locl_PROGRAM);
-    clReleaseCommandQueue(locl_CMDQUEUE);
-    clReleaseContext(locl_CONTEXT);
+    clReleaseKernel(lopcl_KERNEL );
+    clReleaseProgram(lopcl_PROGRAM);
+    clReleaseCommandQueue(lopcl_CMDQUEUE);
+    clReleaseContext(lopcl_CONTEXT);
     clReleaseMemObject(bufferA); 
     clReleaseMemObject(bufferB);
     clReleaseMemObject(bufferC);
-    locl_Finalize();
+    lopcl_Finalize();
     //free(source_str);
     
     

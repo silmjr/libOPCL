@@ -1,0 +1,496 @@
+\hypertarget{libopcl_8h}{}\section{Referência do Arquivo libopcl.\+h}
+\label{libopcl_8h}\index{libopcl.\+h@{libopcl.\+h}}
+
+
+Esse arquivo contém as definições e declarações das funções que compõe a biblioteca lib\+O\+P\+CL.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$C\+L/cl.\+h$>$}\newline
+\subsection*{Estruturas de Dados}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdevices}{devices}
+\item 
+struct \hyperlink{structplataforms}{plataforms}
+\end{DoxyCompactItemize}
+\subsection*{Definições e Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{libopcl_8h_a75f1eebd271ca8914df7714e7f177cd1}{}\label{libopcl_8h_a75f1eebd271ca8914df7714e7f177cd1} 
+\#define \hyperlink{libopcl_8h_a75f1eebd271ca8914df7714e7f177cd1}{lopcl\+\_\+\+I\+N\+T\+EL}~0
+\begin{DoxyCompactList}\small\item\em Identificador atribuído a plataforma I\+N\+T\+EL. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_acfa865efa9d2e5963828429c3afeb1bb}{}\label{libopcl_8h_acfa865efa9d2e5963828429c3afeb1bb} 
+\#define \hyperlink{libopcl_8h_acfa865efa9d2e5963828429c3afeb1bb}{lopcl\+\_\+\+I\+N\+T\+E\+L\+\_\+\+G\+PU}~1
+\begin{DoxyCompactList}\small\item\em Identificador atribuído a plataforma I\+N\+T\+EL G\+PU. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_ab0dc658d05f9740c04bc5e33df479611}{}\label{libopcl_8h_ab0dc658d05f9740c04bc5e33df479611} 
+\#define \hyperlink{libopcl_8h_ab0dc658d05f9740c04bc5e33df479611}{lopcl\+\_\+\+A\+MD}~2
+\begin{DoxyCompactList}\small\item\em Identificador atribuído a plataforma A\+MD. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a82fc159d29b83847b73408babea2dea7}{}\label{libopcl_8h_a82fc159d29b83847b73408babea2dea7} 
+\#define \hyperlink{libopcl_8h_a82fc159d29b83847b73408babea2dea7}{lopcl\+\_\+\+N\+V\+I\+D\+IA}~3
+\begin{DoxyCompactList}\small\item\em Identificador atribuído a plataforma N\+V\+I\+D\+IA . \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_acd1877ff219ae50f2b395e14dbc71260}{}\label{libopcl_8h_acd1877ff219ae50f2b395e14dbc71260} 
+\#define \hyperlink{libopcl_8h_acd1877ff219ae50f2b395e14dbc71260}{lopcl\+\_\+\+P\+O\+CL}~4
+\begin{DoxyCompactList}\small\item\em Identificador atribuído a plataforma P\+O\+CL. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a12429a41efb454b2a606761a72e5934e}{}\label{libopcl_8h_a12429a41efb454b2a606761a72e5934e} 
+\#define \hyperlink{libopcl_8h_a12429a41efb454b2a606761a72e5934e}{lopcl\+\_\+\+C\+O\+P\+R\+T\+HR}~5
+\begin{DoxyCompactList}\small\item\em Identificador atribuído a plataforma C\+O\+P\+R\+T\+HR. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_af51a602386dd5dc395a830a308ff605c}{}\label{libopcl_8h_af51a602386dd5dc395a830a308ff605c} 
+\#define \hyperlink{libopcl_8h_af51a602386dd5dc395a830a308ff605c}{lopcl\+\_\+\+A\+LL}~6
+\begin{DoxyCompactList}\small\item\em Identificador atribuído para referencia a todas plataformas disponíveis em uma máquina. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a39cb9803524b6f3b783344b2f89867b4}{}\label{libopcl_8h_a39cb9803524b6f3b783344b2f89867b4} 
+\#define \hyperlink{libopcl_8h_a39cb9803524b6f3b783344b2f89867b4}{G\+PU}~C\+L\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+G\+PU
+\begin{DoxyCompactList}\small\item\em Macro para device do tipo G\+PU. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_ad703205f9a4d4bb6af9c25257c23ce6d}{}\label{libopcl_8h_ad703205f9a4d4bb6af9c25257c23ce6d} 
+\#define \hyperlink{libopcl_8h_ad703205f9a4d4bb6af9c25257c23ce6d}{C\+PU}~C\+L\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+C\+PU
+\begin{DoxyCompactList}\small\item\em Macro para device do tipo C\+PU. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_af1dc295cb5bbb0f8fa57eb0fa66f0203}{}\label{libopcl_8h_af1dc295cb5bbb0f8fa57eb0fa66f0203} 
+\#define \hyperlink{libopcl_8h_af1dc295cb5bbb0f8fa57eb0fa66f0203}{A\+C\+C\+E\+L\+E\+R\+A\+T\+OR}~C\+L\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+C\+C\+E\+L\+E\+R\+A\+T\+OR
+\begin{DoxyCompactList}\small\item\em Macro para device do tipo A\+C\+C\+E\+L\+E\+R\+A\+T\+OR. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Funções}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{libopcl_8h_ade7c32a3125e006727c4f4d04b450e4a}{lopcl\+\_\+\+Init} (int lopcl\+\_\+\+P\+L\+A\+T\+F\+O\+R\+M\+\_\+\+N\+UM, int lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+UM)
+\item 
+\hypertarget{libopcl_8h_a7a201b693e4b7aff37d09e850a3462d6}{}\label{libopcl_8h_a7a201b693e4b7aff37d09e850a3462d6} 
+int \hyperlink{libopcl_8h_a7a201b693e4b7aff37d09e850a3462d6}{lopcl\+\_\+\+Finalize} (void)
+\begin{DoxyCompactList}\small\item\em lopcl\+\_\+\+Finaliza, função libera a memória usada durante a execução do programa. \end{DoxyCompactList}\item 
+int \hyperlink{libopcl_8h_a6a75e3ca186681b5e0c745896b96e113}{lopcl\+\_\+\+Initialize\+\_\+\+Platforms} (void)
+\item 
+int \hyperlink{libopcl_8h_a524555dcb0362b5debf652431458c67b}{lopcl\+\_\+\+Initialize\+\_\+\+Device} (int index)
+\item 
+int \hyperlink{libopcl_8h_a636c9dc956196f8fad74c89fa9972712}{lopcl\+\_\+\+Explore} (int lopcl\+\_\+\+P\+L\+A\+T\+A\+F\+O\+R\+M\+\_\+\+N\+U\+M\+B\+ER)
+\item 
+int \hyperlink{libopcl_8h_a01cefabdfdf5129d31846566baeecf57}{lopcl\+\_\+\+Create\+Cmd\+Queue} (int lopcl\+\_\+\+P\+L\+A\+T\+A\+F\+O\+R\+M\+\_\+\+N\+U\+M\+B\+ER, int lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+U\+M\+B\+ER)
+\item 
+int \hyperlink{libopcl_8h_a979e7dd0aede945b5ddde015e6f0a9cd}{lopcl\+\_\+\+List\+Device} (\hyperlink{structdevices}{devices} $\ast$X, cl\+\_\+device\+\_\+id device, int tipo)
+\item 
+\hypertarget{libopcl_8h_af7d02cba236e075fa87ce7a4bb05ef3c}{}\label{libopcl_8h_af7d02cba236e075fa87ce7a4bb05ef3c} 
+cl\+\_\+mem {\bfseries lopcl\+\_\+\+Create\+Buffer} (size\+\_\+t lopcl\+\_\+\+D\+A\+T\+A\+S\+I\+ZE, cl\+\_\+mem\+\_\+flags lopcl\+\_\+\+F\+L\+A\+GS, cl\+\_\+bool lopcl\+\_\+\+F\+L\+A\+G1, void $\ast$a)
+\item 
+\hypertarget{libopcl_8h_aa6b85c3609a9b0310f33f1929a1040ab}{}\label{libopcl_8h_aa6b85c3609a9b0310f33f1929a1040ab} 
+int {\bfseries lopcl\+\_\+\+Create\+Program} (const char $\ast$$\ast$source\+\_\+str, char $\ast$kernel)
+\item 
+\hypertarget{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{}\label{libopcl_8h_affccb59435b5513c8729a76a78d8ed30} 
+int {\bfseries lopcl\+\_\+\+Set\+Kernel\+Arg} (cl\+\_\+int i, size\+\_\+t tipo, const void $\ast$buffer)
+\item 
+\hypertarget{libopcl_8h_aa2d862d99ffb4cc655984078aa0973b8}{}\label{libopcl_8h_aa2d862d99ffb4cc655984078aa0973b8} 
+void {\bfseries lopcl\+\_\+\+Errors} (int i)
+\item 
+\hypertarget{libopcl_8h_ae4fce0f8a8f1d65d5a2750243ed05239}{}\label{libopcl_8h_ae4fce0f8a8f1d65d5a2750243ed05239} 
+int {\bfseries lopcl\+\_\+\+Print\+Info} (int lopcl\+\_\+\+P\+L\+A\+T\+A\+F\+O\+R\+M\+\_\+\+N\+U\+M\+B\+ER)
+\item 
+\hypertarget{libopcl_8h_aaefe7391177edcf01114db3ee3061187}{}\label{libopcl_8h_aaefe7391177edcf01114db3ee3061187} 
+char $\ast$ {\bfseries Disc\+Str} (char $\ast$name)
+\item 
+\hypertarget{libopcl_8h_aaec0ef60789904a8ae5253e759459f7b}{}\label{libopcl_8h_aaec0ef60789904a8ae5253e759459f7b} 
+int {\bfseries is\+Equal} (char $\ast$name, char $\ast$name2)
+\item 
+\hypertarget{libopcl_8h_a283016088821514b5ce6d1c116f644ae}{}\label{libopcl_8h_a283016088821514b5ce6d1c116f644ae} 
+void {\bfseries verifica} (int index)
+\item 
+\hypertarget{libopcl_8h_a3ad1aa3a5c31292f11f9027a59935b17}{}\label{libopcl_8h_a3ad1aa3a5c31292f11f9027a59935b17} 
+int {\bfseries lopcl\+\_\+get\+Num\+Platform} (int index)
+\item 
+\hypertarget{libopcl_8h_a68dd16b42084d7dcbbc78ef1657250fa}{}\label{libopcl_8h_a68dd16b42084d7dcbbc78ef1657250fa} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Name\+Platform} (int index)
+\item 
+\hypertarget{libopcl_8h_ad66b9dd0788ae6c2145a458f18422a34}{}\label{libopcl_8h_ad66b9dd0788ae6c2145a458f18422a34} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Vendor\+Platform} (int index)
+\item 
+\hypertarget{libopcl_8h_a30babe50b4ab32c6a561f0b1904e8ee2}{}\label{libopcl_8h_a30babe50b4ab32c6a561f0b1904e8ee2} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Extensios\+Platform} (int index)
+\item 
+\hypertarget{libopcl_8h_aaa24fb00a2001f07d8add06572cebffe}{}\label{libopcl_8h_aaa24fb00a2001f07d8add06572cebffe} 
+int {\bfseries lopcl\+\_\+get\+Num\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_af495a26c50fec6e531c26994a3c164d4}{}\label{libopcl_8h_af495a26c50fec6e531c26994a3c164d4} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Name\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a593e2fa3e583d068ec96adc4ead1d5ad}{}\label{libopcl_8h_a593e2fa3e583d068ec96adc4ead1d5ad} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Vendor\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a1e040b2ba30a3e4ac20962a4ea6c3039}{}\label{libopcl_8h_a1e040b2ba30a3e4ac20962a4ea6c3039} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Vendor\+Id\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a6ce45e5339794591fc5f6e476f90affb}{}\label{libopcl_8h_a6ce45e5339794591fc5f6e476f90affb} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Profile\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a45b1afe9841b2ef388bba4c2281a39a3}{}\label{libopcl_8h_a45b1afe9841b2ef388bba4c2281a39a3} 
+cl\+\_\+bool $\ast$ {\bfseries lopcl\+\_\+get\+Available\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a28cd51d5bba2ea7ae59561f7b9998fbd}{}\label{libopcl_8h_a28cd51d5bba2ea7ae59561f7b9998fbd} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Version\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_aba097f34f3fcdd0c0ac84a9479a5a8f2}{}\label{libopcl_8h_aba097f34f3fcdd0c0ac84a9479a5a8f2} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Drive\+Version\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a4df159ccc650fad724db6fbe013a1688}{}\label{libopcl_8h_a4df159ccc650fad724db6fbe013a1688} 
+cl\+\_\+bool $\ast$ {\bfseries lopcl\+\_\+get\+Compiler\+Available\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a19cdc21734961a5be5a8711f574b7ce9}{}\label{libopcl_8h_a19cdc21734961a5be5a8711f574b7ce9} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Adress\+Space\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_af5616c4e257e791446f7872ec8f05b4d}{}\label{libopcl_8h_af5616c4e257e791446f7872ec8f05b4d} 
+cl\+\_\+bool $\ast$ {\bfseries lopcl\+\_\+get\+Litle\+Endian\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_abb398944e2d44591d9a77240fe3ae9ac}{}\label{libopcl_8h_abb398944e2d44591d9a77240fe3ae9ac} 
+cl\+\_\+bool $\ast$ {\bfseries lopcl\+\_\+get\+Error\+Correction\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a173ec3237c342a215299aab4eb425564}{}\label{libopcl_8h_a173ec3237c342a215299aab4eb425564} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Adress\+Alingment\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a643c7a83db46266c327ed212d4ce6eef}{}\label{libopcl_8h_a643c7a83db46266c327ed212d4ce6eef} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Small\+Alingment\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a8a330b443375d33d6786a9572195a377}{}\label{libopcl_8h_a8a330b443375d33d6786a9572195a377} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Resolution\+Timer\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a685c6e204eecc4901f675a7fda65c238}{}\label{libopcl_8h_a685c6e204eecc4901f675a7fda65c238} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Clock\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a4e5acfa22166ffd9bdd3d5e10f56c36e}{}\label{libopcl_8h_a4e5acfa22166ffd9bdd3d5e10f56c36e} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Compute\+Units\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_ae0e241669a69ce3eb64234c10cff2c2d}{}\label{libopcl_8h_ae0e241669a69ce3eb64234c10cff2c2d} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Constant\+Args\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_abc2292192814c3a4c9959f769bbdd36f}{}\label{libopcl_8h_abc2292192814c3a4c9959f769bbdd36f} 
+cl\+\_\+ulong $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Buffer\+Size\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_aac78f7da17d427a87a2c9c338f95fb26}{}\label{libopcl_8h_aac78f7da17d427a87a2c9c338f95fb26} 
+cl\+\_\+ulong $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Mem\+Aloc\+Size\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_aa7992512a5679763cb22ffab9f747e7c}{}\label{libopcl_8h_aa7992512a5679763cb22ffab9f747e7c} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Param\+Size\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a45d9ced687381d344714780bb4475b9f}{}\label{libopcl_8h_a45d9ced687381d344714780bb4475b9f} 
+cl\+\_\+device\+\_\+exec\+\_\+capabilities $\ast$ {\bfseries lopcl\+\_\+get\+Execution\+Capabilities\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a4fbf304f2f9c6f3cc4d0079d9e61804e}{}\label{libopcl_8h_a4fbf304f2f9c6f3cc4d0079d9e61804e} 
+cl\+\_\+ulong $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Global\+Mem\+Size\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a5e3a113e47fec3cf2c87e12845e5a9cb}{}\label{libopcl_8h_a5e3a113e47fec3cf2c87e12845e5a9cb} 
+cl\+\_\+ulong $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Global\+Mem\+Cache\+Size\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a36b9efa643e9a6f24e0428aff55a293d}{}\label{libopcl_8h_a36b9efa643e9a6f24e0428aff55a293d} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Global\+Mem\+Line\+Chace\+Size\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a973cab73a13bb433ba90ab7e92411255}{}\label{libopcl_8h_a973cab73a13bb433ba90ab7e92411255} 
+cl\+\_\+ulong $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Local\+Mem\+Size\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a5512e479a22e30c5888d6686e95f99fb}{}\label{libopcl_8h_a5512e479a22e30c5888d6686e95f99fb} 
+cl\+\_\+device\+\_\+local\+\_\+mem\+\_\+type $\ast$ {\bfseries lopcl\+\_\+get\+Local\+Mem\+Type\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_ac3dd1831da484da52f7ee853b85800d5}{}\label{libopcl_8h_ac3dd1831da484da52f7ee853b85800d5} 
+cl\+\_\+device\+\_\+mem\+\_\+cache\+\_\+type $\ast$ {\bfseries lopcl\+\_\+get\+Cache\+Mem\+Type\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a50530e75a18493dbc7079cff8e032325}{}\label{libopcl_8h_a50530e75a18493dbc7079cff8e032325} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Work\+Groups\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_afbea47525014dad0aec6a2a3bbd55e27}{}\label{libopcl_8h_afbea47525014dad0aec6a2a3bbd55e27} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Work\+Items\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a449a000a751ce2acd2c3d271e378d983}{}\label{libopcl_8h_a449a000a751ce2acd2c3d271e378d983} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Work\+Items\+Dimensions\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a461ef05df51c1153ad9a1794d1c8778d}{}\label{libopcl_8h_a461ef05df51c1153ad9a1794d1c8778d} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Work\+Item\+Sizes\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a1ba6c9a2ea29852754ed4d6ae417f097}{}\label{libopcl_8h_a1ba6c9a2ea29852754ed4d6ae417f097} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max2d\+Height\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a962db47c38d9608f512854dd33787ed8}{}\label{libopcl_8h_a962db47c38d9608f512854dd33787ed8} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max2d\+Width\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a1acb9316eacac4bca52c47391d6866e4}{}\label{libopcl_8h_a1acb9316eacac4bca52c47391d6866e4} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max3d\+Depth\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_ae9a0490fe40fd362dd2fac251519bb8b}{}\label{libopcl_8h_ae9a0490fe40fd362dd2fac251519bb8b} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max3d\+Height\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a1cf7426ad84f657e6f386a1f223d2a5a}{}\label{libopcl_8h_a1cf7426ad84f657e6f386a1f223d2a5a} 
+size\+\_\+t $\ast$ {\bfseries lopcl\+\_\+get\+Max3d\+Width\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a59c6d69d6a7eba22d5c17b968b8096eb}{}\label{libopcl_8h_a59c6d69d6a7eba22d5c17b968b8096eb} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Read\+Image\+Args\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a5db2f4d8597294ff22340b00844356de}{}\label{libopcl_8h_a5db2f4d8597294ff22340b00844356de} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+ge\+Max\+Write\+Image\+Args\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a98c5f8b58d5f01626701489890ee03b1}{}\label{libopcl_8h_a98c5f8b58d5f01626701489890ee03b1} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Max\+Samplers\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a17318648a7e4e46731d81e6b8db19f1d}{}\label{libopcl_8h_a17318648a7e4e46731d81e6b8db19f1d} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Preferred\+Vector\+Width\+Char\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a5cd6c8cf9aad617d9cbdf35ead9e0b95}{}\label{libopcl_8h_a5cd6c8cf9aad617d9cbdf35ead9e0b95} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Preferred\+Vector\+Width\+Short\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_aeab05bafc59c73dea9defcc3c82652e0}{}\label{libopcl_8h_aeab05bafc59c73dea9defcc3c82652e0} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Preferred\+Vector\+Width\+Intt\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a968aba99126ca9425710848efe716c56}{}\label{libopcl_8h_a968aba99126ca9425710848efe716c56} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Preferred\+Vector\+Width\+Long\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_ad4074a1fd53839513b4e6e041ccb9354}{}\label{libopcl_8h_ad4074a1fd53839513b4e6e041ccb9354} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Preferred\+Vector\+Width\+Float\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a6642f6da0db2fc928c19034cd1fb2f1c}{}\label{libopcl_8h_a6642f6da0db2fc928c19034cd1fb2f1c} 
+cl\+\_\+uint $\ast$ {\bfseries lopcl\+\_\+get\+Preferred\+Vector\+Width\+Double\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a3aa168f71e5d545d55878eaa2bf5ea62}{}\label{libopcl_8h_a3aa168f71e5d545d55878eaa2bf5ea62} 
+cl\+\_\+device\+\_\+fp\+\_\+config $\ast$ {\bfseries lopcl\+\_\+get\+Single\+Precision\+Flat\+Capability\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\item 
+\hypertarget{libopcl_8h_a2b50b6d5d26037d3c0f247c483747ab6}{}\label{libopcl_8h_a2b50b6d5d26037d3c0f247c483747ab6} 
+char $\ast$ {\bfseries lopcl\+\_\+get\+Extensions\+Device} (int index, cl\+\_\+device\+\_\+type type)
+\end{DoxyCompactItemize}
+\subsection*{Variáveis}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{libopcl_8h_a03b35b4ca16ed674504bc73a805083f4}{}\label{libopcl_8h_a03b35b4ca16ed674504bc73a805083f4} 
+int \hyperlink{libopcl_8h_a03b35b4ca16ed674504bc73a805083f4}{list\+Platforms} \mbox{[}7\mbox{]}
+\begin{DoxyCompactList}\small\item\em Vetor responsável pelo armazenamento dos números das plataformas em uma máquina específica (Default é -\/1). \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a14f95182a77e3153690aa7c2297c8617}{}\label{libopcl_8h_a14f95182a77e3153690aa7c2297c8617} 
+int \hyperlink{libopcl_8h_a14f95182a77e3153690aa7c2297c8617}{lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+C\+PU}
+\begin{DoxyCompactList}\small\item\em Identificador do dispositivos C\+PU. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_abc90bbd438ab8be16a414d6f8e8d7897}{}\label{libopcl_8h_abc90bbd438ab8be16a414d6f8e8d7897} 
+int \hyperlink{libopcl_8h_abc90bbd438ab8be16a414d6f8e8d7897}{lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+A\+C\+C\+E\+L\+E\+R\+A\+T\+OR}
+\begin{DoxyCompactList}\small\item\em Identificador do dispositivos A\+C\+C\+E\+L\+E\+R\+A\+T\+OR. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a1822006b4d975a90a796837f7c329681}{}\label{libopcl_8h_a1822006b4d975a90a796837f7c329681} 
+int \hyperlink{libopcl_8h_a1822006b4d975a90a796837f7c329681}{lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+G\+PU}
+\begin{DoxyCompactList}\small\item\em Identificador do dispositivos G\+PU. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a44d6365c57fa01bf646133a793976d6e}{}\label{libopcl_8h_a44d6365c57fa01bf646133a793976d6e} 
+cl\+\_\+uint \hyperlink{libopcl_8h_a44d6365c57fa01bf646133a793976d6e}{lopcl\+\_\+\+N\+U\+M\+\_\+\+P\+L\+A\+T\+F\+O\+R\+MS}
+\begin{DoxyCompactList}\small\item\em Armazena o número total de plataformas em uma máquina. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a8d6e180d133f66970e8c04198655f3df}{}\label{libopcl_8h_a8d6e180d133f66970e8c04198655f3df} 
+cl\+\_\+uint \hyperlink{libopcl_8h_a8d6e180d133f66970e8c04198655f3df}{lopcl\+\_\+\+N\+U\+M\+\_\+\+D\+E\+V\+I\+C\+ES}
+\begin{DoxyCompactList}\small\item\em Armazena número total de dispositivos de uma plataforma específica. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a81658d061241b4af69a03e4b58d592fb}{}\label{libopcl_8h_a81658d061241b4af69a03e4b58d592fb} 
+cl\+\_\+platform\+\_\+id $\ast$ \hyperlink{libopcl_8h_a81658d061241b4af69a03e4b58d592fb}{lopcl\+\_\+\+P\+L\+A\+T\+F\+O\+R\+MS}
+\begin{DoxyCompactList}\small\item\em Armazena um vetor de plataformas (Usado pelo O\+P\+E\+N\+CL). \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_aa889f131410a86049886b93818db7e5a}{}\label{libopcl_8h_aa889f131410a86049886b93818db7e5a} 
+cl\+\_\+device\+\_\+id $\ast$ \hyperlink{libopcl_8h_aa889f131410a86049886b93818db7e5a}{lopcl\+\_\+\+D\+E\+V\+I\+C\+ES}
+\begin{DoxyCompactList}\small\item\em Armazena um Vetor de dispositivos (Usado pelo O\+P\+E\+N\+CL). \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_ae02a0c6bb72304251b9dc9968edb29f3}{}\label{libopcl_8h_ae02a0c6bb72304251b9dc9968edb29f3} 
+cl\+\_\+context \hyperlink{libopcl_8h_ae02a0c6bb72304251b9dc9968edb29f3}{lopcl\+\_\+\+C\+O\+N\+T\+E\+XT}
+\begin{DoxyCompactList}\small\item\em Armazena um contexto para um dispositivo a ser escolhido. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_af57a50f399ecbe80bd418b9c482f549c}{}\label{libopcl_8h_af57a50f399ecbe80bd418b9c482f549c} 
+cl\+\_\+command\+\_\+queue \hyperlink{libopcl_8h_af57a50f399ecbe80bd418b9c482f549c}{lopcl\+\_\+\+C\+M\+D\+Q\+U\+E\+UE}
+\begin{DoxyCompactList}\small\item\em Armazena uma fila de comando. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a8a09a35e78c242e7e47a12cb469f6c03}{}\label{libopcl_8h_a8a09a35e78c242e7e47a12cb469f6c03} 
+cl\+\_\+program \hyperlink{libopcl_8h_a8a09a35e78c242e7e47a12cb469f6c03}{lopcl\+\_\+\+P\+R\+O\+G\+R\+AM}
+\begin{DoxyCompactList}\small\item\em Armazena o programa (kernel) compilado. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a79b979fb204a8c19d91ded3ea3666494}{}\label{libopcl_8h_a79b979fb204a8c19d91ded3ea3666494} 
+cl\+\_\+kernel \hyperlink{libopcl_8h_a79b979fb204a8c19d91ded3ea3666494}{lopcl\+\_\+\+K\+E\+R\+N\+EL}
+\begin{DoxyCompactList}\small\item\em Armazena um kernel. \end{DoxyCompactList}\item 
+\hypertarget{libopcl_8h_a008e6fce6af63fffc29e9dc3edcdcac4}{}\label{libopcl_8h_a008e6fce6af63fffc29e9dc3edcdcac4} 
+\hyperlink{structplataforms}{plataforms} $\ast$ \hyperlink{libopcl_8h_a008e6fce6af63fffc29e9dc3edcdcac4}{lopcl\+\_\+\+Disp\+Plats}
+\begin{DoxyCompactList}\small\item\em Vetor onde será armazenado todos os dados sobre plataformas e dispositivos presentes em uma máquina. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Descrição Detalhada}
+Esse arquivo contém as definições e declarações das funções que compõe a biblioteca lib\+O\+P\+CL. 
+
+\begin{DoxyAuthor}{Autor}
+Silvano Moreira Junior 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Data}
+21 novembro 2016 
+\end{DoxyDate}
+\begin{DoxySeeAlso}{Veja também}
+\href{https://github.com/silmjr/libOPCL}{\tt https\+://github.\+com/silmjr/lib\+O\+P\+CL} 
+\end{DoxySeeAlso}
+
+
+\subsection{Funções}
+\hypertarget{libopcl_8h_a01cefabdfdf5129d31846566baeecf57}{}\label{libopcl_8h_a01cefabdfdf5129d31846566baeecf57} 
+\index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Create\+Cmd\+Queue@{lopcl\+\_\+\+Create\+Cmd\+Queue}}
+\index{lopcl\+\_\+\+Create\+Cmd\+Queue@{lopcl\+\_\+\+Create\+Cmd\+Queue}!libopcl.\+h@{libopcl.\+h}}
+\subsubsection{\texorpdfstring{lopcl\+\_\+\+Create\+Cmd\+Queue()}{lopcl\_CreateCmdQueue()}}
+{\footnotesize\ttfamily int lopcl\+\_\+\+Create\+Cmd\+Queue (\begin{DoxyParamCaption}\item[{int}]{lopcl\+\_\+\+P\+L\+A\+T\+A\+F\+O\+R\+M\+\_\+\+N\+U\+M\+B\+ER,  }\item[{int}]{lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+U\+M\+B\+ER }\end{DoxyParamCaption})}
+
+A função é responsável por criar o contexto Open\+CL e a fila de comando. Essa função é usada internamente pela função locl\+\_\+\+Init(int lopcl\+\_\+\+P\+L\+A\+T\+F\+O\+R\+M\+\_\+\+N\+U\+M, int lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+U\+M). 
+\begin{DoxyParams}[1]{Parâmetros}
+\mbox{\tt in}  & {\em int} & lopcl\+\_\+\+P\+L\+A\+T\+A\+F\+O\+R\+M\+\_\+\+N\+UM -\/ Número inteiro que representa a plataforma escolhida. \hypertarget{libopcl_8h_lopcl_PLATFORMS}{}
+\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_lopcl_PLATFORMS}\\
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endhead
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+I\+N\+T\+EL }&{\bf Seleciona e incializa a plataforma Intel, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+I\+N\+T\+E\+L\+\_\+\+G\+PU }&{\bf Seleciona e incializa a plataforma Intel G\+PU, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+A\+MD }&{\bf Seleciona e incializa a plataforma A\+MD, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+N\+V\+I\+D\+IA }&{\bf Seleciona e incializa a plataforma N\+V\+I\+D\+IA, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+P\+O\+CL }&{\bf Seleciona e incializa a plataforma P\+O\+CL, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+C\+O\+P\+R\+T\+HR }&{\bf Seleciona e incializa a plataforma C\+O\+P\+R\+T\+HR, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+A\+LL }&{\bf Seleciona e incializa todas as plataformas disponíveis na máquina. $<$$>$
+
+}\\\cline{1-2}
+\end{tabularx}
+\\
+\hline
+\mbox{\tt in}  & {\em int} & lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+UM -\/ Número inteiro que representa o dispositivo escolhido. \hypertarget{libopcl_8h_lopcl_DEVICES}{}
+\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_lopcl_DEVICES}\\
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endhead
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+C\+PU }&{\bf Seleciona e incializa o dispositivo do tipo C\+PU, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+G\+PU }&{\bf Seleciona e incializa o dispositivo do tipo G\+PU, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+A\+C\+C\+E\+L\+E\+R\+A\+T\+OR }&{\bf Seleciona e incializa o dispositivo do tipo A\+C\+C\+E\+L\+E\+R\+A\+T\+OR, se disponível na máquina. $<$$>$ }\\\cline{1-2}
+\end{tabularx}
+\\
+\hline
+\end{DoxyParams}
+\hypertarget{libopcl_8h_a636c9dc956196f8fad74c89fa9972712}{}\label{libopcl_8h_a636c9dc956196f8fad74c89fa9972712} 
+\index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Explore@{lopcl\+\_\+\+Explore}}
+\index{lopcl\+\_\+\+Explore@{lopcl\+\_\+\+Explore}!libopcl.\+h@{libopcl.\+h}}
+\subsubsection{\texorpdfstring{lopcl\+\_\+\+Explore()}{lopcl\_Explore()}}
+{\footnotesize\ttfamily int lopcl\+\_\+\+Explore (\begin{DoxyParamCaption}\item[{int}]{lopcl\+\_\+\+P\+L\+A\+T\+A\+F\+O\+R\+M\+\_\+\+N\+U\+M\+B\+ER }\end{DoxyParamCaption})}
+
+Função responsável por fazer a varredura na máquina usada, descobrindo todas as informações sobre as plataformas e dispositivos especificados, e armazenando esses dados nas estruturas correspondentes aos dispositivos e plataformas, tornando possível recuperar esses dados futuramente. Essa função é usada internamente pela função locl\+\_\+\+Init(int lopcl\+\_\+\+P\+L\+A\+T\+F\+O\+R\+M\+\_\+\+N\+U\+M, int lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+U\+M). 
+\begin{DoxyParams}[1]{Parâmetros}
+\mbox{\tt in}  & {\em int} & index -\/ Número inteiro que representa a plataforma escolhida. \hypertarget{libopcl_8h_index}{}
+\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_index}\\
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endhead
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+I\+N\+T\+EL }&{\bf Seleciona e incializa a plataforma Intel, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+I\+N\+T\+E\+L\+\_\+\+G\+PU }&{\bf Seleciona e incializa a plataforma Intel G\+PU, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+A\+MD }&{\bf Seleciona e incializa a plataforma A\+MD, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+N\+V\+I\+D\+IA }&{\bf Seleciona e incializa a plataforma N\+V\+I\+D\+IA, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+P\+O\+CL }&{\bf Seleciona e incializa a plataforma P\+O\+CL, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+C\+O\+P\+R\+T\+HR }&{\bf Seleciona e incializa a plataforma C\+O\+P\+R\+T\+HR, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+A\+LL }&{\bf Seleciona e incializa todas as plataformas disponíveis na máquina. $<$$>$ }\\\cline{1-2}
+\end{tabularx}
+\\
+\hline
+\end{DoxyParams}
+\hypertarget{libopcl_8h_ade7c32a3125e006727c4f4d04b450e4a}{}\label{libopcl_8h_ade7c32a3125e006727c4f4d04b450e4a} 
+\index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Init@{lopcl\+\_\+\+Init}}
+\index{lopcl\+\_\+\+Init@{lopcl\+\_\+\+Init}!libopcl.\+h@{libopcl.\+h}}
+\subsubsection{\texorpdfstring{lopcl\+\_\+\+Init()}{lopcl\_Init()}}
+{\footnotesize\ttfamily int lopcl\+\_\+\+Init (\begin{DoxyParamCaption}\item[{int}]{lopcl\+\_\+\+P\+L\+A\+T\+F\+O\+R\+M\+\_\+\+N\+UM,  }\item[{int}]{lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+UM }\end{DoxyParamCaption})}
+
+A função é responsável por inicializar as plataformas, os dispositivos, preencher as estruturas com as informações disponíveis na máquina, criar a fila de comando e o contexto para a plataforma e o dispositivo específicados. Caso o index seja lopcl\+\_\+\+A\+LL e 0, não criará a fila de comando e o contexto. 
+\begin{DoxyParams}[1]{Parâmetros}
+\mbox{\tt in}  & {\em int} & lopcl\+\_\+\+P\+L\+A\+T\+A\+F\+O\+R\+M\+\_\+\+N\+UM -\/ Número inteiro que representa a plataforma escolhida. \hypertarget{libopcl_8h_lopcl_PLATFORMS}{}
+\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_lopcl_PLATFORMS}\\
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endhead
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+I\+N\+T\+EL }&{\bf Seleciona e incializa a plataforma Intel, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+I\+N\+T\+E\+L\+\_\+\+G\+PU }&{\bf Seleciona e incializa a plataforma Intel G\+PU, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+A\+MD }&{\bf Seleciona e incializa a plataforma A\+MD, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+N\+V\+I\+D\+IA }&{\bf Seleciona e incializa a plataforma N\+V\+I\+D\+IA, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+P\+O\+CL }&{\bf Seleciona e incializa a plataforma P\+O\+CL, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+C\+O\+P\+R\+T\+HR }&{\bf Seleciona e incializa a plataforma C\+O\+P\+R\+T\+HR, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+A\+LL }&{\bf Seleciona e incializa todas as plataformas disponíveis na máquina. $<$$>$
+
+}\\\cline{1-2}
+\end{tabularx}
+\\
+\hline
+\mbox{\tt in}  & {\em int} & lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+UM -\/ Número inteiro que representa o dispositivo escolhido. \hypertarget{libopcl_8h_lopcl_DEVICES}{}
+\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_lopcl_DEVICES}\\
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endhead
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+C\+PU }&{\bf Seleciona e incializa o dispositivo do tipo C\+PU, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+G\+PU }&{\bf Seleciona e incializa o dispositivo do tipo G\+PU, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+A\+C\+C\+E\+L\+E\+R\+A\+T\+OR }&{\bf Seleciona e incializa o dispositivo do tipo A\+C\+C\+E\+L\+E\+R\+A\+T\+OR, se disponível na máquina. $<$$>$ }\\\cline{1-2}
+\end{tabularx}
+\\
+\hline
+\end{DoxyParams}
+\hypertarget{libopcl_8h_a524555dcb0362b5debf652431458c67b}{}\label{libopcl_8h_a524555dcb0362b5debf652431458c67b} 
+\index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Initialize\+\_\+\+Device@{lopcl\+\_\+\+Initialize\+\_\+\+Device}}
+\index{lopcl\+\_\+\+Initialize\+\_\+\+Device@{lopcl\+\_\+\+Initialize\+\_\+\+Device}!libopcl.\+h@{libopcl.\+h}}
+\subsubsection{\texorpdfstring{lopcl\+\_\+\+Initialize\+\_\+\+Device()}{lopcl\_Initialize\_Device()}}
+{\footnotesize\ttfamily int lopcl\+\_\+\+Initialize\+\_\+\+Device (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
+
+Função responsável por fazer a varredura na máquina usada, descobrindo todos os dispositivos de uma plataforma especificada, atribuindo os valores correspondentes aos índices que correspondem a esses dispostivos. Essa função é usada internamente pela função locl\+\_\+\+Init(int lopcl\+\_\+\+P\+L\+A\+T\+F\+O\+R\+M\+\_\+\+N\+U\+M, int lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+U\+M). 
+\begin{DoxyParams}[1]{Parâmetros}
+\mbox{\tt in}  & {\em int} & index -\/ Número inteiro que representa a plataforma escolhida. \hypertarget{libopcl_8h_index}{}
+\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_index}\\
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endhead
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+I\+N\+T\+EL }&{\bf Seleciona e incializa a plataforma Intel, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+I\+N\+T\+E\+L\+\_\+\+G\+PU }&{\bf Seleciona e incializa a plataforma Intel G\+PU, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+A\+MD }&{\bf Seleciona e incializa a plataforma A\+MD, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+N\+V\+I\+D\+IA }&{\bf Seleciona e incializa a plataforma N\+V\+I\+D\+IA, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+P\+O\+CL }&{\bf Seleciona e incializa a plataforma P\+O\+CL, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+C\+O\+P\+R\+T\+HR }&{\bf Seleciona e incializa a plataforma C\+O\+P\+R\+T\+HR, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+A\+LL }&{\bf Seleciona e incializa todas as plataformas disponíveis na máquina. $<$$>$ }\\\cline{1-2}
+\end{tabularx}
+\\
+\hline
+\end{DoxyParams}
+\hypertarget{libopcl_8h_a6a75e3ca186681b5e0c745896b96e113}{}\label{libopcl_8h_a6a75e3ca186681b5e0c745896b96e113} 
+\index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Initialize\+\_\+\+Platforms@{lopcl\+\_\+\+Initialize\+\_\+\+Platforms}}
+\index{lopcl\+\_\+\+Initialize\+\_\+\+Platforms@{lopcl\+\_\+\+Initialize\+\_\+\+Platforms}!libopcl.\+h@{libopcl.\+h}}
+\subsubsection{\texorpdfstring{lopcl\+\_\+\+Initialize\+\_\+\+Platforms()}{lopcl\_Initialize\_Platforms()}}
+{\footnotesize\ttfamily int lopcl\+\_\+\+Initialize\+\_\+\+Platforms (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Função responsável por fazer a varredura na máquina usada, descobrindo todas plataformas disponiveis, atribuindo os valores correspondentes aos índices que correspondem as plataformas. Essa função é usada internamente pela função locl\+\_\+\+Init(int lopcl\+\_\+\+P\+L\+A\+T\+F\+O\+R\+M\+\_\+\+N\+U\+M, int lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+N\+U\+M). \hypertarget{libopcl_8h_a979e7dd0aede945b5ddde015e6f0a9cd}{}\label{libopcl_8h_a979e7dd0aede945b5ddde015e6f0a9cd} 
+\index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+List\+Device@{lopcl\+\_\+\+List\+Device}}
+\index{lopcl\+\_\+\+List\+Device@{lopcl\+\_\+\+List\+Device}!libopcl.\+h@{libopcl.\+h}}
+\subsubsection{\texorpdfstring{lopcl\+\_\+\+List\+Device()}{lopcl\_ListDevice()}}
+{\footnotesize\ttfamily int lopcl\+\_\+\+List\+Device (\begin{DoxyParamCaption}\item[{\hyperlink{structdevices}{devices} $\ast$}]{X,  }\item[{cl\+\_\+device\+\_\+id}]{device,  }\item[{int}]{tipo }\end{DoxyParamCaption})}
+
+Função responsável por recuperar as informações dos dispositivos de uma plataforma especifica. A função é usada internenamente pela \hyperlink{libopcl_8h_a636c9dc956196f8fad74c89fa9972712}{lopcl\+\_\+\+Explore(int lopcl\+\_\+\+P\+L\+A\+T\+F\+O\+R\+M\+A\+\_\+\+N\+U\+M\+B\+E\+R)} e pela função int lopcl\+\_\+\+Print\+Info(int lopcl\+\_\+\+P\+L\+A\+T\+A\+F\+O\+R\+M\+\_\+\+N\+U\+M\+B\+E\+R); 
+\begin{DoxyParams}[1]{Parâmetros}
+\mbox{\tt in}  & {\em devices} & $\ast$X -\/ Um ponteiro para uma estrutura de dispositivos. \\
+\hline
+\mbox{\tt in}  & {\em cl\+\_\+device\+\_\+id} & $\ast$devices A lista dos dispositivos Open\+CL encontrados em uma plataforma. \\
+\hline
+ & {\em int} & tipo \hypertarget{libopcl_8h_lopcl_PLATFORMS}{}
+\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_lopcl_PLATFORMS}\\
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Identificador }&{\bf Descrição }\\\cline{1-2}
+\endhead
+\rowcolor{\tableheadbgcolor}{\bf 0 }&{\bf Faz uma varredura pela plataforma e armazena as informações do dispositivo na estrutura de dispositivos. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf 1 }&{\bf Imprime todas as informações sobre o dispositivo que está disponível na estrtura. $<$$>$ }\\\cline{1-2}
+\end{tabularx}
+\\
+\hline
+\end{DoxyParams}
