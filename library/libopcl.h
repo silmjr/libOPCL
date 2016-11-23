@@ -1,10 +1,32 @@
 /****************************************************************************
- * Copyright (C) 2016 by SilvanO MOreira Junior                             *
+ * Copyright (C) 2016 by SilvanO MOreira Junior   							*
+ * Email: silvanomoreirajunior@gmail.com 			                        *
  *                                                                          *
  * A libOPCL é uma biblioteca que visa facilitar o uso do OpenCL, 			*
  * ela foi criada em linguagem C e está disponível no github				*
-   @see https://github.com/silmjr/libOPCL									*
+ * @see https://github.com/silmjr/libOPCL									*
 *****************************************************************************/
+/** 
+* \mainpage LibOPCL 
+* \section Introdução LibOPCL.
+* A LibOPCL foi criada com o objetivo de fazer uma interface de alto nível para o OpenCL,
+* facilitando o desenvolvimento de algoritmos realmente portáveis utilizando desta ferramenta. 
+* A biblioteca foi desenvolvida na linguagem C e está disponível, como um projeto de software livre,
+* via repositório no GitHub. Foram criadas funções para automatizar os processos de inicialização 
+* e preparação da memória nos dispositivos.  Adicionalmente foram desenvolvidos recursos para permitir 
+* a utilização mais eficientes das funcionalidades disponíveis na plataforma selecionada.
+* \subsection Install Instalação: Passo 1 
+* Clone o repositório da biblioteca: \n 
+* git clone https://github.com/silmjr/libOPCL
+* \subsection Install Instalação: Passo 2
+* cd  libOPCL/library \n
+* make \n
+* sudo make install 
+*\subsection uninstall Desinstalação: Passo 2
+* cd  libOPCL/library \n
+* sudo make uninstall 
+*/
+
 
 /**
 * @file libopcl.h

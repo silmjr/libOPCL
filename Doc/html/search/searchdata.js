@@ -5,7 +5,8 @@ var indexSectionsWithContent =
   2: "l",
   3: "dilv",
   4: "acdeglmnprstv",
-  5: "acgl"
+  5: "acgl",
+  6: "l"
 };
 
 var indexSectionNames =
@@ -15,7 +16,8 @@ var indexSectionNames =
   2: "files",
   3: "functions",
   4: "variables",
-  5: "defines"
+  5: "defines",
+  6: "pages"
 };
 
 var indexSectionLabels =
@@ -25,6 +27,7 @@ var indexSectionLabels =
   2: "Arquivos",
   3: "Funções",
   4: "Variáveis",
-  5: "Definições e Macros"
+  5: "Definições e Macros",
+  6: "Páginas"
 };
 
