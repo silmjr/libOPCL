@@ -3,7 +3,11 @@ var NAVTREE =
   [ "LibOPCL", "index.html", [
     [ "Estruturas de Dados", "annotated.html", [
       [ "Estruturas de Dados", "annotated.html", "annotated_dup" ],
-      [ "Índice das Estruturas de Dados", "classes.html", null ]
+      [ "Índice das Estruturas de Dados", "classes.html", null ],
+      [ "Campos de Dados", "functions.html", [
+        [ "Todos", "functions.html", null ],
+        [ "Variáveis", "functions_vars.html", null ]
+      ] ]
     ] ],
     [ "Arquivos", null, [
       [ "Lista de Arquivos", "files.html", "files" ],

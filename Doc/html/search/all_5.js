@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['plataforms',['plataforms',['../structplataforms.html',1,'']]]
+  ['isequal',['isEqual',['../libopcl_8h.html#aaec0ef60789904a8ae5253e759459f7b',1,'libopcl.c']]]
 ];
