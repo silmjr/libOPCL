@@ -49,4 +49,5 @@ var menudata={children:[
 {text:'l',url:'globals_func.html#index_l'},
 {text:'v',url:'globals_func.html#index_v'}]},
 {text:'Variáveis',url:'globals_vars.html'},
-{text:'Definições e Macros',url:'globals_defs.html'}]}]}]}
+{text:'Definições e Macros',url:'globals_defs.html'}]}]},
+{text:'Exemplos',url:'examples.html'}]}

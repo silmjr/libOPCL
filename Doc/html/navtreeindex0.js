@@ -1,8 +1,11 @@
 var NAVTREEINDEX0 =
 {
+"_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example.html":[2,1],
+"_2_exemplos_2clinfo_2main_8c-example.html":[2,0],
 "annotated.html":[0,0],
 "classes.html":[0,1],
 "dir_e3d620c6b6fdb93ed3bc6186215bde2e.html":[1,0,0],
+"examples.html":[2],
 "files.html":[1,0],
 "functions.html":[0,2,0],
 "functions_vars.html":[0,2,1],

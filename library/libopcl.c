@@ -2174,7 +2174,7 @@ int lopcl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM){
   	error = lopcl_Initialize_Platforms();
         lopcl_Errors(error);
     
-    if(lopcl_PLATFORM_NUM < lopcl_ALL && lopcl_DEVICE_NUM != -1){
+    if(lopcl_PLATFORM_NUM < lopcl_ALL && lopcl_DEVICE_NUM > -1){
     	error = lopcl_Initialize_Device(lopcl_PLATFORM_NUM);  
     	lopcl_Errors(error);
     }
@@ -2182,7 +2182,7 @@ int lopcl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM){
     error = lopcl_Explore( lopcl_PLATFORM_NUM);
     	lopcl_Errors(error);
 
-    if(lopcl_PLATFORM_NUM < lopcl_ALL && lopcl_DEVICE_NUM != -1){
+    if(lopcl_PLATFORM_NUM < lopcl_ALL && lopcl_DEVICE_NUM > -1){
     	error = lopcl_CreateCmdQueue(lopcl_PLATFORM_NUM, lopcl_DEVICE_NUM);
     	lopcl_Errors(error);
     }

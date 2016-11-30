@@ -1,8 +1,6 @@
-// This program implements a GEMM using OpenCL
 
-// System includes
 
-#pragma OPENCL EXTENSION cl_khr_fp64 : enable // Usar variáveis float 
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable // Essa flag permite que seja usada variáveis double 
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,11 +9,12 @@
 #include <math.h>
 #include <ctype.h> 
 #include <libopcl.h>
+
 #include "sgemmKernel.h"
 #include <omp.h>
 
 
-// OpenCL includes
+// Include do OpenCL 
 #include <CL/cl.h>
 
 #define MAX_SOURCE_SIZE (0x100000)

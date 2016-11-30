@@ -1,8 +1,4 @@
-// This program implements a GEMM using OpenCL
-
-// System includes
-
-#pragma OPENCL EXTENSION cl_khr_fp64 : enable // Usar variáveis float 
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable // Usar variáveis do tipo Double 
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,50 +10,52 @@
 #include <omp.h>
 
 
-// OpenCL includes
+// includes do OpenCL 
 #include <CL/cl.h>
 
 #define MAX_SOURCE_SIZE (0x100000)
-
+//Tamanho do work-Group
 #define BSIZE 4
 
-void gemm_CPU(float *a, float* b, float *c, int size, float alfa, float beta);// Serial 
-void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, float beta); //OpenCl
+//Função para multiplicação de matrizes na CPU
+void gemm_CPU(float *a, float* b, float *c, int size, float alfa, float beta);
+//Função para multiplicação de matrizes usando OpenCL 
+void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, float beta); 
+//Função para comparação das matrizes geradas
 float comparaMatrizes(float* a, float* b, int size);
 void printMatrix(float *a, int size);
 
 int main(int argc, char *argv[])
 {
     
-    // Host data
-    float *A = NULL;  // Input array
-    float *B = NULL;  // Input array
-    float *C_host = NULL;  // Output array
-    float *C_device = NULL;  // Output array
+    // Dados do Host 
+    float *A = NULL;  // Array de entrada
+    float *B = NULL;  // Array de entrada
+    float *C_host = NULL;  // Array de saída
+    float *C_device = NULL;  // Array de saída
     
     float start, stop, t_s, t_p;
     float error;
     
-    // Matriz size (square matrix)
     float alfa = 0.3, beta = 0.4;
+    // Tamanho da Matriz(square matrix)
     int mSize = 1024;
-    
-    if(argc >= 2)//Receber tamanho da matriz por linha de comando 
+    if(argc >= 2)//Receber tamanho da matriz por linha de comando, caso não receber nada o tamanho padrão é 1024x1024
         mSize = atoi(argv[1]);
     
-    // Elements in each array
+    // Elementos em cada array 
     const int elements = mSize*mSize;   
     
-    // Compute the size of the data 
+    // Calcula o tamanho dos dados 
     size_t datasize = sizeof(float)*elements;
     
-    // Allocate space for input/output data
+    //Aloca espaço para os dados de Entrada/Saída
     A = (float*)malloc(datasize);
     B = (float*)malloc(datasize);
     C_host = (float*)malloc(datasize);
     C_device = (float*)malloc(datasize);
     
-    // Initialize the input data
+    // Incializa os dados de entrada
     for(int i = 0; i < elements; i++) {
         A[i] = 1.0;
         B[i] = 2.0;
@@ -65,28 +63,28 @@ int main(int argc, char *argv[])
         C_device[i] = 3.0;
     }
 
+    //Execução do código Serial
     start = omp_get_wtime();
     gemm_CPU(A,B,C_host,mSize, alfa, beta);
     stop = omp_get_wtime();
     t_s = stop - start;
     printf("Result Ok! time - %f\n", t_s);
-    //printMatrix(C_host, mSize);
     
+    //Execução do código Paralelo 
     start = omp_get_wtime();
     gemm_OpenCL(A, B, C_device, mSize, 0,  alfa,  beta);
 
     stop = omp_get_wtime();
     t_p = stop - start;
     
-    //printMatrix(C_device, mSize);
+    //Comparação dos dados e de tempo dos dois códigos
     error = comparaMatrizes(C_host, C_device, mSize);
     printf("Error - %f\n", error);
     printf("Result Ok! time - %f\n", t_p);
     printf("Result Ok! speedup - %f\n", t_s/t_p);
     
-    // Free host resources
+    // Libera os recursos do Host
     free(A);
-    
     free(B);
     free(C_host);
     free(C_device);
@@ -110,23 +108,23 @@ void gemm_CPU(float *a, float* b, float *c, int size, float alfa, float beta)
 }
 void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, float beta)
 {
-    // Elements in each array
+    // Elementos em cada array
     const int elements = size*size;   
     int error = 0;
-    // Compute the size of the data 
+    // Calcula o tamanho dos elementos 
     size_t datasize = sizeof(float)*elements;
     
-    // Use this to check the output of each API call
+    // Usado para checar a saída do OpenCL 
     cl_int status;  
       
      
-    /*Fazer Função para leitura do arquivo  Nome do Arquivo, e String onde vai ficar o código fonte*/
+    //Leitura do arquivo onde está o kernel 
     FILE *fp;
     char *source_str;
     size_t source_size;
     
     //Carregando o arquivo com o Kernel 
-    fp = fopen("dgemm-kernelPrivate.cl", "r");
+    fp = fopen("dgemm-kernelGlobal.cl", "r");
     if (!fp) {
         fprintf(stderr, "Failed to load kernel.\n");
         exit(1);
@@ -143,60 +141,48 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     
     //printf("%F\n", c[0]);
     
-    //-----------------------------------------------------
-    // STEP 1: Descobrir e inicializar as plataformas, Devices e Create a lopcl_CONTEXT e Fila de Comando 
-    //-----------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------
+    // STEP 1: Descobrir e inicializar as plataformas e Devices, e criar contexto e Fila de Comando 
+    //----------------------------------------------------------------------------------------------------------
 
     lopcl_Init(lopcl_NVIDIA, lopcl_DEVICE_GPU);
 
-    //-----------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------
     // STEP 2: Criar buffers do device e Escrever os dados do host para os lopcl_DEVICES de buffers
-    //----------------------------------------------------- 
+    //----------------------------------------------------- -----------------------------------------------------
     
-    /*cl_mem clCreateBuffer(cl_lopcl_CONTEXT lopcl_CONTEXT,
-                            cl_memflags flags, size_t size,
-                            void* host_ptr,     
-                            cl_int* errcode_ret) */
-     
+       
     cl_mem bufferA;  // Array de entrada do device
     cl_mem bufferB;  // Array de entrada do device
     cl_mem bufferC;  // Array de saída do device
     
-    // Use clCreateBuffer() para criar o objeto (d_A) 
+    // Use lopcl_CreateBuffer() para criar o objeto (d_A) 
     // Isso contêm os dados do Array A do Host.
     bufferA = lopcl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, a);
 
-    // Use clCreateBuffer() para criar o objeto (d_B) 
+    // Use lopcl_CreateBuffer() para criar o objeto (d_B) 
     // Isso contêm os dados do Array B do Host.
     bufferB = lopcl_CreateBuffer(datasize, CL_MEM_READ_ONLY, CL_FALSE, b);
     
-    // Use clCreateBuffer() para criar o objeto (d_B) 
+    // Use lopcl_CreateBuffer() para criar o objeto (d_B) 
     // com espaço suficiente para "segurar" os dados de saída.
     bufferC = lopcl_CreateBuffer(datasize, CL_MEM_READ_WRITE, CL_FALSE, c);
         
-    //-----------------------------------------------------
-    // STEP 3: Create and compile the program and Create the kernel
-    //----------------------------------------------------- 
+    //---------------------------------------------------------------
+    // STEP 3: Cria e compila o programa, e cria o kernel 
+    //----------------------------------------------------- ---------
 
     if(t==0)
         lopcl_CreateProgram((const char**)&source_str, "dgemm");
-    else
-        lopcl_CreateProgram((const char**)&source_str, "gemm_OpenCL_local");   
+    
         
     //-----------------------------------------------------
-    // STEP 4: Set the kernel arguments
+    // STEP 4: Define os argumentos do kernel 
     //----------------------------------------------------- 
         
-    // Associate the input and output buffers with the 
-    // kernel 
-    // using clSetKernelArg()
+    // Associa os buffers de entrada e saida ao kernel 
+    // usando lopcl_SetKernelArg()
       
-    /*cl_int clSetKernelArg(cl_kernel kernel,(Kernel cuja o argumento deve ser configurado)
-                          cl_uint arg_index,(posição do arumento de acordo que foi definido no codigo fonte. Inicia em 0)
-                          size_t arg_size,(comprimento de cada dado do argumento)
-                          const void* arg_value)ponteiro para os dados do argumento.*/
-
-    
     lopcl_SetKernelArg(0, sizeof( int), &size);
     
     lopcl_SetKernelArg(1, sizeof(int), &size);
@@ -220,61 +206,34 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     lopcl_SetKernelArg(10, sizeof(int), &size);
 
     
-
+    //--------------------------------------------------------------
+    // STEP 5: Configurar a estrutura dos work itens e work groups
+    //----------------------------------------------------- --------
     
-    //-----------------------------------------------------
-    // STEP 5: Configure the work-item structure
-    //----------------------------------------------------- 
-    
-    // Define an index space (global work size) of work 
-    // items for execution.     A workgroup size (local work size) is not 
-    // required, but can be used.
     size_t globalWorkSize[2];    
-    // There are 'elements' work-items 
+    // Esses são os elementos de work-items 
     globalWorkSize[0] = size/32;
     globalWorkSize[1] = size/32;
     
     size_t localWorkSize[2];    
-    // There are 'elements' work-items 
+    
     localWorkSize[0] = BSIZE;
     localWorkSize[1] = BSIZE;
     
     //-----------------------------------------------------
-    // STEP 6: Enqueue the kernel for execution
+    // STEP 6: Empilha o Kernel para execução
     //----------------------------------------------------- 
-    /*cl_int clEnqueueNDRangeKernel(cl_command_queue command_queue,(Fila de comandos)
-                                    cl_kernel kernel,(Kernel a ser executado)
-                                    cl_uint work_dim, (Dimensões dos espaços de índices)
-                                    const size_t* global_work_offset, (array de deslocamentos para valores dos índices em cada dimensão)
-                                    const size_t* global_work_size, (tamanho para cada dimensão do espaço de índices)
-                                    const size_t* local_work_size, (array de tamanhos dos grupos de trabalho.)
-                                    cl_uint events_in_wait_list,(número de eventos na lista de eventos)
-                                    const cl_event* event_wait_list, 
-                                    cl_event* event)*/
-
+    
     // Execute the kernel by using 
     // clEnqueueNDRangeKernel().
     // 'globalWorkSize' is the 1D dimension of the 
     // work-items
     status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
-    lopcl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
-    
+        
     //-----------------------------------------------------
-    // STEP 7: Read the output buffer back to the host
+    // STEP 7: Lê a saida do buffer de saída e salva no host
     //----------------------------------------------------- 
-    /*cl_int clEnqueueReadBuffer(cl_queue queue,(fila de comandos)
-                                 cl_mem buffer, (objeto de memória do tipo buffer a ser lido)
-                                 cl_bool blocking_read, 
-                                 size_t offset,(offset a partir do qual os dados serão transfferidos)
-                                 size_t cb, (comprimentos em bytes dos dados a serem transferidos)
-                                 const void* ptr, (região do host onde os dados serão escritos)
-                                 cl_uint events_in_wait_list, 
-                                 const cl_event* event_wait_list, 
-                                 cl_event* event)*/
     
-    // Use clEnqueueReadBuffer() to read the OpenCL output  
-    // buffer (bufferC) 
-    // to the host output array (C)
     status = clEnqueueReadBuffer(lopcl_CMDQUEUE, bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
     if (status != CL_SUCCESS) {
         printf ("Unable to read the C buffer\n");
@@ -282,7 +241,7 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     }
      
     //-----------------------------------------------------
-    // STEP 8: Release OpenCL resources
+    // STEP 8: libera os recursos 
     //----------------------------------------------------- 
     
     //Free OpenCL resources

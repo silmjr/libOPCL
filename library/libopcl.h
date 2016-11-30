@@ -8,23 +8,32 @@
 *****************************************************************************/
 /** 
 * \mainpage LibOPCL 
-* \section Introdução LibOPCL.
+* \section Introdução Introdução
 * A LibOPCL foi criada com o objetivo de fazer uma interface de alto nível para o OpenCL,
 * facilitando o desenvolvimento de algoritmos realmente portáveis utilizando desta ferramenta. 
 * A biblioteca foi desenvolvida na linguagem C e está disponível, como um projeto de software livre,
 * via repositório no GitHub. Foram criadas funções para automatizar os processos de inicialização 
 * e preparação da memória nos dispositivos.  Adicionalmente foram desenvolvidos recursos para permitir 
 * a utilização mais eficientes das funcionalidades disponíveis na plataforma selecionada.
-* \subsection Install Instalação: Passo 1 
+* \subsection Install Instalação:  
 * Clone o repositório da biblioteca: \n 
-* git clone https://github.com/silmjr/libOPCL
-* \subsection Install Instalação: Passo 2
+* git clone https://github.com/silmjr/libOPCL \n
 * cd  libOPCL/library \n
 * make \n
 * sudo make install 
-*\subsection uninstall Desinstalação: Passo 2
+*\subsection uninstall Desinstalação: 
 * cd  libOPCL/library \n
 * sudo make uninstall 
+*/
+
+/**
+*   @example ../Exemplos/Gemm/Arquivo/Sgemm/main.c
+*	@brief Exemplo de multiplicação de matrizes utilizando a libOPCL 
+*/
+
+/**
+*   @example ../Exemplos/clinfo/main.c
+*	@brief Exemplo de clinfo utilizando a libOPCL 
 */
 
 
@@ -36,6 +45,9 @@
 * @brief Esse arquivo contém as definições e declarações das funções que compõe a biblioteca libOPCL
 * @see https://github.com/silmjr/libOPCL
 */
+
+
+
 
 #ifndef LIBOPCL_H
 #define LIBOPCL_H
@@ -198,6 +210,7 @@ Caso o index seja lopcl_ALL e 0, não criará a fila de comando e o contexto.
 	<tr><th>lopcl_DEVICE_CPU	<th> Seleciona e incializa o dispositivo do tipo CPU, se disponível na máquina.
 	<tr><th>lopcl_DEVICE_GPU	<th> Seleciona e incializa o dispositivo do tipo GPU, se disponível na máquina.
 	<tr><th>lopcl_DEVICE_ACCELERATOR	<th> Seleciona e incializa o dispositivo do tipo ACCELERATOR, se disponível na máquina.
+	<tr><th> -1	<th> Usado em conjunto com o lopcl_ALL para que  se incialize todas plataformas e dispositivos presentes na máquina desejada.
 </table>
 @return int - Usado para verficação de erros 
 */

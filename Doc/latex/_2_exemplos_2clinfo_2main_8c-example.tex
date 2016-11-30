@@ -1,0 +1,34 @@
+\hypertarget{_2_exemplos_2clinfo_2main_8c-example}{}\section{/\+Exemplos/clinfo/main.\+c}
+Exemplo de clinfo utilizando a lib\+O\+P\+CL
+
+
+\begin{DoxyCodeInclude}
+ 
+\textcolor{preprocessor}{#include <stdlib.h>}
+\textcolor{preprocessor}{#include <stdio.h>}
+\textcolor{preprocessor}{#include <string.h>}
+\textcolor{preprocessor}{#include <ctype.h>}
+\textcolor{preprocessor}{#include <math.h>}
+\textcolor{preprocessor}{#include <ctype.h>}
+\textcolor{preprocessor}{#include "\hyperlink{libopcl_8h}{libopcl.h}"}
+
+\textcolor{preprocessor}{#ifdef \_\_APPLE\_\_}
+\textcolor{preprocessor}{    #include <OpenCL/cl.h>}
+\textcolor{preprocessor}{#else}
+\textcolor{preprocessor}{    #include <CL/cl.h>}
+\textcolor{preprocessor}{#endif}
+
+\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} *argv[])\{   
+    \textcolor{comment}{//Descobrir e inicializar as plataformas e Devices}
+    \textcolor{comment}{//Segundo argumento -1 é usado quando se deseja descobrir todas plataformas disponíveis na máquina
+       usada }
+    \hyperlink{libopcl_8h_ade7c32a3125e006727c4f4d04b450e4a}{lopcl\_Init}(\hyperlink{libopcl_8h_af51a602386dd5dc395a830a308ff605c}{lopcl\_ALL}, -1);
+    \textcolor{comment}{//Imprime todas as informações disponíveis sobre a máquina usada}
+    \hyperlink{libopcl_8h_ae4fce0f8a8f1d65d5a2750243ed05239}{lopcl\_PrintInfo}(\hyperlink{libopcl_8h_af51a602386dd5dc395a830a308ff605c}{lopcl\_ALL});
+    \textcolor{comment}{//Libera os recursos usados durante a execução do programa}
+    \hyperlink{libopcl_8h_a7a201b693e4b7aff37d09e850a3462d6}{lopcl\_Finalize}();
+
+\}           
+                    
+\end{DoxyCodeInclude}
+ 

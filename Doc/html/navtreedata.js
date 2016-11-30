@@ -17,13 +17,14 @@ var NAVTREE =
         [ "Variáveis", "globals_vars.html", null ],
         [ "Definições e Macros", "globals_defs.html", null ]
       ] ]
-    ] ]
+    ] ],
+    [ "Exemplos", "examples.html", "examples" ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+"_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example.html"
 ];
 
 var SYNCONMSG = 'clique para desativar a sincronização do painel';

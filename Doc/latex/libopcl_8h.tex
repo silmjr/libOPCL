@@ -293,6 +293,9 @@ cl\+\_\+mem -\/ Que é o onjeto de memória que será usado pela aplicação
 \begin{DoxySeeAlso}{Veja também}
 \href{https://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/}{\tt https\+://www.\+khronos.\+org/registry/cl/sdk/1.\+2/docs/man/xhtml/} 
 \end{DoxySeeAlso}
+\begin{Desc}
+\item[Exemplos\+: ]\par
+\hyperlink{_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example}{/\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}.\end{Desc}
 \hypertarget{libopcl_8h_a01cefabdfdf5129d31846566baeecf57}{}\label{libopcl_8h_a01cefabdfdf5129d31846566baeecf57} 
 \index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Create\+Cmd\+Queue@{lopcl\+\_\+\+Create\+Cmd\+Queue}}
 \index{lopcl\+\_\+\+Create\+Cmd\+Queue@{lopcl\+\_\+\+Create\+Cmd\+Queue}!libopcl.\+h@{libopcl.\+h}}
@@ -360,6 +363,9 @@ int -\/ Usado para verficação de erros
 \begin{DoxySeeAlso}{Veja também}
 \href{https://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/}{\tt https\+://www.\+khronos.\+org/registry/cl/sdk/1.\+2/docs/man/xhtml/} 
 \end{DoxySeeAlso}
+\begin{Desc}
+\item[Exemplos\+: ]\par
+\hyperlink{_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example}{/\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}.\end{Desc}
 \hypertarget{libopcl_8h_aa2d862d99ffb4cc655984078aa0973b8}{}\label{libopcl_8h_aa2d862d99ffb4cc655984078aa0973b8} 
 \index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Errors@{lopcl\+\_\+\+Errors}}
 \index{lopcl\+\_\+\+Errors@{lopcl\+\_\+\+Errors}!libopcl.\+h@{libopcl.\+h}}
@@ -412,6 +418,9 @@ int -\/ Usado para verficação de erros
 lopcl\+\_\+\+Finaliza, função libera a memória usada durante a execução do programa. \begin{DoxyReturn}{Retorna}
 int -\/ Usado para verficação de erros 
 \end{DoxyReturn}
+\begin{Desc}
+\item[Exemplos\+: ]\par
+\hyperlink{_2_exemplos_2clinfo_2main_8c-example}{/\+Exemplos/clinfo/main.\+c} e \hyperlink{_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example}{/\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}.\end{Desc}
 \hypertarget{libopcl_8h_a5db2f4d8597294ff22340b00844356de}{}\label{libopcl_8h_a5db2f4d8597294ff22340b00844356de} 
 \index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+ge\+Max\+Write\+Image\+Args\+Device@{lopcl\+\_\+ge\+Max\+Write\+Image\+Args\+Device}}
 \index{lopcl\+\_\+ge\+Max\+Write\+Image\+Args\+Device@{lopcl\+\_\+ge\+Max\+Write\+Image\+Args\+Device}!libopcl.\+h@{libopcl.\+h}}
@@ -2833,6 +2842,7 @@ A função é responsável por inicializar as plataformas, os dispositivos, pree
 \rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+C\+PU }&{\bf Seleciona e incializa o dispositivo do tipo C\+PU, se disponível na máquina. }\\\cline{1-2}
 \rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+G\+PU }&{\bf Seleciona e incializa o dispositivo do tipo G\+PU, se disponível na máquina. }\\\cline{1-2}
 \rowcolor{\tableheadbgcolor}{\bf lopcl\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+A\+C\+C\+E\+L\+E\+R\+A\+T\+OR }&{\bf Seleciona e incializa o dispositivo do tipo A\+C\+C\+E\+L\+E\+R\+A\+T\+OR, se disponível na máquina. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}{\bf -\/1 }&{\bf Usado em conjunto com o lopcl\+\_\+\+A\+LL para que se incialize todas plataformas e dispositivos presentes na máquina desejada. }\\\cline{1-2}
 \end{tabularx}
 \\
 \hline
@@ -2840,6 +2850,9 @@ A função é responsável por inicializar as plataformas, os dispositivos, pree
 \begin{DoxyReturn}{Retorna}
 int -\/ Usado para verficação de erros 
 \end{DoxyReturn}
+\begin{Desc}
+\item[Exemplos\+: ]\par
+\hyperlink{_2_exemplos_2clinfo_2main_8c-example}{/\+Exemplos/clinfo/main.\+c} e \hyperlink{_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example}{/\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}.\end{Desc}
 \hypertarget{libopcl_8h_a524555dcb0362b5debf652431458c67b}{}\label{libopcl_8h_a524555dcb0362b5debf652431458c67b} 
 \index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Initialize\+\_\+\+Device@{lopcl\+\_\+\+Initialize\+\_\+\+Device}}
 \index{lopcl\+\_\+\+Initialize\+\_\+\+Device@{lopcl\+\_\+\+Initialize\+\_\+\+Device}!libopcl.\+h@{libopcl.\+h}}
@@ -2944,6 +2957,9 @@ A função é responsável Imprimir todas as informações disponíveis sobre a(
 \begin{DoxyReturn}{Retorna}
 int -\/ Usado para verficação de erros 
 \end{DoxyReturn}
+\begin{Desc}
+\item[Exemplos\+: ]\par
+\hyperlink{_2_exemplos_2clinfo_2main_8c-example}{/\+Exemplos/clinfo/main.\+c}.\end{Desc}
 \hypertarget{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{}\label{libopcl_8h_affccb59435b5513c8729a76a78d8ed30} 
 \index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Set\+Kernel\+Arg@{lopcl\+\_\+\+Set\+Kernel\+Arg}}
 \index{lopcl\+\_\+\+Set\+Kernel\+Arg@{lopcl\+\_\+\+Set\+Kernel\+Arg}!libopcl.\+h@{libopcl.\+h}}
@@ -2962,3 +2978,6 @@ Função usada pra setar o valor de um argumento para um kernel específico.
 \begin{DoxyReturn}{Retorna}
 int -\/ Usado para verficação de erros 
 \end{DoxyReturn}
+\begin{Desc}
+\item[Exemplos\+: ]\par
+\hyperlink{_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example}{/\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}.\end{Desc}
