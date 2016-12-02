@@ -339,7 +339,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo);
 @return cl_mem - Que é o onjeto de memória que será usado pela aplicação 
 @see https://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/
 */
-*/
+
 cl_mem lopcl_CreateBuffer(size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bool lopcl_FLAG1, void *host_ptr);
 
 /**Cria um objeto Program para um contexto previamente criado, e carrega o código fonte que é especificado a partir de um array de strings. 

@@ -15,7 +15,7 @@
 
 #define MAX_SOURCE_SIZE (0x100000)
 //Tamanho do work-Group
-#define BSIZE 4
+#define BSIZE 32
 
 //Função para multiplicação de matrizes na CPU
 void gemm_CPU(float *a, float* b, float *c, int size, float alfa, float beta);
@@ -124,7 +124,7 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     size_t source_size;
     
     //Carregando o arquivo com o Kernel 
-    fp = fopen("dgemm-kernelGlobal.cl", "r");
+    fp = fopen("dgemm-kernelPrivate.cl", "r");
     if (!fp) {
         fprintf(stderr, "Failed to load kernel.\n");
         exit(1);

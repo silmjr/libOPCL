@@ -126,7 +126,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     size_t source_size;
     
     //Carregando o arquivo com o Kernel 
-    fp = fopen("dgemm-kernelGlobal.cl", "r");
+    fp = fopen("dgemm-kernelLocal.cl", "r");
     if (!fp) {
         fprintf(stderr, "Failed to load kernel.\n");
         exit(1);

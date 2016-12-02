@@ -3,8 +3,8 @@ __kernel void dgemm(const int M, const int N, const int K,
                    __global const float *B, const int ldb, 
                    const float beta,__global float *C, const int ldc){  
     
-    __local float ads[32][32];
-    __local float bds[32][32];
+    __local float ads[8][8];
+    __local float bds[8][8];
     
     // Get the index of the current element to be processed
     int i = get_global_id(0);
