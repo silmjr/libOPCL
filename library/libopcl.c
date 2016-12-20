@@ -19,55 +19,63 @@ short int lopcl_INIT = 0, lopcl_INIT_DEVICE = 0;
 int lopcl_Initialize_Platforms(){
 	//"Zerando" index's
 	listPlatforms[0] = listPlatforms[1] = listPlatforms[2] = listPlatforms[3] = listPlatforms[4] = listPlatforms[5] = listPlatforms[6] = -1;
-	lopcl_DEVICE_CPU = lopcl_DEVICE_ACCELERATOR = lopcl_DEVICE_GPU = -1;
-	
+	listDevices[0] = listDevices[1] = listDevices[2] = -1;
+
 	lopcl_INIT = 1;
-	
-	int i, j;	
-	size_t buffer_size;	
+
+	int i, j;
+	size_t buffer_size;
 	char *aux_name;
-	
+
 	//Numero de plataformas disponíveis
 	cl_int status = clGetPlatformIDs(0, NULL, &lopcl_NUM_PLATFORMS);
 	listPlatforms[lopcl_ALL] = lopcl_NUM_PLATFORMS;
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_PLATFORMS available.\n");
+		printf("Status %d\n",status);
 		exit(EXIT_FAILURE);
-	}	
-	
-	
+	}
+
 	lopcl_PLATFORMS = malloc(sizeof(cl_platform_id)*lopcl_NUM_PLATFORMS);
-	
+
 	lopcl_DispPlats = malloc(sizeof(plataforms)*lopcl_NUM_PLATFORMS);
-	
+
 	status = clGetPlatformIDs(lopcl_NUM_PLATFORMS, lopcl_PLATFORMS, NULL);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the list of OpenCL lopcl_PLATFORMS.\n");
+		printf("Status %d\n",status);
+
 		exit(EXIT_FAILURE);
 	}
-	
+
 	/*Varredura das plataformas disponíveis*/
 	for(i=0; i<lopcl_NUM_PLATFORMS; i++){
 		//Discover Vendor
 		status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-	
+		if (status != CL_SUCCESS){
+			printf("Status %d\n",status);
+			exit(EXIT_FAILURE);
+		}
+
 		lopcl_DispPlats[i].Vendor = malloc(buffer_size);
 		status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_VENDOR, buffer_size, lopcl_DispPlats[i].Vendor, NULL);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		if (status != CL_SUCCESS){
+			printf("Status %d\n",status);
+			exit(EXIT_FAILURE);
+		}
 
-		aux_name = DiscStr(lopcl_DispPlats[i].Vendor); 
+		aux_name = DiscStr(lopcl_DispPlats[i].Vendor);
 		if(isEqual(aux_name,"Intel(R)"))
 			listPlatforms[lopcl_INTEL] = i;
-			
+
 		if(isEqual(aux_name,"Intel"))
 			listPlatforms[lopcl_INTEL_GPU] = i;
 
 		if(isEqual(aux_name,"The"))
 			listPlatforms[lopcl_POCL] = i;
-			
+
 		if(isEqual(aux_name,"AMD"))
 			listPlatforms[lopcl_AMD] = i;
 
@@ -77,60 +85,66 @@ int lopcl_Initialize_Platforms(){
 		if(isEqual(aux_name,"Brown")){
 			listPlatforms[lopcl_COPRTHR] = i;
 		}
-		
+
 	}
-	return 0;		
+	return 0;
 }
 
 int lopcl_Initialize_Device(int lopcl_PLATFORM_NUM){
 	int j;
-	size_t buffer_size;	
+	size_t buffer_size;
 	cl_int status;
 	cl_device_type aux_type;
 	lopcl_INIT_DEVICE = 1;
 
-	if(listPlatforms[lopcl_PLATFORM_NUM] > lopcl_NUM_PLATFORMS || listPlatforms[lopcl_PLATFORM_NUM] == -1 )
+	if(listPlatforms[lopcl_PLATFORM_NUM] > listPlatforms[lopcl_ALL] || listPlatforms[lopcl_PLATFORM_NUM] == -1 || lopcl_PLATFORM_NUM < 0){
 		return 2;
-	else{	
-		
+	}
+	else{
 		//INIT DEVICES
 		status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[lopcl_PLATFORM_NUM]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 		if (status != CL_SUCCESS)
 		{
 			printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+			printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 		}
-		
-		lopcl_DEVICES = malloc(sizeof(cl_device_id)*lopcl_NUM_DEVICES);		
+
+		lopcl_DEVICES = malloc(sizeof(cl_device_id)*lopcl_NUM_DEVICES);
 
 		status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[lopcl_PLATFORM_NUM]], CL_DEVICE_TYPE_ALL, lopcl_NUM_DEVICES, lopcl_DEVICES, NULL);
 		if (status != CL_SUCCESS)
 		{
 			printf(" Cannot get the list of OpenCL lopcl_DEVICES.\n");
+			printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 		}
-		
+
 		for (j = 0; j < lopcl_NUM_DEVICES; j++){
-			//aux_type = NULL;
-		
+			aux_type = NULL;
 			status = clGetDeviceInfo(lopcl_DEVICES[j], CL_DEVICE_TYPE, 0, NULL, &buffer_size);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+			if (status != CL_SUCCESS){
+				printf("Status %d\n",status);
+				exit(EXIT_FAILURE);
+			}
 
 			aux_type = *(cl_device_type*) malloc(buffer_size);
 			status = clGetDeviceInfo(lopcl_DEVICES[j], CL_DEVICE_TYPE, buffer_size, &aux_type, NULL);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
-			
-			if (aux_type & CL_DEVICE_TYPE_GPU){
-				lopcl_DEVICE_GPU = j;
+			if (status != CL_SUCCESS) {
+				printf("Status %d\n",status);
+				exit(EXIT_FAILURE);
 			}
 
 			if(aux_type & CL_DEVICE_TYPE_CPU){
-				lopcl_DEVICE_CPU = j;
+				listDevices[lopcl_DEVICE_CPU] = j;
+			}
+
+			if (aux_type & CL_DEVICE_TYPE_GPU){
+				listDevices[lopcl_DEVICE_GPU] = j;
 			}
 
 			if(aux_type & CL_DEVICE_TYPE_ACCELERATOR){
-				lopcl_DEVICE_ACCELERATOR = j;			
+				listDevices[lopcl_DEVICE_ACCELERATOR] = j;
 			}
 		}
 	}
@@ -140,47 +154,48 @@ int lopcl_Initialize_Device(int lopcl_PLATFORM_NUM){
 int lopcl_PrintInfo(int lopcl_PLATAFORM_NUMBER){
     if(lopcl_INIT != 1)
 		return 1;
-	
-	int i, j;	
+
+	int i, j;
 	devices aux; /*Estrutura auxiliar de Devices*/
 	char *aux_name;
-	size_t buffer_size;	
+	size_t buffer_size;
 
 	if(listPlatforms[lopcl_PLATAFORM_NUMBER] == -1){
 		return 2;
-	}else if(listPlatforms[lopcl_PLATAFORM_NUMBER] == lopcl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available 
+	}else if(listPlatforms[lopcl_PLATAFORM_NUMBER] == lopcl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available
 		for (i = 0; i < lopcl_NUM_PLATFORMS; i++){
-			printf("Platform Number: %d\n", lopcl_DispPlats[i].numPlat);	
+			printf("Platform Number: %d\n", lopcl_DispPlats[i].numPlat);
 			printf("Name: %s\n", lopcl_DispPlats[i].Name);
 			printf("Vendor: %s\n", lopcl_DispPlats[i].Vendor);
 			printf("Version: %s\n", lopcl_DispPlats[i].Version);
 			printf("Extensions:\n%s\n", lopcl_DispPlats[i].Extensions);
-			
+
 			// END PLATFORMS
 			//INIT lopcl_DEVICES
 			cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 			if (status != CL_SUCCESS)
 			{
 				printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+				printf("Status %d\n",status);
 				exit(EXIT_FAILURE);
 			}
 
 			for (j = 0; j < lopcl_NUM_DEVICES; j++)
 			{
-				printf("Device Number: %d\n", lopcl_DispPlats[i].MyDevices[j].numDevice);	
+				printf("Device Number: %d\n", lopcl_DispPlats[i].MyDevices[j].numDevice);
 				lopcl_ListDevice(&lopcl_DispPlats[i].MyDevices[j], lopcl_DEVICES[j], 1);
 			}
 		}
 	}else{
 
-		/* Imprimir informações especificas */		
-		
-		printf("Platform Number: %d\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].numPlat);		
+		/* Imprimir informações especificas */
+
+		printf("Platform Number: %d\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].numPlat);
 		printf("Name: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Name);
 		printf("Vendor: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Vendor);
 		printf("Version: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Version);
 		printf("Extesions: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Extensions);
-	
+
 		// END PLATFORMS
 
 		//INIT lopcl_DEVICES
@@ -188,14 +203,15 @@ int lopcl_PrintInfo(int lopcl_PLATAFORM_NUMBER){
 		if (status != CL_SUCCESS)
 		{
 			printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+			printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 		}
 
 		for (j = 0; j < lopcl_NUM_DEVICES; j++)
 		{
-			printf("Device Number: %d\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].MyDevices[j].numDevice);	
+			printf("Device Number: %d\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].MyDevices[j].numDevice);
 
-			lopcl_ListDevice(&lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].MyDevices[j], lopcl_DEVICES[j], 1);	
+			lopcl_ListDevice(&lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].MyDevices[j], lopcl_DEVICES[j], 1);
 		}
 
 	}
@@ -206,49 +222,73 @@ int lopcl_Explore(int lopcl_PLATAFORM_NUMBER){
 
 	if(lopcl_INIT != 1)
 		return 1;
-	
-	int i, j;	
+
+	int i, j;
 	char *aux_name;
-	size_t buffer_size;	
+	size_t buffer_size;
 
 	if(listPlatforms[lopcl_PLATAFORM_NUMBER] == -1){
 		return 2;
-	}else if(listPlatforms[lopcl_PLATAFORM_NUMBER] == lopcl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available 
+	}else if(listPlatforms[lopcl_PLATAFORM_NUMBER] == lopcl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available
 		for (i = 0; i < lopcl_NUM_PLATFORMS; i++){
-			lopcl_DispPlats[i].numPlat = i;	
-			
-			//Discover Name	
+			lopcl_DispPlats[i].numPlat = i;
+
+			//Discover Name
 			cl_int status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+			if (status != CL_SUCCESS)
+			{
+				printf("Status %d\n",status);
+				exit(EXIT_FAILURE);
+			}
 			lopcl_DispPlats[i].Name = malloc(buffer_size);
 			status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_NAME, buffer_size, lopcl_DispPlats[i].Name, NULL);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-			
+			if (status != CL_SUCCESS)
+			{
+				printf("Status %d\n",status);
+			 	exit(EXIT_FAILURE);
+		 	}
+
 			//Discover Vendor
 			status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+			if (status != CL_SUCCESS)
+			{
+				printf("Status %d\n",status);
+			 	exit(EXIT_FAILURE);
+			}
 			lopcl_DispPlats[i].Vendor = malloc(buffer_size);
 			status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_VENDOR, buffer_size, lopcl_DispPlats[i].Vendor, NULL);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-			
+			if (status != CL_SUCCESS)
+			{
+				printf("Status %d\n",status);
+			 	exit(EXIT_FAILURE);
+			}
 			//Discover Version
 			status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+			if (status != CL_SUCCESS)
+			{
+				printf("Status %d\n",status);
+				exit(EXIT_FAILURE);
+			}
 			lopcl_DispPlats[i].Version = malloc(buffer_size);
 			status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_VERSION, buffer_size, lopcl_DispPlats[i].Version, NULL);
 
 			//Discover Extensions
 			status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_EXTENSIONS, 0, NULL, &buffer_size);
-			if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+			if (status != CL_SUCCESS)
+			{
+				printf("Status %d\n",status);
+				exit(EXIT_FAILURE);
+			}
 			lopcl_DispPlats[i].Extensions = malloc(buffer_size);
 			status = clGetPlatformInfo(lopcl_PLATFORMS[i], CL_PLATFORM_EXTENSIONS, buffer_size, lopcl_DispPlats[i].Extensions, NULL);
-			
+
 			// END PLATFORMS
 			//INIT lopcl_DEVICES
 			status = clGetDeviceIDs(lopcl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 			if (status != CL_SUCCESS)
 			{
 				printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+				printf("Status %d\n",status);
 				exit(EXIT_FAILURE);
 			}
 
@@ -257,6 +297,7 @@ int lopcl_Explore(int lopcl_PLATAFORM_NUMBER){
 			if (status != CL_SUCCESS)
 			{
 				printf(" Cannot get the list of OpenCL lopcl_DEVICES.\n");
+				printf("Status %d\n",status);
 				exit(EXIT_FAILURE);
 			}
 
@@ -269,34 +310,51 @@ int lopcl_Explore(int lopcl_PLATAFORM_NUMBER){
 		}
 	}else{
 
-		/* Imprimir informações especificas */		
+		/* Imprimir informações especificas */
 		lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].numPlat = listPlatforms[lopcl_PLATAFORM_NUMBER];
 
-		//Discover Name	
+		//Discover Name
 		cl_int status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_NAME, 0, NULL, &buffer_size);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-
+		if (status != CL_SUCCESS)
+		{
+			printf("Status %d\n",status);
+			exit(EXIT_FAILURE);
+		}
 		lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Name = malloc(buffer_size);
 		status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_NAME, buffer_size, lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Name, NULL);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		if (status != CL_SUCCESS)
+		{
+			printf("Status %d\n",status);
+			exit(EXIT_FAILURE);
+		}
 
-	
 		//Discover Vendor
 		status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_VENDOR, 0, NULL, &buffer_size);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		if (status != CL_SUCCESS)
+		{
+			printf("Status %d\n",status);
+			exit(EXIT_FAILURE);
+		}
 
 		lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Vendor = malloc(buffer_size);
 		status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_VENDOR, buffer_size, lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Vendor, NULL);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		if (status != CL_SUCCESS)
+		{
+			printf("Status %d\n",status);
+			exit(EXIT_FAILURE);
+		}
 
-	
 		//Discover Version
 		status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, 0, NULL, &buffer_size);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		if (status != CL_SUCCESS)
+		{
+			printf("Status %d\n",status);
+		 	exit(EXIT_FAILURE);
+		}
 		lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Version = malloc(buffer_size);
 		status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, buffer_size, lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Version, NULL);
 
-	
+
 		// END PLATFORMS
 
 		//INIT lopcl_DEVICES
@@ -304,6 +362,7 @@ int lopcl_Explore(int lopcl_PLATAFORM_NUMBER){
 		if (status != CL_SUCCESS)
 		{
 			printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+			printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 		}
 
@@ -312,6 +371,7 @@ int lopcl_Explore(int lopcl_PLATAFORM_NUMBER){
 		if (status != CL_SUCCESS)
 		{
 			printf(" Cannot get the list of OpenCL lopcl_DEVICES.\n");
+			printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 		}
 
@@ -329,21 +389,29 @@ int lopcl_Explore(int lopcl_PLATAFORM_NUMBER){
 int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 	if(lopcl_INIT != 1)
 		return 1;
-	
+
 	cl_int status;
-	size_t buffer_size;	
+	size_t buffer_size;
 	//Name
 	int aux;
-	if(tipo == 0){	
+	if(tipo == 0){
 		status = clGetDeviceInfo(device, CL_DEVICE_NAME, 0, NULL, &buffer_size);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		if (status != CL_SUCCESS)
+		{
+			printf("Status %d\n",status);
+			exit(EXIT_FAILURE);
+		}
 
 		X->Name = malloc(buffer_size);
-		
+
 		status = clGetDeviceInfo(device, CL_DEVICE_NAME, buffer_size, X->Name, NULL);
-		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
+		if (status != CL_SUCCESS)
+		{
+			printf("Status %d\n",status);
+			exit(EXIT_FAILURE);
+		}
 		//End Name
-		
+
 		//Vendor
 		status = clGetDeviceInfo(device, CL_DEVICE_VENDOR, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -356,7 +424,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		//Type
 		status = clGetDeviceInfo(device, CL_DEVICE_TYPE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-		
+
 		X->Type = *(cl_device_type*) malloc(buffer_size);
 		status = clGetDeviceInfo(device, CL_DEVICE_TYPE, buffer_size, &X->Type, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -376,7 +444,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 		X->Profile = malloc(buffer_size);
-		
+
 		status = clGetDeviceInfo(device, CL_DEVICE_PROFILE, buffer_size, X->Profile, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Name
@@ -416,7 +484,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_COMPILER_AVAILABLE, buffer_size, &X->CompilerAvailable, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End CompilerAvailable
-		
+
 		//AdressSpace
 		status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -425,7 +493,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_ADDRESS_BITS, buffer_size, &X->AdressSpace, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End AdressSpace
-		
+
 		//Endian
 		status = clGetDeviceInfo(device, CL_DEVICE_ENDIAN_LITTLE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -443,7 +511,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_ERROR_CORRECTION_SUPPORT, buffer_size, X->ErrorCorrection, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End ErrorCorrection
-		
+
 		//AdressAligment
 		status = clGetDeviceInfo(device, CL_DEVICE_MEM_BASE_ADDR_ALIGN, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -461,7 +529,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE, buffer_size, &X->SmallestAlignment, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End SmalltestAligment
-		
+
 		//ResolutionTimer
 		status = clGetDeviceInfo(device, CL_DEVICE_PROFILING_TIMER_RESOLUTION, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -470,7 +538,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_PROFILING_TIMER_RESOLUTION, buffer_size, &X->ResolutionTimer, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End ResolutionTimer
-		
+
 
 		//MaxClock
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CLOCK_FREQUENCY, 0, NULL, &buffer_size);
@@ -480,7 +548,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CLOCK_FREQUENCY, buffer_size, &X->MaxClock, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxClock
-		
+
 		//MaxComputeUnits
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -507,7 +575,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, buffer_size, &X->MaxBufferSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//EndBuffer
-		
+
 		//MaxMemAlocSize
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_ARGS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
@@ -517,7 +585,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxMemAlocSize
 
-		//MaxParamSize;	
+		//MaxParamSize;
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_PARAMETER_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -526,7 +594,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxParamSize;
 
-		//ExecutionCapabilities;	
+		//ExecutionCapabilities;
 		status = clGetDeviceInfo(device, CL_DEVICE_EXECUTION_CAPABILITIES, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -535,7 +603,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End ExecutionCapabilities
 
-		//MaxGlobalMemSize;	
+		//MaxGlobalMemSize;
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -544,7 +612,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxGlobalMemSize;
 
-		//MaxGlobalMemCacheSize	
+		//MaxGlobalMemCacheSize
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -552,7 +620,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, buffer_size, &X->MaxGlobalMemCacheSize, NULL);
 		//End MaxGlobalMemCacheSize
 
-		//GlobalMemLineCacheSize	
+		//GlobalMemLineCacheSize
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -561,7 +629,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		//End CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE
 
 
-		//MaxLocalMemSize	
+		//MaxLocalMemSize
 		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -569,8 +637,8 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, buffer_size, &X->MaxLocalMemSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxLocalMemSize
-		
-		//MemType	
+
+		//MemType
 		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -578,8 +646,8 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, buffer_size, X->MemType, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MemType
-		
-		//GlobalMemCahcheType	
+
+		//GlobalMemCahcheType
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_TYPE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -587,20 +655,20 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_CACHE_TYPE, buffer_size, X->GlobalMemCahcheType, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End GlobalMemCahcheType
-		
-		//MaxWorkItemDimensions	
+
+		//MaxWorkItemDimensions
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
 		X->MaxWorkItemDimensions = malloc(buffer_size);
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, buffer_size, &X->MaxWorkItemDimensions, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
-		//End MaxWorkItemDimensions		
+		//End MaxWorkItemDimensions
 
 		//printf("%d\n", X->MaxWorkItem);
 		//End MaxWorkItem
-			
-		//MaxWorkGroupSize	
+
+		//MaxWorkGroupSize
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -608,8 +676,8 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, buffer_size, &X->MaxWorkGroupSize, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxWorkGroupSize
-		
-		//MaxWorkItemSizes	
+
+		//MaxWorkItemSizes
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -618,7 +686,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//EndMaxWorkItemSizes
 
-		//Max2dHeight	
+		//Max2dHeight
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_HEIGHT, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -627,7 +695,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max2dHeight
 
-		//Max2dWidth	
+		//Max2dWidth
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_WIDTH, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -635,8 +703,8 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE2D_MAX_WIDTH, buffer_size, &X->Max2dWidth, NULL);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max2dWidth
-		
-		//Max3dDepth	
+
+		//Max3dDepth
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_DEPTH, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -645,7 +713,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max3dDepth
 
-		//Max3dHeight	
+		//Max3dHeight
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_HEIGHT, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -654,7 +722,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max3dHeight
 
-		//Max3dWidth	
+		//Max3dWidth
 		status = clGetDeviceInfo(device, CL_DEVICE_IMAGE3D_MAX_WIDTH, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -663,7 +731,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End Max3dWidth
 
-		//MaxReadImageArgs	
+		//MaxReadImageArgs
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_READ_IMAGE_ARGS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -672,7 +740,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//End MaxReadImageArgs
 
-		//MaxWriteImageArgs	
+		//MaxWriteImageArgs
 		status = clGetDeviceInfo(device, CL_DEVICE_MAX_WRITE_IMAGE_ARGS, 0, NULL, &buffer_size);
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 
@@ -753,14 +821,14 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		if (status != CL_SUCCESS) exit(EXIT_FAILURE);
 		//Extensions
 
-		
+
 	}
 	else if(tipo == 1){
 		if(lopcl_INIT != 1)
 			return 1;
-		//Name		
+		//Name
 		printf("Name: %s\n", X->Name);
-		
+
 		//Vendor
 		printf("Vendor: %s\n", X->Vendor);
 
@@ -770,7 +838,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 
 		if(X->Type & CL_DEVICE_TYPE_CPU)
 			printf("Type: CPU\n");
-		
+
 		if(X->Type & CL_DEVICE_TYPE_ACCELERATOR)
 			printf("Type: ACCELERATOR\n");
 
@@ -783,7 +851,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		//Available
 		if(X->Available)
 			printf("Available: Yes\n");
-		else	
+		else
 			printf("Available:  No\n");
 
 		//Version
@@ -791,26 +859,26 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 
 		//DriverVersion
 		printf("Driver Version: %s\n", X->DriverVersion);
-		
+
 		//CompilerAvailable
 		if(X->CompilerAvailable)
 			printf("Compiler Available: Yes\n");
-		else	
+		else
 			printf("Compiler Available:  No\n");
 
 		//AdressSpace
 		printf("Address space size: %u\n", X->AdressSpace);
-		
+
 		//Endian
 		if(X->LitleEndian)
 			printf("Litlle Endian: Yes\n");
-		else	
+		else
 			printf("Litlle Endian:  No\n");
 
 		//ErrorCorrection
 		if(X->ErrorCorrection)
 			printf("Error Correction: Yes\n");
-		else	
+		else
 			printf("Error Correction:  No\n");
 
 		//AdressAligment
@@ -819,8 +887,8 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		//SmallestAlignment
 		printf("Smallest Alignment: %u\n", X->SmallestAlignment);
 
-		//ResolutionTimer;	
-		printf("Resolution Timer: %zu\n", X->ResolutionTimer);		
+		//ResolutionTimer;
+		printf("Resolution Timer: %zu\n", X->ResolutionTimer);
 
 		//MaxClock
 		printf("Max Clock: %u\n", X->MaxClock);
@@ -839,8 +907,8 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 			printf("Max Buffer Size: %llu MB\n", (int)X->MaxBufferSize/1048576);
 		else if (X->MaxBufferSize > 1073741824)
 			printf("Max Buffer Size: %llu GB %llu MB\n", (long int)X->MaxBufferSize/1073741824, (long int)((long int)X->MaxBufferSize%1073741824)/1048576);
-		
-		
+
+
 		//MaxMemAlocSize
 		if (X->MaxMemAlocSize > 1023 && X->MaxMemAlocSize < 1048576)
 			printf("Max Aloc Size: %llu KB\n", (int)X->MaxMemAlocSize/1024);
@@ -849,29 +917,29 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		else if (X->MaxMemAlocSize > 1073741824)
 			printf("Max Aloc Size: %llu GB %llu MB\n", (long int)X->MaxMemAlocSize/1073741824, (long int)((long int)X->MaxMemAlocSize%1073741824)/1048576);
 
-		//MaxParamSize;	
+		//MaxParamSize;
 		printf("Max Parameter size: %zu\n", X->MaxParamSize);
 
 		switch (*((cl_device_exec_capabilities*)X->ExecutionCapabilities))
-		{	
+		{
 	  		case CL_EXEC_KERNEL:
 				printf("OpenCL kernels\n");
 			break;
-			
+
 	  		case CL_EXEC_NATIVE_KERNEL:
 				printf("Native Kernels\n");
 			break;
 		}
-		
-		//MaxGlobalMemSize;	
+
+		//MaxGlobalMemSize;
 		if (X->MaxGlobalMemSize > 1023 && X->MaxGlobalMemSize < 1048576)
 			printf("Max Global Size: %llu KB\n", (int)X->MaxGlobalMemSize/1024);
 		else if (X->MaxGlobalMemSize > 1048576 && X->MaxGlobalMemSize < 1073741824)
 			printf("Max Global Size: %llu MB\n", (int)X->MaxGlobalMemSize/1048576);
 		else if (X->MaxGlobalMemSize > 1073741824)
 			printf("Max Global Size: %llu GB %llu MB\n", (long int)X->MaxGlobalMemSize/1073741824, (long int)((long int)X->MaxGlobalMemSize%1073741824)/1048576);
-		
-		//MaxGlobalMemCacheSize	
+
+		//MaxGlobalMemCacheSize
 		if (X->MaxGlobalMemCacheSize> 1023 && X->MaxGlobalMemCacheSize < 1048576)
 			printf("Max Cache Mem Size: %llu KB\n", (int)X->MaxGlobalMemCacheSize/1024);
 		else if (X->MaxGlobalMemCacheSize> 1048576 && X->MaxGlobalMemCacheSize< 1073741824)
@@ -879,10 +947,10 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		else if (X->MaxGlobalMemCacheSize > 1073741824)
 			printf("Max Cache Mem Size: %llu GB %llu MB\n", (long int)X->MaxGlobalMemCacheSize/1073741824, (long int)((long int)X->MaxGlobalMemCacheSize%1073741824)/1048576);
 
-		//GlobalMemLineCacheSize;	
+		//GlobalMemLineCacheSize;
 		printf("Global Mem Line Cache Size: %zu\n", X->GlobalMemLineCacheSize);
 
-		//MaxLocalMemSize			
+		//MaxLocalMemSize
 		if (X->MaxLocalMemSize> 1023 && X->MaxLocalMemSize < 1048576)
 			printf("Max Local Mem Size: %llu KB\n", (int)X->MaxLocalMemSize/1024);
 		else if (X->MaxLocalMemSize> 1048576 && X->MaxLocalMemSize< 1073741824)
@@ -891,11 +959,11 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 			printf("Max Local Mem Size: %llu GB %llu MB\n", (long int)X->MaxLocalMemSize/1073741824, (long int)((long int)X->MaxLocalMemSize%1073741824)/1048576);
 
 		switch (*((cl_device_local_mem_type*)X->MemType))
-		{	
+		{
 	  		case CL_NONE:
 				printf("Device Mem Type: None\n");
 			break;
-			
+
 	  		case CL_READ_ONLY_CACHE:
 				printf("Device Mem Type: Local\n");
 			break;
@@ -905,11 +973,11 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		}
 
 		switch (*((cl_device_mem_cache_type*)X->GlobalMemCahcheType))
-		{	
+		{
 	  		case CL_NONE:
 				printf("Device Cache Mem Type: \n");
 			break;
-			
+
 	  		case CL_READ_ONLY_CACHE:
 				printf("Device Cache Mem Type: Read Only\n");
 			break;
@@ -917,34 +985,34 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 				printf("Device Cache Mem Type: Read and Write\n");
 			break;
 		}
-		
-		
+
+
 		//MaxWorkGroupSize
-		printf("Max Work Group Size: %zu\n", X->MaxWorkGroupSize);			
-		
-		//MaxWorkItemDimensions	
-		printf("Max Work Item Dimensions: %zu\n", X->MaxWorkItemDimensions);		
-		
-		//MaxWorkItemSizes	
-		printf("Max Work Items Sizes: %u\n", X->MaxWorkItemSizes);		
+		printf("Max Work Group Size: %zu\n", X->MaxWorkGroupSize);
+
+		//MaxWorkItemDimensions
+		printf("Max Work Item Dimensions: %zu\n", X->MaxWorkItemDimensions);
+
+		//MaxWorkItemSizes
+		printf("Max Work Items Sizes: %u\n", X->MaxWorkItemSizes);
 
 		//Max2dHeight
-		printf("Max 2D Height: %zu\n", X->Max2dHeight);			
-		
+		printf("Max 2D Height: %zu\n", X->Max2dHeight);
+
 		//Max2dWidth
-		printf("Max 2D Width: %zu\n", X->Max2dWidth);			
-		
+		printf("Max 2D Width: %zu\n", X->Max2dWidth);
+
 		//Max3dDepth
-		printf("Max 3D Depth: %zu\n", X->Max3dDepth);			
-		
+		printf("Max 3D Depth: %zu\n", X->Max3dDepth);
+
 		//Max3dHeight
 		printf("Max 3D Height: %zu\n", X->Max3dHeight);
-		
-		//Max3dWidth			
-		printf("Max 3D Width: %zu\n", X->Max3dWidth);	
+
+		//Max3dWidth
+		printf("Max 3D Width: %zu\n", X->Max3dWidth);
 
 		//MaxReadImageArgs
-		printf("Max Read Image Args: %u\n", X->MaxReadImageArgs);		
+		printf("Max Read Image Args: %u\n", X->MaxReadImageArgs);
 
 		//MaxWriteImageArgs
 		printf("Max Write Image Args: %u\n", X->MaxWriteImageArgs);
@@ -968,7 +1036,7 @@ int lopcl_ListDevice(devices *X, cl_device_id device, int tipo){
 		printf("Preferred Vector Width Float: %u\n", X->	PreferredVectorWidthFloat);
 
 		//PreferredVectorWidthDouble
-		printf("Preferred Vector Width Double: %u\n", X->	PreferredVectorWidthDouble);	
+		printf("Preferred Vector Width Double: %u\n", X->	PreferredVectorWidthDouble);
 
 		printf("Extensions:\n%s", X->Extensions);
 
@@ -997,46 +1065,52 @@ void lopcl_Errors(int i){
 			printf ("The device doens't exist\n");
 			exit(1);
 		break;
+		case 5:
+			printf("Operação não permitida\n");
+			exit(1);
 	}
 }
 
 int lopcl_CreateCmdQueue(int lopcl_PLATAFORM_NUMBER ,int lopcl_DEVICE_NUMBER){
-
 	if(lopcl_INIT_DEVICE != 1)
-		return 4;	
+		return 4;
 	cl_int status;
 	lopcl_CONTEXT = clCreateContext(NULL, lopcl_NUM_DEVICES, lopcl_DEVICES, NULL, NULL, &status);
-	
-	if(lopcl_DEVICE_NUMBER > lopcl_NUM_DEVICES){
+
+	if(listDevices[lopcl_DEVICE_NUMBER] > lopcl_NUM_DEVICES || listDevices[lopcl_DEVICE_NUMBER] < 0 || lopcl_DEVICE_NUMBER < 0){
 		return 3;
 		exit(1);
 	}
 	if (status != CL_SUCCESS) {
 		printf ("Unable create a context\n");
+		printf("Status %d\n",status);
 		exit(1);
-	} 
-	    
-	lopcl_CMDQUEUE = clCreateCommandQueue(lopcl_CONTEXT, lopcl_DEVICES[lopcl_DEVICE_NUMBER], 0, &status);
+	}
+
+	lopcl_CMDQUEUE = clCreateCommandQueue(lopcl_CONTEXT, lopcl_DEVICES[listDevices[lopcl_DEVICE_NUMBER]], 0, &status);
 
 	if (status != CL_SUCCESS) {
 	printf ("Unable create a command queue\n");
+	printf("Status %d\n",status);
 	exit(1);
 	}
 	return 0;
 }
 
 cl_mem lopcl_CreateBuffer(size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bool lopcl_FLAG1, void *a ){
-	cl_int status;	
+	cl_int status;
 	cl_mem bufferA;
 	bufferA = clCreateBuffer(lopcl_CONTEXT, lopcl_FLAGS, lopcl_DATASIZE, NULL, &status);
 	if (status != CL_SUCCESS) {
-		printf ("Unable to create buffer for A\n");
+		printf ("Unable to create buffer\n");
+		printf("Status %d\n",status);
 		exit(1);
 	}
 
 	status = clEnqueueWriteBuffer(lopcl_CMDQUEUE, bufferA, lopcl_FLAG1, 0, lopcl_DATASIZE, a, 0, NULL, NULL);
     if (status != CL_SUCCESS) {
-        printf ("Unable to copy A to buffer\n");
+        printf ("Unable to copy to buffer\n");
+				printf("Status %d\n",status);
         exit(1);
     }
 
@@ -1044,17 +1118,18 @@ cl_mem lopcl_CreateBuffer(size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bo
 }
 
 int lopcl_CreateProgram(const char** source_str, char *kernel){
-	cl_int status;	
+	cl_int status;
 
 	lopcl_PROGRAM = clCreateProgramWithSource(lopcl_CONTEXT, 1, source_str,  NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create a program from source\n");
+				printf("Status %d\n",status);
         exit(1);
     }
-    
+
     // Build (compile) the program for the lopcl_DEVICES with
     // clBuildProgram()
-    status = clBuildProgram(lopcl_PROGRAM, lopcl_NUM_DEVICES, lopcl_DEVICES, NULL, NULL, NULL); 
+    status = clBuildProgram(lopcl_PROGRAM, lopcl_NUM_DEVICES, lopcl_DEVICES, NULL, NULL, NULL);
     if (status != CL_SUCCESS) {
         printf ("Unable to build a program, %d\n", status);
         printf("CL_INVALID_PROGRAM %d\n", CL_INVALID_PROGRAM);
@@ -1076,10 +1151,11 @@ int lopcl_CreateProgram(const char** source_str, char *kernel){
         exit(1);
     }
 
-    // Use clCreateKernel() to create a kernel from the 
+    // Use clCreateKernel() to create a kernel from the
     lopcl_KERNEL = clCreateKernel(lopcl_PROGRAM, kernel, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to set a kernel from program\n");
+				printf("Status %d\n",status);
         exit(1);
     }
 
@@ -1091,9 +1167,10 @@ int lopcl_SetKernelArg(cl_int i, size_t tipo,const void *buffer){
 	status = clSetKernelArg(lopcl_KERNEL, i, tipo, buffer);
     if (status != CL_SUCCESS) {
         printf ("Unable to set kernel argument\n");
+				printf("Status %d\n",status);
         exit(1);
     }
-    return 0; 
+    return 0;
 }
 
 
@@ -1101,7 +1178,7 @@ char *DiscStr(char *name){
 	int i = 0;
 	char aux[10] = {' ', ' ', ' ', ' ', ' ', ' ',' ',' ',' ',' '};
 	while(!isspace(name[i])){
-	
+
 		aux[i] = name [i];
 		i++;
 	}
@@ -1139,7 +1216,7 @@ int lopcl_getNumPlatform(int index){
 	return lopcl_DispPlats[listPlatforms[index]].numPlat;
 }
 
-//recuperar nome da plaforma 
+//recuperar nome da plaforma
 char *lopcl_getNamePlatform(int index){
 	verifica(index);
 	return lopcl_DispPlats[listPlatforms[index]].Name;
@@ -1160,12 +1237,13 @@ char *lopcl_getExtensiosPlatform(int index){
 
 //Recuperar número do device
 int lopcl_getNumDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1181,12 +1259,13 @@ int lopcl_getNumDevice(int index, cl_device_type type){
 
 //Recuperar nome do device
 char* lopcl_getNameDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1202,12 +1281,13 @@ char* lopcl_getNameDevice(int index, cl_device_type type){
 
 //Recuperar vendor do device
 char* lopcl_getVendorDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1223,12 +1303,13 @@ char* lopcl_getVendorDevice(int index, cl_device_type type){
 
 //Recuperar vendorId do device
 cl_uint* lopcl_getVendorIdDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1244,12 +1325,13 @@ cl_uint* lopcl_getVendorIdDevice(int index, cl_device_type type){
 
 //Recuperar Profile do device
 char* lopcl_getProfileDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1265,12 +1347,13 @@ char* lopcl_getProfileDevice(int index, cl_device_type type){
 
 //Recuperar available do device
 cl_bool* lopcl_getAvailableDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1286,12 +1369,13 @@ cl_bool* lopcl_getAvailableDevice(int index, cl_device_type type){
 
 //Recuperar Version do device
 char* lopcl_getVersionDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1306,12 +1390,13 @@ char* lopcl_getVersionDevice(int index, cl_device_type type){
 }
 //Recuperar Drive Version do device
 char* lopcl_getDriveVersionDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1327,12 +1412,13 @@ char* lopcl_getDriveVersionDevice(int index, cl_device_type type){
 
 //Recuperar compilerAvailable do device
 cl_bool* lopcl_getCompilerAvailableDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1348,12 +1434,13 @@ cl_bool* lopcl_getCompilerAvailableDevice(int index, cl_device_type type){
 
 //Recuperar Adress Space do device
 cl_uint* lopcl_getAdressSpaceDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1369,12 +1456,13 @@ cl_uint* lopcl_getAdressSpaceDevice(int index, cl_device_type type){
 
 //Recuperar Endian do device
 cl_bool* lopcl_getLitleEndianDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1390,12 +1478,13 @@ cl_bool* lopcl_getLitleEndianDevice(int index, cl_device_type type){
 
 //Recuperar ErrorCorrection do device
 cl_bool* lopcl_getErrorCorrectionDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1411,12 +1500,13 @@ cl_bool* lopcl_getErrorCorrectionDevice(int index, cl_device_type type){
 
 //Recuperar AdressAlingment do device
 cl_uint* lopcl_getAdressAlingmentDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1431,12 +1521,13 @@ cl_uint* lopcl_getAdressAlingmentDevice(int index, cl_device_type type){
 }
 
 //Recuperar SmallAlingment do device
-cl_uint* lopcl_getSmallAlingmentDevice(int index, cl_device_type type){int j; 
+cl_uint* lopcl_getSmallAlingmentDevice(int index, cl_device_type type){int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1452,12 +1543,13 @@ cl_uint* lopcl_getSmallAlingmentDevice(int index, cl_device_type type){int j;
 
 //Recuperar ResolutionTimer do device
 size_t* lopcl_getResolutionTimerDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1473,7 +1565,7 @@ size_t* lopcl_getResolutionTimerDevice(int index, cl_device_type type){
 
 //Recuperar MaxClock do device
 cl_uint* lopcl_getMaxClockDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
@@ -1494,12 +1586,13 @@ cl_uint* lopcl_getMaxClockDevice(int index, cl_device_type type){
 
 //Recuperar MaxComputeUnits do device
 cl_uint* lopcl_getMaxComputeUnitsDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1515,12 +1608,13 @@ cl_uint* lopcl_getMaxComputeUnitsDevice(int index, cl_device_type type){
 
 //Recuperar MaxConstantArgs do device
 cl_uint* lopcl_getMaxConstantArgsDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1536,12 +1630,13 @@ cl_uint* lopcl_getMaxConstantArgsDevice(int index, cl_device_type type){
 
 //Recuperar MaxBufferSize do device
 cl_ulong* lopcl_getMaxBufferSizeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1557,12 +1652,13 @@ cl_ulong* lopcl_getMaxBufferSizeDevice(int index, cl_device_type type){
 
 //Recuperar MaxMemAlocSize do device
 cl_ulong* lopcl_getMaxMemAlocSizeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1578,12 +1674,13 @@ cl_ulong* lopcl_getMaxMemAlocSizeDevice(int index, cl_device_type type){
 
 //Recuperar MaxParamSize do device
 size_t* lopcl_getMaxParamSizeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1599,12 +1696,13 @@ size_t* lopcl_getMaxParamSizeDevice(int index, cl_device_type type){
 
 //Recuperar exec_capabilities do device
 cl_device_exec_capabilities* lopcl_getExecutionCapabilitiesDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1620,12 +1718,13 @@ cl_device_exec_capabilities* lopcl_getExecutionCapabilitiesDevice(int index, cl_
 
 //Recuperar MaxGlobalMemSize do device
 cl_ulong* lopcl_getMaxGlobalMemSizeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1641,12 +1740,13 @@ cl_ulong* lopcl_getMaxGlobalMemSizeDevice(int index, cl_device_type type){
 
 //Recuperar MaxGlobalMemCacheSize do device
 cl_ulong* lopcl_getMaxGlobalMemCacheSizeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1662,12 +1762,13 @@ cl_ulong* lopcl_getMaxGlobalMemCacheSizeDevice(int index, cl_device_type type){
 
 //Recuperar GlobalMemLineChaceSize do device
 cl_uint* lopcl_getGlobalMemLineChaceSizeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1683,12 +1784,13 @@ cl_uint* lopcl_getGlobalMemLineChaceSizeDevice(int index, cl_device_type type){
 
 //Recuperar MaxLocalMemSize do device
 cl_ulong* lopcl_getMaxLocalMemSizeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1704,12 +1806,13 @@ cl_ulong* lopcl_getMaxLocalMemSizeDevice(int index, cl_device_type type){
 
 //Recuperar LocalMemType do device
 cl_device_local_mem_type* lopcl_getLocalMemTypeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1726,12 +1829,13 @@ cl_device_local_mem_type* lopcl_getLocalMemTypeDevice(int index, cl_device_type 
 
 //Recuperar CacheMemType do device
 cl_device_mem_cache_type* lopcl_getCacheMemTypeDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1747,12 +1851,13 @@ cl_device_mem_cache_type* lopcl_getCacheMemTypeDevice(int index, cl_device_type 
 
 //Recuperar MaxWorkGroups do device
 size_t* lopcl_getMaxWorkGroupsDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1772,12 +1877,13 @@ size_t lopcl_getMaxWorkItemsDevice(int index, cl_device_type type);
 */
 //Recuperar MaxWorkItemDimensions do device
 cl_uint* lopcl_getMaxWorkItemsDimensionsDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1793,12 +1899,13 @@ cl_uint* lopcl_getMaxWorkItemsDimensionsDevice(int index, cl_device_type type){
 
 //Recuperar MaxWorkItemSizes do device
 size_t* lopcl_getMaxWorkItemSizesDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1814,12 +1921,13 @@ size_t* lopcl_getMaxWorkItemSizesDevice(int index, cl_device_type type){
 
 //Recuperar Max2dHeight do device
 size_t* lopcl_getMax2dHeightDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1835,12 +1943,13 @@ size_t* lopcl_getMax2dHeightDevice(int index, cl_device_type type){
 
 //Recuperar Max2dWidth do device
 size_t* lopcl_getMax2dWidthDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1856,12 +1965,13 @@ size_t* lopcl_getMax2dWidthDevice(int index, cl_device_type type){
 
 //Recuperar Max3dDepth do device
 size_t* lopcl_getMax3dDepthDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1877,12 +1987,13 @@ size_t* lopcl_getMax3dDepthDevice(int index, cl_device_type type){
 
 //Recuperar Max3dHeight do device
 size_t* lopcl_getMax3dHeightDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1898,12 +2009,13 @@ size_t* lopcl_getMax3dHeightDevice(int index, cl_device_type type){
 
 //Recuperar Max3dWidth do device
 size_t* lopcl_getMax3dWidthDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1919,12 +2031,13 @@ size_t* lopcl_getMax3dWidthDevice(int index, cl_device_type type){
 
 //Recuperar MaxReadImageArgs do device
 cl_uint* lopcl_getMaxReadImageArgsDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1940,12 +2053,13 @@ cl_uint* lopcl_getMaxReadImageArgsDevice(int index, cl_device_type type){
 
 //Recuperar MaxWriteImageArgs do device
 cl_uint* lopcl_geMaxWriteImageArgsDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1961,12 +2075,13 @@ cl_uint* lopcl_geMaxWriteImageArgsDevice(int index, cl_device_type type){
 
 //Recuperar MaxSamplers do device
 cl_uint* lopcl_getMaxSamplersDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -1982,12 +2097,13 @@ cl_uint* lopcl_getMaxSamplersDevice(int index, cl_device_type type){
 
 //Recuperar PreferredVectorWidthChar do device
 cl_uint* lopcl_getPreferredVectorWidthCharDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2003,12 +2119,13 @@ cl_uint* lopcl_getPreferredVectorWidthCharDevice(int index, cl_device_type type)
 
 //Recuperar PreferredVectorWidthShort do device
 cl_uint* lopcl_getPreferredVectorWidthShortDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2024,12 +2141,13 @@ cl_uint* lopcl_getPreferredVectorWidthShortDevice(int index, cl_device_type type
 
 //Recuperar PreferredVectorWidthInt do device
 cl_uint* lopcl_getPreferredVectorWidthInttDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+			printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2045,12 +2163,13 @@ cl_uint* lopcl_getPreferredVectorWidthInttDevice(int index, cl_device_type type)
 
 //Recuperar PreferredVectorWidthLong do device
 cl_uint* lopcl_getPreferredVectorWidthLongDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2066,12 +2185,13 @@ cl_uint* lopcl_getPreferredVectorWidthLongDevice(int index, cl_device_type type)
 
 //Recuperar PreferredVectorWidthFloat do device
 cl_uint* lopcl_getPreferredVectorWidthFloatDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2087,12 +2207,13 @@ cl_uint* lopcl_getPreferredVectorWidthFloatDevice(int index, cl_device_type type
 
 //Recuperar PreferredVectorWidthDouble do device
 cl_uint* lopcl_getPreferredVectorWidthDoubleDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2108,12 +2229,13 @@ cl_uint* lopcl_getPreferredVectorWidthDoubleDevice(int index, cl_device_type typ
 
 //Recuperar PreferredVectorWidthDouble do device
 cl_device_fp_config* lopcl_getSinglePrecisionFlatCapabilityDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2129,12 +2251,13 @@ cl_device_fp_config* lopcl_getSinglePrecisionFlatCapabilityDevice(int index, cl_
 
 //Recuperar PreferredVectorWidthDouble do device
 cl_device_fp_config* lopcl_getDoublePrecisionFlatCapabilityDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2150,12 +2273,13 @@ cl_device_fp_config* lopcl_getDoublePrecisionFlatCapabilityDevice(int index, cl_
 
 //Recuperar PreferredVectorWidthDouble do device
 char* lopcl_getExtensionsDevice(int index, cl_device_type type){
-	int j; 
+	int j;
 	verifica(index);
 	cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[index]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
 	if (status != CL_SUCCESS)
 	{
 		printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+		printf("Status %d\n",status);
 			exit(EXIT_FAILURE);
 	}
 	for (j = 0; j < lopcl_NUM_DEVICES; j++)
@@ -2171,21 +2295,40 @@ char* lopcl_getExtensionsDevice(int index, cl_device_type type){
 
 int lopcl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM){
   	int error;
+		//Inicializa todas as plataformas, para que os Macros de plataformas fiquem disponiveis.
   	error = lopcl_Initialize_Platforms();
-        lopcl_Errors(error);
-    
-    if(lopcl_PLATFORM_NUM < lopcl_ALL && lopcl_DEVICE_NUM > -1){
-    	error = lopcl_Initialize_Device(lopcl_PLATFORM_NUM);  
-    	lopcl_Errors(error);
-    }
+    lopcl_Errors(error);
 
-    error = lopcl_Explore( lopcl_PLATFORM_NUM);
-    	lopcl_Errors(error);
+		/*Inicializa os dispositivos de uma plataforma especifica, para que os Macros de plataformas fiquem disponíveis.
+		*As verificações de validade sobre a plataforma são feitas internenamente.
+		*Função será executada somente se o programador escolher uma plataforma especifica.*/
+		if(lopcl_PLATFORM_NUM < lopcl_ALL){
+			error = lopcl_Initialize_Device(lopcl_PLATFORM_NUM);
+			lopcl_Errors(error);
+		}
+		/*Função irá explorar as caracteristicas da(s) plataforma(s) e salvar essas informações
+		* nas estruturas de dados correspondentes, permitindo a recuperação por meio das funções de get
+		* ou por meio da função PrintInfo.
+		*/
+		error = lopcl_Explore(lopcl_PLATFORM_NUM);
+    lopcl_Errors(error);
 
-    if(lopcl_PLATFORM_NUM < lopcl_ALL && lopcl_DEVICE_NUM > -1){
-    	error = lopcl_CreateCmdQueue(lopcl_PLATFORM_NUM, lopcl_DEVICE_NUM);
-    	lopcl_Errors(error);
-    }
+		/*Função responsável por criar contexto e fila de comandos.
+		*recebe como parametro plataforma e dispositivos especificos.
+		*O dispositivo não pode ter valor -1.
+		*/
+		if(lopcl_DEVICE_NUM > -1){
+			if(listDevices[lopcl_DEVICE_NUM] < 0)
+				lopcl_Errors(4);
+			error = lopcl_CreateCmdQueue(lopcl_PLATFORM_NUM, lopcl_DEVICE_NUM);
+			lopcl_Errors(error);
+		}else if(lopcl_PLATFORM_NUM != lopcl_ALL){
+			/*
+			* A combinação lopcl_ALL, -1 é a usada para imprimir todas as informações referentes ao hardware,
+			*	se  a flag lopcl_ALL não estiver sendo usada, o campo de device não poderá ser -1 em nenhuma circunstáncia.
+			*/
+			lopcl_Errors(5);
+		}
     return 0;
 }
 
