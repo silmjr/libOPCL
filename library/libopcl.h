@@ -89,6 +89,7 @@
 
 ///Vetor responsável pelo armazenamento dos números das plataformas em uma máquina específica (Default é -1).
 int listPlatforms[7];
+///Vetor responsável pelo armazenamento dos números dos dispositivos em uma máquina específica (Default é -1).
 int listDevices[3];
 ///Identificador do dispositivos CPU.
 #define lopcl_DEVICE_CPU 0
@@ -361,6 +362,23 @@ int lopcl_CreateProgram(const char** source_str, char *kernel);
 @return int - Usado para verficação de erros
 */
 int lopcl_SetKernelArg(cl_int i, size_t tipo, const void* buffer);
+/**Função responsável por enviar o kernel para execução, ler o resultado da operação, e transferir os dados de volta ao hospedeiro.
+@param [in] work_dim - Dimensões do espaço de índices.
+@param [in] global_offset - Array de deslocamentos para valores dos índices em cada dimensão.
+@param [in] globalWorkSize - tamanho para cada dimensão do espaço de índices.
+@param [in] localWorkSize - Arrau de tamanhos dos grupos de trabalho. 
+@param [in] buffer - objeto de memória do tipo buffer a ser lido.
+@param [in] blocking_read - Define se a leitura é blockeada ou não. 
+<table>
+	<caption id="blocking_read"></caption>
+	<tr><th>Operador                      <th>	Descrição
+	<tr><th>cl_TRUE	<th> Booleano correspondete a verdadeiro.
+	<tr><th>cl_FALSE <th> Booleano correspondete a falso.
+</table>
+@param [in] datasize - comprimentos em bytes dos dados a serem transferidos
+@param [in] ptr - região do host onde os dados serão escritos
+*/
+int lopcl_clEnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, const size_t*  localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void* ptr);
 
 /** Função lista os erros que podem acontecer usando as funções da biblioteca
 @param [in] i - Inteiro com o numero do erro retornado, por alguma função.

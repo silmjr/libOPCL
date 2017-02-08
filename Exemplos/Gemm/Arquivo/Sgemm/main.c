@@ -221,24 +221,15 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     localWorkSize[1] = BSIZE;
 
     //-----------------------------------------------------
-    // STEP 6: Empilha o Kernel para execução
+    // STEP 6: Empilha o Kernel para execução e Ler a saida do buffer de saída e salva no host
     //-----------------------------------------------------
 
     // Execute the kernel by using
     // clEnqueueNDRangeKernel().
     // 'globalWorkSize' is the 1D dimension of the
     // work-items
-    status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
-
-    //-----------------------------------------------------
-    // STEP 7: Lê a saida do buffer de saída e salva no host
-    //-----------------------------------------------------
-
-    status = clEnqueueReadBuffer(lopcl_CMDQUEUE, bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to read the C buffer\n");
-        exit(1);
-    }
+    
+    lopcl_clEnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
 
     //-----------------------------------------------------
     // STEP 8: libera os recursos

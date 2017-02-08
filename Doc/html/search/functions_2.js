@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['lopcl_5fcreatebuffer',['lopcl_CreateBuffer',['../libopcl_8h.html#a2fd58e0c442b9b7850264f1423bacdb0',1,'libopcl.c']]],
+  ['lopcl_5fclenqueuendrangekernel',['lopcl_clEnqueueNDRangeKernel',['../libopcl_8h.html#a7407b4cea7094af350cfba6f58eb7c9c',1,'libopcl.c']]],
+  ['lopcl_5fcreatebuffer',['lopcl_CreateBuffer',['../libopcl_8h.html#a83663158bec1bd08df09e58e6a9d33b1',1,'libopcl.c']]],
   ['lopcl_5fcreatecmdqueue',['lopcl_CreateCmdQueue',['../libopcl_8h.html#a01cefabdfdf5129d31846566baeecf57',1,'libopcl.c']]],
   ['lopcl_5fcreateprogram',['lopcl_CreateProgram',['../libopcl_8h.html#aa6b85c3609a9b0310f33f1929a1040ab',1,'libopcl.c']]],
   ['lopcl_5ferrors',['lopcl_Errors',['../libopcl_8h.html#aa2d862d99ffb4cc655984078aa0973b8',1,'libopcl.c']]],

@@ -1,66 +1,66 @@
-\hypertarget{_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example}{}\section{/\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}
+\section{/\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}
 Exemplo de multiplicação de matrizes utilizando a lib\+O\+P\+CL
 
 
 \begin{DoxyCodeInclude}
-\textcolor{preprocessor}{#pragma OPENCL EXTENSION cl\_khr\_fp64 : enable // Usar variáveis do tipo Double }
+\textcolor{preprocessor}{#pragma OPENCL EXTENSION cl\_khr\_fp64 : enable // Usar variáveis do tipo Double}
 
 \textcolor{preprocessor}{#include <stdlib.h>}
 \textcolor{preprocessor}{#include <stdio.h>}
 \textcolor{preprocessor}{#include <string.h>}
 \textcolor{preprocessor}{#include <ctype.h>}
 \textcolor{preprocessor}{#include <math.h>}
-\textcolor{preprocessor}{#include <ctype.h>} 
-\textcolor{preprocessor}{#include <\hyperlink{libopcl_8h}{libopcl.h}>}
+\textcolor{preprocessor}{#include <ctype.h>}
+\textcolor{preprocessor}{#include <libopcl.h>}
 \textcolor{preprocessor}{#include <omp.h>}
 
 
-\textcolor{comment}{// includes do OpenCL }
+\textcolor{comment}{// includes do OpenCL}
 \textcolor{preprocessor}{#include <CL/cl.h>}
 
 \textcolor{preprocessor}{#define MAX\_SOURCE\_SIZE (0x100000)}
 \textcolor{comment}{//Tamanho do work-Group}
-\textcolor{preprocessor}{#define BSIZE 4}
+\textcolor{preprocessor}{#define BSIZE 32}
 
 \textcolor{comment}{//Função para multiplicação de matrizes na CPU}
 \textcolor{keywordtype}{void} gemm\_CPU(\textcolor{keywordtype}{float} *a, \textcolor{keywordtype}{float}* b, \textcolor{keywordtype}{float} *c, \textcolor{keywordtype}{int} size, \textcolor{keywordtype}{float} alfa, \textcolor{keywordtype}{float} beta);
-\textcolor{comment}{//Função para multiplicação de matrizes usando OpenCL }
-\textcolor{keywordtype}{void} gemm\_OpenCL(\textcolor{keywordtype}{float} *a, \textcolor{keywordtype}{float}* b, \textcolor{keywordtype}{float} *c, \textcolor{keywordtype}{int} size, \textcolor{keywordtype}{int} t, \textcolor{keywordtype}{float} alfa, \textcolor{keywordtype}{float} beta); 
+\textcolor{comment}{//Função para multiplicação de matrizes usando OpenCL}
+\textcolor{keywordtype}{void} gemm\_OpenCL(\textcolor{keywordtype}{float} *a, \textcolor{keywordtype}{float}* b, \textcolor{keywordtype}{float} *c, \textcolor{keywordtype}{int} size, \textcolor{keywordtype}{int} t, \textcolor{keywordtype}{float} alfa, \textcolor{keywordtype}{float} beta);
 \textcolor{comment}{//Função para comparação das matrizes geradas}
 \textcolor{keywordtype}{float} comparaMatrizes(\textcolor{keywordtype}{float}* a, \textcolor{keywordtype}{float}* b, \textcolor{keywordtype}{int} size);
 \textcolor{keywordtype}{void} printMatrix(\textcolor{keywordtype}{float} *a, \textcolor{keywordtype}{int} size);
 
 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} *argv[])
 \{
-    
-    \textcolor{comment}{// Dados do Host }
+
+    \textcolor{comment}{// Dados do Host}
     \textcolor{keywordtype}{float} *A = NULL;  \textcolor{comment}{// Array de entrada}
     \textcolor{keywordtype}{float} *B = NULL;  \textcolor{comment}{// Array de entrada}
     \textcolor{keywordtype}{float} *C\_host = NULL;  \textcolor{comment}{// Array de saída}
     \textcolor{keywordtype}{float} *C\_device = NULL;  \textcolor{comment}{// Array de saída}
-    
+
     \textcolor{keywordtype}{float} start, stop, t\_s, t\_p;
     \textcolor{keywordtype}{float} error;
-    
+
     \textcolor{keywordtype}{float} alfa = 0.3, beta = 0.4;
     \textcolor{comment}{// Tamanho da Matriz(square matrix)}
     \textcolor{keywordtype}{int} mSize = 1024;
     \textcolor{keywordflow}{if}(argc >= 2)\textcolor{comment}{//Receber tamanho da matriz por linha de comando, caso não receber nada o tamanho padrão é
        1024x1024}
         mSize = atoi(argv[1]);
-    
-    \textcolor{comment}{// Elementos em cada array }
-    \textcolor{keyword}{const} \textcolor{keywordtype}{int} elements = mSize*mSize;   
-    
-    \textcolor{comment}{// Calcula o tamanho dos dados }
+
+    \textcolor{comment}{// Elementos em cada array}
+    \textcolor{keyword}{const} \textcolor{keywordtype}{int} elements = mSize*mSize;
+
+    \textcolor{comment}{// Calcula o tamanho dos dados}
     \textcolor{keywordtype}{size\_t} datasize = \textcolor{keyword}{sizeof}(float)*elements;
-    
+
     \textcolor{comment}{//Aloca espaço para os dados de Entrada/Saída}
     A = (\textcolor{keywordtype}{float}*)malloc(datasize);
     B = (\textcolor{keywordtype}{float}*)malloc(datasize);
     C\_host = (\textcolor{keywordtype}{float}*)malloc(datasize);
     C\_device = (\textcolor{keywordtype}{float}*)malloc(datasize);
-    
+
     \textcolor{comment}{// Incializa os dados de entrada}
     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < elements; i++) \{
         A[i] = 1.0;
@@ -75,20 +75,20 @@ Exemplo de multiplicação de matrizes utilizando a lib\+O\+P\+CL
     stop = omp\_get\_wtime();
     t\_s = stop - start;
     printf(\textcolor{stringliteral}{"Result Ok! time - %f\(\backslash\)n"}, t\_s);
-    
-    \textcolor{comment}{//Execução do código Paralelo }
+
+    \textcolor{comment}{//Execução do código Paralelo}
     start = omp\_get\_wtime();
     gemm\_OpenCL(A, B, C\_device, mSize, 0,  alfa,  beta);
 
     stop = omp\_get\_wtime();
     t\_p = stop - start;
-    
+
     \textcolor{comment}{//Comparação dos dados e de tempo dos dois códigos}
     error = comparaMatrizes(C\_host, C\_device, mSize);
     printf(\textcolor{stringliteral}{"Error - %f\(\backslash\)n"}, error);
     printf(\textcolor{stringliteral}{"Result Ok! time - %f\(\backslash\)n"}, t\_p);
     printf(\textcolor{stringliteral}{"Result Ok! speedup - %f\(\backslash\)n"}, t\_s/t\_p);
-    
+
     \textcolor{comment}{// Libera os recursos do Host}
     free(A);
     free(B);
@@ -101,7 +101,7 @@ Exemplo de multiplicação de matrizes utilizando a lib\+O\+P\+CL
 \{
     \textcolor{keywordtype}{int} i, j, k;
     \textcolor{keywordtype}{float} cValue;
-    
+
     \textcolor{keywordflow}{for}(i=0; i<size; i++)
         \textcolor{keywordflow}{for}(j=0; j<size; j++)\{
             cValue = c[i*size+j];
@@ -109,168 +109,157 @@ Exemplo de multiplicação de matrizes utilizando a lib\+O\+P\+CL
                 cValue += a[i*size+k]*b[k*size+j];
             c[i*size+j] = alfa* cValue + beta*c[i*size+j];
         \}
-        
+
         \textcolor{keywordflow}{return};
 \}
 \textcolor{keywordtype}{void} gemm\_OpenCL(\textcolor{keywordtype}{float} *a, \textcolor{keywordtype}{float}* b, \textcolor{keywordtype}{float} *c, \textcolor{keywordtype}{int} size, \textcolor{keywordtype}{int} t, \textcolor{keywordtype}{float} alfa, \textcolor{keywordtype}{float} beta)
 \{
     \textcolor{comment}{// Elementos em cada array}
-    \textcolor{keyword}{const} \textcolor{keywordtype}{int} elements = size*size;   
+    \textcolor{keyword}{const} \textcolor{keywordtype}{int} elements = size*size;
     \textcolor{keywordtype}{int} error = 0;
-    \textcolor{comment}{// Calcula o tamanho dos elementos }
+    \textcolor{comment}{// Calcula o tamanho dos elementos}
     \textcolor{keywordtype}{size\_t} datasize = \textcolor{keyword}{sizeof}(float)*elements;
-    
-    \textcolor{comment}{// Usado para checar a saída do OpenCL }
-    cl\_int status;  
-      
-     
-    \textcolor{comment}{//Leitura do arquivo onde está o kernel }
+
+    \textcolor{comment}{// Usado para checar a saída do OpenCL}
+    cl\_int status;
+
+
+    \textcolor{comment}{//Leitura do arquivo onde está o kernel}
     FILE *fp;
     \textcolor{keywordtype}{char} *source\_str;
     \textcolor{keywordtype}{size\_t} source\_size;
-    
-    \textcolor{comment}{//Carregando o arquivo com o Kernel }
-    fp = fopen(\textcolor{stringliteral}{"dgemm-kernelGlobal.cl"}, \textcolor{stringliteral}{"r"});
+
+    \textcolor{comment}{//Carregando o arquivo com o Kernel}
+    fp = fopen(\textcolor{stringliteral}{"dgemm-kernelPrivate.cl"}, \textcolor{stringliteral}{"r"});
     \textcolor{keywordflow}{if} (!fp) \{
         fprintf(stderr, \textcolor{stringliteral}{"Failed to load kernel.\(\backslash\)n"});
         exit(1);
     \}
-    
-    fseek(fp, 0, SEEK\_END);\textcolor{comment}{//Envia o cabeçote de leitura para o fim do arquivo.  }
-    \textcolor{keywordtype}{long} fSize = ftell(fp);\textcolor{comment}{//Retorna o tamanho do arquivo em bytes. }
+
+    fseek(fp, 0, SEEK\_END);\textcolor{comment}{//Envia o cabeçote de leitura para o fim do arquivo.}
+    \textcolor{keywordtype}{long} fSize = ftell(fp);\textcolor{comment}{//Retorna o tamanho do arquivo em bytes.}
     rewind(fp);\textcolor{comment}{//Retorna a leitura para o inicio do arquivo.}
-    
+
     source\_str = (\textcolor{keywordtype}{char}*)malloc((fSize+1)*\textcolor{keyword}{sizeof}(char));\textcolor{comment}{// Cria uma string com o tamanho do arquivo}
     source\_size = fread( source\_str, 1, (fSize+1)*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}), fp);\textcolor{comment}{//Copia o conteúdo do kernel para a
        variável pré alocada}
     source\_str[fSize] = \textcolor{charliteral}{'\(\backslash\)0'};\textcolor{comment}{//Marca o fim do arquivo.}
     fclose( fp );\textcolor{comment}{//Fecha o arquivo.}
-    
+
     \textcolor{comment}{//printf("%F\(\backslash\)n", c[0]);}
-    
+
     \textcolor{comment}{//
       ----------------------------------------------------------------------------------------------------------}
-    \textcolor{comment}{// STEP 1: Descobrir e inicializar as plataformas e Devices, e criar contexto e Fila de Comando }
+    \textcolor{comment}{// STEP 1: Descobrir e inicializar as plataformas e Devices, e criar contexto e Fila de Comando}
     \textcolor{comment}{//
       ----------------------------------------------------------------------------------------------------------}
 
-    \hyperlink{libopcl_8h_ade7c32a3125e006727c4f4d04b450e4a}{lopcl\_Init}(\hyperlink{libopcl_8h_a82fc159d29b83847b73408babea2dea7}{lopcl\_NVIDIA}, \hyperlink{libopcl_8h_a1822006b4d975a90a796837f7c329681}{lopcl\_DEVICE\_GPU});
+    lopcl_Init(lopcl_POCL, lopcl_DEVICE_CPU);
 
     \textcolor{comment}{//
       ----------------------------------------------------------------------------------------------------------}
     \textcolor{comment}{// STEP 2: Criar buffers do device e Escrever os dados do host para os lopcl\_DEVICES de buffers}
     \textcolor{comment}{//-----------------------------------------------------
        -----------------------------------------------------}
-    
-       
+
+
     cl\_mem bufferA;  \textcolor{comment}{// Array de entrada do device}
     cl\_mem bufferB;  \textcolor{comment}{// Array de entrada do device}
     cl\_mem bufferC;  \textcolor{comment}{// Array de saída do device}
-    
-    \textcolor{comment}{// Use lopcl\_CreateBuffer() para criar o objeto (d\_A) }
-    \textcolor{comment}{// Isso contêm os dados do Array A do Host.}
-    bufferA = \hyperlink{libopcl_8h_a2fd58e0c442b9b7850264f1423bacdb0}{lopcl\_CreateBuffer}(datasize, CL\_MEM\_READ\_ONLY, CL\_FALSE, a);
 
-    \textcolor{comment}{// Use lopcl\_CreateBuffer() para criar o objeto (d\_B) }
+    \textcolor{comment}{// Use lopcl\_CreateBuffer() para criar o objeto (d\_A)}
+    \textcolor{comment}{// Isso contêm os dados do Array A do Host.}
+    bufferA = lopcl_CreateBuffer(datasize, CL\_MEM\_READ\_ONLY, CL\_FALSE, a);
+
+    \textcolor{comment}{// Use lopcl\_CreateBuffer() para criar o objeto (d\_B)}
     \textcolor{comment}{// Isso contêm os dados do Array B do Host.}
-    bufferB = \hyperlink{libopcl_8h_a2fd58e0c442b9b7850264f1423bacdb0}{lopcl\_CreateBuffer}(datasize, CL\_MEM\_READ\_ONLY, CL\_FALSE, b);
-    
-    \textcolor{comment}{// Use lopcl\_CreateBuffer() para criar o objeto (d\_B) }
+    bufferB = lopcl_CreateBuffer(datasize, CL\_MEM\_READ\_ONLY, CL\_FALSE, b);
+
+    \textcolor{comment}{// Use lopcl\_CreateBuffer() para criar o objeto (d\_B)}
     \textcolor{comment}{// com espaço suficiente para "segurar" os dados de saída.}
-    bufferC = \hyperlink{libopcl_8h_a2fd58e0c442b9b7850264f1423bacdb0}{lopcl\_CreateBuffer}(datasize, CL\_MEM\_READ\_WRITE, CL\_FALSE, c);
-        
+    bufferC = lopcl_CreateBuffer(datasize, CL\_MEM\_READ\_WRITE, CL\_FALSE, c);
+
     \textcolor{comment}{//---------------------------------------------------------------}
-    \textcolor{comment}{// STEP 3: Cria e compila o programa, e cria o kernel }
+    \textcolor{comment}{// STEP 3: Cria e compila o programa, e cria o kernel}
     \textcolor{comment}{//----------------------------------------------------- ---------}
 
     \textcolor{keywordflow}{if}(t==0)
-        \hyperlink{libopcl_8h_aa6b85c3609a9b0310f33f1929a1040ab}{lopcl\_CreateProgram}((\textcolor{keyword}{const} \textcolor{keywordtype}{char}**)&source\_str, \textcolor{stringliteral}{"dgemm"});
-    
-        
+        lopcl_CreateProgram((\textcolor{keyword}{const} \textcolor{keywordtype}{char}**)&source\_str, \textcolor{stringliteral}{"dgemm"});
+
+
     \textcolor{comment}{//-----------------------------------------------------}
-    \textcolor{comment}{// STEP 4: Define os argumentos do kernel }
-    \textcolor{comment}{//----------------------------------------------------- }
-        
-    \textcolor{comment}{// Associa os buffers de entrada e saida ao kernel }
+    \textcolor{comment}{// STEP 4: Define os argumentos do kernel}
+    \textcolor{comment}{//-----------------------------------------------------}
+
+    \textcolor{comment}{// Associa os buffers de entrada e saida ao kernel}
     \textcolor{comment}{// usando lopcl\_SetKernelArg()}
-      
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(0, \textcolor{keyword}{sizeof}( \textcolor{keywordtype}{int}), &size);
-    
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(1, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
-    
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(2, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
-    
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(3, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), &alfa);
 
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(4, \textcolor{keyword}{sizeof}(cl\_mem), &bufferA);
+    lopcl_SetKernelArg(0, \textcolor{keyword}{sizeof}( \textcolor{keywordtype}{int}), &size);
 
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(5, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
+    lopcl_SetKernelArg(1, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
 
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(6, \textcolor{keyword}{sizeof}(cl\_mem), &bufferB);
+    lopcl_SetKernelArg(2, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
 
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(7, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
+    lopcl_SetKernelArg(3, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), &alfa);
 
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(8, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), &beta);
+    lopcl_SetKernelArg(4, \textcolor{keyword}{sizeof}(cl\_mem), &bufferA);
 
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(9, \textcolor{keyword}{sizeof}(cl\_mem), &bufferC);
+    lopcl_SetKernelArg(5, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
 
-    \hyperlink{libopcl_8h_affccb59435b5513c8729a76a78d8ed30}{lopcl\_SetKernelArg}(10, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
+    lopcl_SetKernelArg(6, \textcolor{keyword}{sizeof}(cl\_mem), &bufferB);
 
-    
+    lopcl_SetKernelArg(7, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
+
+    lopcl_SetKernelArg(8, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), &beta);
+
+    lopcl_SetKernelArg(9, \textcolor{keyword}{sizeof}(cl\_mem), &bufferC);
+
+    lopcl_SetKernelArg(10, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), &size);
+
+
     \textcolor{comment}{//--------------------------------------------------------------}
     \textcolor{comment}{// STEP 5: Configurar a estrutura dos work itens e work groups}
     \textcolor{comment}{//----------------------------------------------------- --------}
-    
-    \textcolor{keywordtype}{size\_t} globalWorkSize[2];    
-    \textcolor{comment}{// Esses são os elementos de work-items }
+
+    \textcolor{keywordtype}{size\_t} globalWorkSize[2];
+    \textcolor{comment}{// Esses são os elementos de work-items}
     globalWorkSize[0] = size/32;
     globalWorkSize[1] = size/32;
-    
-    \textcolor{keywordtype}{size\_t} localWorkSize[2];    
-    
+
+    \textcolor{keywordtype}{size\_t} localWorkSize[2];
+
     localWorkSize[0] = BSIZE;
     localWorkSize[1] = BSIZE;
-    
+
     \textcolor{comment}{//-----------------------------------------------------}
-    \textcolor{comment}{// STEP 6: Empilha o Kernel para execução}
-    \textcolor{comment}{//----------------------------------------------------- }
-    
-    \textcolor{comment}{// Execute the kernel by using }
+    \textcolor{comment}{// STEP 6: Empilha o Kernel para execução e Ler a saida do buffer de saída e salva no host}
+    \textcolor{comment}{//-----------------------------------------------------}
+
+    \textcolor{comment}{// Execute the kernel by using}
     \textcolor{comment}{// clEnqueueNDRangeKernel().}
-    \textcolor{comment}{// 'globalWorkSize' is the 1D dimension of the }
+    \textcolor{comment}{// 'globalWorkSize' is the 1D dimension of the}
     \textcolor{comment}{// work-items}
-    status = clEnqueueNDRangeKernel(\hyperlink{libopcl_8h_af57a50f399ecbe80bd418b9c482f549c}{lopcl\_CMDQUEUE}, \hyperlink{libopcl_8h_a79b979fb204a8c19d91ded3ea3666494}{lopcl\_KERNEL} , 2, NULL, 
-      globalWorkSize, localWorkSize, 0, NULL, NULL);
-        
-    \textcolor{comment}{//-----------------------------------------------------}
-    \textcolor{comment}{// STEP 7: Lê a saida do buffer de saída e salva no host}
-    \textcolor{comment}{//----------------------------------------------------- }
     
-    status = clEnqueueReadBuffer(\hyperlink{libopcl_8h_af57a50f399ecbe80bd418b9c482f549c}{lopcl\_CMDQUEUE}, bufferC, CL\_TRUE, 0, datasize, c, 0, NULL, 
-      NULL);
-    \textcolor{keywordflow}{if} (status != CL\_SUCCESS) \{
-        printf (\textcolor{stringliteral}{"Unable to read the C buffer\(\backslash\)n"});
-        exit(1);
-    \}
-     
+    lopcl_clEnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL\_TRUE, datasize, c);
+
     \textcolor{comment}{//-----------------------------------------------------}
-    \textcolor{comment}{// STEP 8: libera os recursos }
-    \textcolor{comment}{//----------------------------------------------------- }
-    
+    \textcolor{comment}{// STEP 8: libera os recursos}
+    \textcolor{comment}{//-----------------------------------------------------}
+
     \textcolor{comment}{//Free OpenCL resources}
-    clReleaseKernel(\hyperlink{libopcl_8h_a79b979fb204a8c19d91ded3ea3666494}{lopcl\_KERNEL} );
-    clReleaseProgram(\hyperlink{libopcl_8h_a8a09a35e78c242e7e47a12cb469f6c03}{lopcl\_PROGRAM});
-    clReleaseCommandQueue(\hyperlink{libopcl_8h_af57a50f399ecbe80bd418b9c482f549c}{lopcl\_CMDQUEUE});
-    clReleaseContext(\hyperlink{libopcl_8h_ae02a0c6bb72304251b9dc9968edb29f3}{lopcl\_CONTEXT});
-    clReleaseMemObject(bufferA); 
+    clReleaseKernel(lopcl_KERNEL );
+    clReleaseProgram(lopcl_PROGRAM);
+    clReleaseCommandQueue(lopcl_CMDQUEUE);
+    clReleaseContext(lopcl_CONTEXT);
+    clReleaseMemObject(bufferA);
     clReleaseMemObject(bufferB);
     clReleaseMemObject(bufferC);
-    \hyperlink{libopcl_8h_a7a201b693e4b7aff37d09e850a3462d6}{lopcl\_Finalize}();
+    lopcl_Finalize();
     free(source\_str);
-    
-    
+
+
     \textcolor{keywordflow}{return};
-     
+
 \}
 
 \textcolor{keywordtype}{float} comparaMatrizes(\textcolor{keywordtype}{float}* a, \textcolor{keywordtype}{float}* b, \textcolor{keywordtype}{int} size)
@@ -280,9 +269,9 @@ Exemplo de multiplicação de matrizes utilizando a lib\+O\+P\+CL
     \textcolor{keywordflow}{for}(i=0; i<tSize; i++)
         \textcolor{keywordflow}{if}(max < fabs(a[i] - b[i]))
             max =  fabs(a[i] - b[i]);
-        
+
         \textcolor{keywordflow}{return} max;
-    
+
 \}
 
 \textcolor{keywordtype}{void} printMatrix(\textcolor{keywordtype}{float} *a, \textcolor{keywordtype}{int} size)

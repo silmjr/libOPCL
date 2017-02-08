@@ -3,9 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.12"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LibOPCL: Referência do Arquivo /data/home/local1/silvano/Documentos/Opencl/libOPCL/library/libopcl.h</title>
+<title>LibOPCL: Referência do Arquivo /home/sjunior/Documentos/libOPCL/library/libopcl.h</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Gerado por Doxygen 1.8.12 -->
+<!-- Gerado por Doxygen 1.8.13 -->
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Busca');
 </script>
@@ -150,6 +150,18 @@ Definições e Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#af1dc295cb5bbb0f8fa57eb0fa66f0203">ACCELERATOR</a>&#160;&#160;&#160;CL_DEVICE_TYPE_ACCELERATOR</td></tr>
 <tr class="memdesc:af1dc295cb5bbb0f8fa57eb0fa66f0203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro para device do tipo ACCELERATOR. <br /></td></tr>
 <tr class="separator:af1dc295cb5bbb0f8fa57eb0fa66f0203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41fa98cabedaf81a3260a9c5c118b4be"><td class="memItemLeft" align="right" valign="top"><a id="a41fa98cabedaf81a3260a9c5c118b4be"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a41fa98cabedaf81a3260a9c5c118b4be">lopcl_DEVICE_CPU</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a41fa98cabedaf81a3260a9c5c118b4be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos CPU. <br /></td></tr>
+<tr class="separator:a41fa98cabedaf81a3260a9c5c118b4be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a460c42b9c7481906270215b5f778354d"><td class="memItemLeft" align="right" valign="top"><a id="a460c42b9c7481906270215b5f778354d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a460c42b9c7481906270215b5f778354d">lopcl_DEVICE_ACCELERATOR</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a460c42b9c7481906270215b5f778354d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos ACCELERATOR. <br /></td></tr>
+<tr class="separator:a460c42b9c7481906270215b5f778354d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e7f20b2a22cb0c8c68483de4cdec9b0"><td class="memItemLeft" align="right" valign="top"><a id="a2e7f20b2a22cb0c8c68483de4cdec9b0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a2e7f20b2a22cb0c8c68483de4cdec9b0">lopcl_DEVICE_GPU</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:a2e7f20b2a22cb0c8c68483de4cdec9b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos GPU. <br /></td></tr>
+<tr class="separator:a2e7f20b2a22cb0c8c68483de4cdec9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Funções</h2></td></tr>
@@ -167,12 +179,14 @@ Funções</h2></td></tr>
 <tr class="separator:a01cefabdfdf5129d31846566baeecf57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a979e7dd0aede945b5ddde015e6f0a9cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a979e7dd0aede945b5ddde015e6f0a9cd">lopcl_ListDevice</a> (<a class="el" href="structdevices.html">devices</a> *X, cl_device_id device, int tipo)</td></tr>
 <tr class="separator:a979e7dd0aede945b5ddde015e6f0a9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fd58e0c442b9b7850264f1423bacdb0"><td class="memItemLeft" align="right" valign="top">*cl_mem&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a2fd58e0c442b9b7850264f1423bacdb0">lopcl_CreateBuffer</a> (size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bool lopcl_FLAG1, void *host_ptr)</td></tr>
-<tr class="separator:a2fd58e0c442b9b7850264f1423bacdb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83663158bec1bd08df09e58e6a9d33b1"><td class="memItemLeft" align="right" valign="top">cl_mem&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a83663158bec1bd08df09e58e6a9d33b1">lopcl_CreateBuffer</a> (size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bool lopcl_FLAG1, void *host_ptr)</td></tr>
+<tr class="separator:a83663158bec1bd08df09e58e6a9d33b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6b85c3609a9b0310f33f1929a1040ab"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#aa6b85c3609a9b0310f33f1929a1040ab">lopcl_CreateProgram</a> (const char **source_str, char *kernel)</td></tr>
 <tr class="separator:aa6b85c3609a9b0310f33f1929a1040ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affccb59435b5513c8729a76a78d8ed30"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#affccb59435b5513c8729a76a78d8ed30">lopcl_SetKernelArg</a> (cl_int i, size_t tipo, const void *buffer)</td></tr>
 <tr class="separator:affccb59435b5513c8729a76a78d8ed30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7407b4cea7094af350cfba6f58eb7c9c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a7407b4cea7094af350cfba6f58eb7c9c">lopcl_clEnqueueNDRangeKernel</a> (cl_uint work_dim, const size_t *global_offset, const size_t *globalWorkSize, const size_t *localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void *ptr)</td></tr>
+<tr class="separator:a7407b4cea7094af350cfba6f58eb7c9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2d862d99ffb4cc655984078aa0973b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#aa2d862d99ffb4cc655984078aa0973b8">lopcl_Errors</a> (int i)</td></tr>
 <tr class="separator:aa2d862d99ffb4cc655984078aa0973b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4fce0f8a8f1d65d5a2750243ed05239"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#ae4fce0f8a8f1d65d5a2750243ed05239">lopcl_PrintInfo</a> (int lopcl_PLATAFORM_NUMBER)</td></tr>
@@ -300,18 +314,10 @@ Variáveis</h2></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a03b35b4ca16ed674504bc73a805083f4">listPlatforms</a> [7]</td></tr>
 <tr class="memdesc:a03b35b4ca16ed674504bc73a805083f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vetor responsável pelo armazenamento dos números das plataformas em uma máquina específica (Default é -1). <br /></td></tr>
 <tr class="separator:a03b35b4ca16ed674504bc73a805083f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14f95182a77e3153690aa7c2297c8617"><td class="memItemLeft" align="right" valign="top"><a id="a14f95182a77e3153690aa7c2297c8617"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a14f95182a77e3153690aa7c2297c8617">lopcl_DEVICE_CPU</a></td></tr>
-<tr class="memdesc:a14f95182a77e3153690aa7c2297c8617"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos CPU. <br /></td></tr>
-<tr class="separator:a14f95182a77e3153690aa7c2297c8617"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc90bbd438ab8be16a414d6f8e8d7897"><td class="memItemLeft" align="right" valign="top"><a id="abc90bbd438ab8be16a414d6f8e8d7897"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#abc90bbd438ab8be16a414d6f8e8d7897">lopcl_DEVICE_ACCELERATOR</a></td></tr>
-<tr class="memdesc:abc90bbd438ab8be16a414d6f8e8d7897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos ACCELERATOR. <br /></td></tr>
-<tr class="separator:abc90bbd438ab8be16a414d6f8e8d7897"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1822006b4d975a90a796837f7c329681"><td class="memItemLeft" align="right" valign="top"><a id="a1822006b4d975a90a796837f7c329681"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a1822006b4d975a90a796837f7c329681">lopcl_DEVICE_GPU</a></td></tr>
-<tr class="memdesc:a1822006b4d975a90a796837f7c329681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificador do dispositivos GPU. <br /></td></tr>
-<tr class="separator:a1822006b4d975a90a796837f7c329681"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3d24f3448129701daad590a7e3ec0e8"><td class="memItemLeft" align="right" valign="top"><a id="ab3d24f3448129701daad590a7e3ec0e8"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#ab3d24f3448129701daad590a7e3ec0e8">listDevices</a> [3]</td></tr>
+<tr class="memdesc:ab3d24f3448129701daad590a7e3ec0e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vetor responsável pelo armazenamento dos números dos dispositivos em uma máquina específica (Default é -1). <br /></td></tr>
+<tr class="separator:ab3d24f3448129701daad590a7e3ec0e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44d6365c57fa01bf646133a793976d6e"><td class="memItemLeft" align="right" valign="top"><a id="a44d6365c57fa01bf646133a793976d6e"></a>
 cl_uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a44d6365c57fa01bf646133a793976d6e">lopcl_NUM_PLATFORMS</a></td></tr>
 <tr class="memdesc:a44d6365c57fa01bf646133a793976d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Armazena o número total de plataformas em uma máquina. <br /></td></tr>
@@ -355,14 +361,102 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <dl class="section date"><dt>Data</dt><dd>21 novembro 2016 </dd></dl>
 <dl class="section see"><dt>Veja também</dt><dd><a href="https://github.com/silmjr/libOPCL">https://github.com/silmjr/libOPCL</a> </dd></dl>
 </div><h2 class="groupheader">Funções</h2>
-<a id="a2fd58e0c442b9b7850264f1423bacdb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fd58e0c442b9b7850264f1423bacdb0">&sect;&nbsp;</a></span>lopcl_CreateBuffer()</h2>
+<a id="a7407b4cea7094af350cfba6f58eb7c9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7407b4cea7094af350cfba6f58eb7c9c">&#9670;&nbsp;</a></span>lopcl_clEnqueueNDRangeKernel()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">* cl_mem lopcl_CreateBuffer </td>
+          <td class="memname">int lopcl_clEnqueueNDRangeKernel </td>
+          <td>(</td>
+          <td class="paramtype">cl_uint&#160;</td>
+          <td class="paramname"><em>work_dim</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t *&#160;</td>
+          <td class="paramname"><em>global_offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t *&#160;</td>
+          <td class="paramname"><em>globalWorkSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t *&#160;</td>
+          <td class="paramname"><em>localWorkSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cl_mem&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cl_bool&#160;</td>
+          <td class="paramname"><em>blocking_read</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>datasize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>ptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Função responsável por enviar o kernel para execução, ler o resultado da operação, e transferir os dados de volta ao hospedeiro. </p><dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">work_dim</td><td>- Dimensões do espaço de índices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">global_offset</td><td>- Array de deslocamentos para valores dos índices em cada dimensão. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">globalWorkSize</td><td>- tamanho para cada dimensão do espaço de índices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">localWorkSize</td><td>- Arrau de tamanhos dos grupos de trabalho. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>- objeto de memória do tipo buffer a ser lido. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">blocking_read</td><td>- Define se a leitura é blockeada ou não. <a class="anchor" id="blocking_read"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Operador </th><th>Descrição </th></tr>
+<tr>
+<th>cl_TRUE </th><th>Booleano correspondete a verdadeiro. </th></tr>
+<tr>
+<th>cl_FALSE </th><th>Booleano correspondete a falso. </th></tr>
+</table>
+</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">datasize</td><td>- comprimentos em bytes dos dados a serem transferidos </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>- região do host onde os dados serão escritos </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Exemplos: </b></dt><dd><a class="el" href="_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example.html#a6">/Exemplos/Gemm/Arquivo/Sgemm/main.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a83663158bec1bd08df09e58e6a9d33b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83663158bec1bd08df09e58e6a9d33b1">&#9670;&nbsp;</a></span>lopcl_CreateBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cl_mem lopcl_CreateBuffer </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>lopcl_DATASIZE</em>, </td>
@@ -432,7 +526,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a01cefabdfdf5129d31846566baeecf57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01cefabdfdf5129d31846566baeecf57">&sect;&nbsp;</a></span>lopcl_CreateCmdQueue()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a01cefabdfdf5129d31846566baeecf57">&#9670;&nbsp;</a></span>lopcl_CreateCmdQueue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -500,7 +594,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="aa6b85c3609a9b0310f33f1929a1040ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6b85c3609a9b0310f33f1929a1040ab">&sect;&nbsp;</a></span>lopcl_CreateProgram()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6b85c3609a9b0310f33f1929a1040ab">&#9670;&nbsp;</a></span>lopcl_CreateProgram()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -538,7 +632,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="aa2d862d99ffb4cc655984078aa0973b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2d862d99ffb4cc655984078aa0973b8">&sect;&nbsp;</a></span>lopcl_Errors()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2d862d99ffb4cc655984078aa0973b8">&#9670;&nbsp;</a></span>lopcl_Errors()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -562,7 +656,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a636c9dc956196f8fad74c89fa9972712"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a636c9dc956196f8fad74c89fa9972712">&sect;&nbsp;</a></span>lopcl_Explore()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a636c9dc956196f8fad74c89fa9972712">&#9670;&nbsp;</a></span>lopcl_Explore()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -607,7 +701,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a7a201b693e4b7aff37d09e850a3462d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a201b693e4b7aff37d09e850a3462d6">&sect;&nbsp;</a></span>lopcl_Finalize()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a201b693e4b7aff37d09e850a3462d6">&#9670;&nbsp;</a></span>lopcl_Finalize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -622,12 +716,12 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
       </table>
 </div><div class="memdoc">
 <p>lopcl_Finaliza, função libera a memória usada durante a execução do programa. </p><dl class="section return"><dt>Retorna</dt><dd>int - Usado para verficação de erros </dd></dl>
-<dl><dt><b>Exemplos: </b></dt><dd><a class="el" href="_2_exemplos_2clinfo_2main_8c-example.html#a3">/Exemplos/clinfo/main.c</a> e <a class="el" href="_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example.html#a10">/Exemplos/Gemm/Arquivo/Sgemm/main.c</a>.</dd>
+<dl><dt><b>Exemplos: </b></dt><dd><a class="el" href="_2_exemplos_2clinfo_2main_8c-example.html#a3">/Exemplos/clinfo/main.c</a> e <a class="el" href="_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example.html#a11">/Exemplos/Gemm/Arquivo/Sgemm/main.c</a>.</dd>
 </dl>
 </div>
 </div>
 <a id="a5db2f4d8597294ff22340b00844356de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5db2f4d8597294ff22340b00844356de">&sect;&nbsp;</a></span>lopcl_geMaxWriteImageArgsDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5db2f4d8597294ff22340b00844356de">&#9670;&nbsp;</a></span>lopcl_geMaxWriteImageArgsDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -693,7 +787,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a173ec3237c342a215299aab4eb425564"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a173ec3237c342a215299aab4eb425564">&sect;&nbsp;</a></span>lopcl_getAdressAlingmentDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a173ec3237c342a215299aab4eb425564">&#9670;&nbsp;</a></span>lopcl_getAdressAlingmentDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -759,7 +853,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a19cdc21734961a5be5a8711f574b7ce9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19cdc21734961a5be5a8711f574b7ce9">&sect;&nbsp;</a></span>lopcl_getAdressSpaceDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a19cdc21734961a5be5a8711f574b7ce9">&#9670;&nbsp;</a></span>lopcl_getAdressSpaceDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -825,7 +919,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a45b1afe9841b2ef388bba4c2281a39a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45b1afe9841b2ef388bba4c2281a39a3">&sect;&nbsp;</a></span>lopcl_getAvailableDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a45b1afe9841b2ef388bba4c2281a39a3">&#9670;&nbsp;</a></span>lopcl_getAvailableDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -891,7 +985,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="ac3dd1831da484da52f7ee853b85800d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3dd1831da484da52f7ee853b85800d5">&sect;&nbsp;</a></span>lopcl_getCacheMemTypeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3dd1831da484da52f7ee853b85800d5">&#9670;&nbsp;</a></span>lopcl_getCacheMemTypeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -957,7 +1051,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a4df159ccc650fad724db6fbe013a1688"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4df159ccc650fad724db6fbe013a1688">&sect;&nbsp;</a></span>lopcl_getCompilerAvailableDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4df159ccc650fad724db6fbe013a1688">&#9670;&nbsp;</a></span>lopcl_getCompilerAvailableDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1023,7 +1117,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="aba097f34f3fcdd0c0ac84a9479a5a8f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba097f34f3fcdd0c0ac84a9479a5a8f2">&sect;&nbsp;</a></span>lopcl_getDriveVersionDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aba097f34f3fcdd0c0ac84a9479a5a8f2">&#9670;&nbsp;</a></span>lopcl_getDriveVersionDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1089,7 +1183,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="abb398944e2d44591d9a77240fe3ae9ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb398944e2d44591d9a77240fe3ae9ac">&sect;&nbsp;</a></span>lopcl_getErrorCorrectionDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abb398944e2d44591d9a77240fe3ae9ac">&#9670;&nbsp;</a></span>lopcl_getErrorCorrectionDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1155,7 +1249,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a45d9ced687381d344714780bb4475b9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45d9ced687381d344714780bb4475b9f">&sect;&nbsp;</a></span>lopcl_getExecutionCapabilitiesDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a45d9ced687381d344714780bb4475b9f">&#9670;&nbsp;</a></span>lopcl_getExecutionCapabilitiesDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1221,7 +1315,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a2b50b6d5d26037d3c0f247c483747ab6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b50b6d5d26037d3c0f247c483747ab6">&sect;&nbsp;</a></span>lopcl_getExtensionsDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b50b6d5d26037d3c0f247c483747ab6">&#9670;&nbsp;</a></span>lopcl_getExtensionsDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1287,7 +1381,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a30babe50b4ab32c6a561f0b1904e8ee2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30babe50b4ab32c6a561f0b1904e8ee2">&sect;&nbsp;</a></span>lopcl_getExtensiosPlatform()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a30babe50b4ab32c6a561f0b1904e8ee2">&#9670;&nbsp;</a></span>lopcl_getExtensiosPlatform()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1330,7 +1424,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a36b9efa643e9a6f24e0428aff55a293d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36b9efa643e9a6f24e0428aff55a293d">&sect;&nbsp;</a></span>lopcl_getGlobalMemLineChaceSizeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a36b9efa643e9a6f24e0428aff55a293d">&#9670;&nbsp;</a></span>lopcl_getGlobalMemLineChaceSizeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1396,7 +1490,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="af5616c4e257e791446f7872ec8f05b4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5616c4e257e791446f7872ec8f05b4d">&sect;&nbsp;</a></span>lopcl_getLitleEndianDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af5616c4e257e791446f7872ec8f05b4d">&#9670;&nbsp;</a></span>lopcl_getLitleEndianDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1462,7 +1556,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a5512e479a22e30c5888d6686e95f99fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5512e479a22e30c5888d6686e95f99fb">&sect;&nbsp;</a></span>lopcl_getLocalMemTypeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5512e479a22e30c5888d6686e95f99fb">&#9670;&nbsp;</a></span>lopcl_getLocalMemTypeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1528,7 +1622,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a1ba6c9a2ea29852754ed4d6ae417f097"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ba6c9a2ea29852754ed4d6ae417f097">&sect;&nbsp;</a></span>lopcl_getMax2dHeightDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ba6c9a2ea29852754ed4d6ae417f097">&#9670;&nbsp;</a></span>lopcl_getMax2dHeightDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1594,7 +1688,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a962db47c38d9608f512854dd33787ed8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a962db47c38d9608f512854dd33787ed8">&sect;&nbsp;</a></span>lopcl_getMax2dWidthDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a962db47c38d9608f512854dd33787ed8">&#9670;&nbsp;</a></span>lopcl_getMax2dWidthDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1660,7 +1754,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a1acb9316eacac4bca52c47391d6866e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1acb9316eacac4bca52c47391d6866e4">&sect;&nbsp;</a></span>lopcl_getMax3dDepthDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1acb9316eacac4bca52c47391d6866e4">&#9670;&nbsp;</a></span>lopcl_getMax3dDepthDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1726,7 +1820,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="ae9a0490fe40fd362dd2fac251519bb8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9a0490fe40fd362dd2fac251519bb8b">&sect;&nbsp;</a></span>lopcl_getMax3dHeightDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9a0490fe40fd362dd2fac251519bb8b">&#9670;&nbsp;</a></span>lopcl_getMax3dHeightDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1792,7 +1886,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a1cf7426ad84f657e6f386a1f223d2a5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cf7426ad84f657e6f386a1f223d2a5a">&sect;&nbsp;</a></span>lopcl_getMax3dWidthDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cf7426ad84f657e6f386a1f223d2a5a">&#9670;&nbsp;</a></span>lopcl_getMax3dWidthDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1858,7 +1952,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="abc2292192814c3a4c9959f769bbdd36f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc2292192814c3a4c9959f769bbdd36f">&sect;&nbsp;</a></span>lopcl_getMaxBufferSizeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abc2292192814c3a4c9959f769bbdd36f">&#9670;&nbsp;</a></span>lopcl_getMaxBufferSizeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1924,7 +2018,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a685c6e204eecc4901f675a7fda65c238"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a685c6e204eecc4901f675a7fda65c238">&sect;&nbsp;</a></span>lopcl_getMaxClockDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a685c6e204eecc4901f675a7fda65c238">&#9670;&nbsp;</a></span>lopcl_getMaxClockDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1990,7 +2084,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a4e5acfa22166ffd9bdd3d5e10f56c36e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e5acfa22166ffd9bdd3d5e10f56c36e">&sect;&nbsp;</a></span>lopcl_getMaxComputeUnitsDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e5acfa22166ffd9bdd3d5e10f56c36e">&#9670;&nbsp;</a></span>lopcl_getMaxComputeUnitsDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2056,7 +2150,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="ae0e241669a69ce3eb64234c10cff2c2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0e241669a69ce3eb64234c10cff2c2d">&sect;&nbsp;</a></span>lopcl_getMaxConstantArgsDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0e241669a69ce3eb64234c10cff2c2d">&#9670;&nbsp;</a></span>lopcl_getMaxConstantArgsDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2122,7 +2216,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a5e3a113e47fec3cf2c87e12845e5a9cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e3a113e47fec3cf2c87e12845e5a9cb">&sect;&nbsp;</a></span>lopcl_getMaxGlobalMemCacheSizeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e3a113e47fec3cf2c87e12845e5a9cb">&#9670;&nbsp;</a></span>lopcl_getMaxGlobalMemCacheSizeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2188,7 +2282,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a4fbf304f2f9c6f3cc4d0079d9e61804e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fbf304f2f9c6f3cc4d0079d9e61804e">&sect;&nbsp;</a></span>lopcl_getMaxGlobalMemSizeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fbf304f2f9c6f3cc4d0079d9e61804e">&#9670;&nbsp;</a></span>lopcl_getMaxGlobalMemSizeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2254,7 +2348,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a973cab73a13bb433ba90ab7e92411255"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a973cab73a13bb433ba90ab7e92411255">&sect;&nbsp;</a></span>lopcl_getMaxLocalMemSizeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a973cab73a13bb433ba90ab7e92411255">&#9670;&nbsp;</a></span>lopcl_getMaxLocalMemSizeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2320,7 +2414,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="aac78f7da17d427a87a2c9c338f95fb26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac78f7da17d427a87a2c9c338f95fb26">&sect;&nbsp;</a></span>lopcl_getMaxMemAlocSizeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aac78f7da17d427a87a2c9c338f95fb26">&#9670;&nbsp;</a></span>lopcl_getMaxMemAlocSizeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2386,7 +2480,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="aa7992512a5679763cb22ffab9f747e7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7992512a5679763cb22ffab9f747e7c">&sect;&nbsp;</a></span>lopcl_getMaxParamSizeDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7992512a5679763cb22ffab9f747e7c">&#9670;&nbsp;</a></span>lopcl_getMaxParamSizeDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2452,7 +2546,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a59c6d69d6a7eba22d5c17b968b8096eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59c6d69d6a7eba22d5c17b968b8096eb">&sect;&nbsp;</a></span>lopcl_getMaxReadImageArgsDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a59c6d69d6a7eba22d5c17b968b8096eb">&#9670;&nbsp;</a></span>lopcl_getMaxReadImageArgsDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2518,7 +2612,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a98c5f8b58d5f01626701489890ee03b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98c5f8b58d5f01626701489890ee03b1">&sect;&nbsp;</a></span>lopcl_getMaxSamplersDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a98c5f8b58d5f01626701489890ee03b1">&#9670;&nbsp;</a></span>lopcl_getMaxSamplersDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2584,7 +2678,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a50530e75a18493dbc7079cff8e032325"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50530e75a18493dbc7079cff8e032325">&sect;&nbsp;</a></span>lopcl_getMaxWorkGroupsDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a50530e75a18493dbc7079cff8e032325">&#9670;&nbsp;</a></span>lopcl_getMaxWorkGroupsDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2650,7 +2744,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a2bac012f33fe6831582bd5b70249528b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bac012f33fe6831582bd5b70249528b">&sect;&nbsp;</a></span>lopcl_getMaxWorkItemsDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bac012f33fe6831582bd5b70249528b">&#9670;&nbsp;</a></span>lopcl_getMaxWorkItemsDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2716,7 +2810,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a449a000a751ce2acd2c3d271e378d983"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a449a000a751ce2acd2c3d271e378d983">&sect;&nbsp;</a></span>lopcl_getMaxWorkItemsDimensionsDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a449a000a751ce2acd2c3d271e378d983">&#9670;&nbsp;</a></span>lopcl_getMaxWorkItemsDimensionsDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2782,7 +2876,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a461ef05df51c1153ad9a1794d1c8778d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a461ef05df51c1153ad9a1794d1c8778d">&sect;&nbsp;</a></span>lopcl_getMaxWorkItemSizesDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a461ef05df51c1153ad9a1794d1c8778d">&#9670;&nbsp;</a></span>lopcl_getMaxWorkItemSizesDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2848,7 +2942,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="af495a26c50fec6e531c26994a3c164d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af495a26c50fec6e531c26994a3c164d4">&sect;&nbsp;</a></span>lopcl_getNameDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af495a26c50fec6e531c26994a3c164d4">&#9670;&nbsp;</a></span>lopcl_getNameDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2914,7 +3008,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a68dd16b42084d7dcbbc78ef1657250fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68dd16b42084d7dcbbc78ef1657250fa">&sect;&nbsp;</a></span>lopcl_getNamePlatform()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a68dd16b42084d7dcbbc78ef1657250fa">&#9670;&nbsp;</a></span>lopcl_getNamePlatform()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2957,7 +3051,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="aaa24fb00a2001f07d8add06572cebffe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa24fb00a2001f07d8add06572cebffe">&sect;&nbsp;</a></span>lopcl_getNumDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa24fb00a2001f07d8add06572cebffe">&#9670;&nbsp;</a></span>lopcl_getNumDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3023,7 +3117,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a3ad1aa3a5c31292f11f9027a59935b17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ad1aa3a5c31292f11f9027a59935b17">&sect;&nbsp;</a></span>lopcl_getNumPlatform()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ad1aa3a5c31292f11f9027a59935b17">&#9670;&nbsp;</a></span>lopcl_getNumPlatform()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3066,7 +3160,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a17318648a7e4e46731d81e6b8db19f1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17318648a7e4e46731d81e6b8db19f1d">&sect;&nbsp;</a></span>lopcl_getPreferredVectorWidthCharDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a17318648a7e4e46731d81e6b8db19f1d">&#9670;&nbsp;</a></span>lopcl_getPreferredVectorWidthCharDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3132,7 +3226,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a6642f6da0db2fc928c19034cd1fb2f1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6642f6da0db2fc928c19034cd1fb2f1c">&sect;&nbsp;</a></span>lopcl_getPreferredVectorWidthDoubleDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6642f6da0db2fc928c19034cd1fb2f1c">&#9670;&nbsp;</a></span>lopcl_getPreferredVectorWidthDoubleDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3198,7 +3292,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="ad4074a1fd53839513b4e6e041ccb9354"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4074a1fd53839513b4e6e041ccb9354">&sect;&nbsp;</a></span>lopcl_getPreferredVectorWidthFloatDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4074a1fd53839513b4e6e041ccb9354">&#9670;&nbsp;</a></span>lopcl_getPreferredVectorWidthFloatDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3264,7 +3358,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="aeab05bafc59c73dea9defcc3c82652e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeab05bafc59c73dea9defcc3c82652e0">&sect;&nbsp;</a></span>lopcl_getPreferredVectorWidthInttDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aeab05bafc59c73dea9defcc3c82652e0">&#9670;&nbsp;</a></span>lopcl_getPreferredVectorWidthInttDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3330,7 +3424,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a968aba99126ca9425710848efe716c56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a968aba99126ca9425710848efe716c56">&sect;&nbsp;</a></span>lopcl_getPreferredVectorWidthLongDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a968aba99126ca9425710848efe716c56">&#9670;&nbsp;</a></span>lopcl_getPreferredVectorWidthLongDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3396,7 +3490,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a5cd6c8cf9aad617d9cbdf35ead9e0b95"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cd6c8cf9aad617d9cbdf35ead9e0b95">&sect;&nbsp;</a></span>lopcl_getPreferredVectorWidthShortDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cd6c8cf9aad617d9cbdf35ead9e0b95">&#9670;&nbsp;</a></span>lopcl_getPreferredVectorWidthShortDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3462,7 +3556,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a6ce45e5339794591fc5f6e476f90affb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ce45e5339794591fc5f6e476f90affb">&sect;&nbsp;</a></span>lopcl_getProfileDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce45e5339794591fc5f6e476f90affb">&#9670;&nbsp;</a></span>lopcl_getProfileDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3528,7 +3622,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a8a330b443375d33d6786a9572195a377"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a330b443375d33d6786a9572195a377">&sect;&nbsp;</a></span>lopcl_getResolutionTimerDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a330b443375d33d6786a9572195a377">&#9670;&nbsp;</a></span>lopcl_getResolutionTimerDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3594,7 +3688,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a3aa168f71e5d545d55878eaa2bf5ea62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3aa168f71e5d545d55878eaa2bf5ea62">&sect;&nbsp;</a></span>lopcl_getSinglePrecisionFlatCapabilityDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aa168f71e5d545d55878eaa2bf5ea62">&#9670;&nbsp;</a></span>lopcl_getSinglePrecisionFlatCapabilityDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3660,7 +3754,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a643c7a83db46266c327ed212d4ce6eef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a643c7a83db46266c327ed212d4ce6eef">&sect;&nbsp;</a></span>lopcl_getSmallAlingmentDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a643c7a83db46266c327ed212d4ce6eef">&#9670;&nbsp;</a></span>lopcl_getSmallAlingmentDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3726,7 +3820,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a593e2fa3e583d068ec96adc4ead1d5ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a593e2fa3e583d068ec96adc4ead1d5ad">&sect;&nbsp;</a></span>lopcl_getVendorDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a593e2fa3e583d068ec96adc4ead1d5ad">&#9670;&nbsp;</a></span>lopcl_getVendorDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3792,7 +3886,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a1e040b2ba30a3e4ac20962a4ea6c3039"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e040b2ba30a3e4ac20962a4ea6c3039">&sect;&nbsp;</a></span>lopcl_getVendorIdDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e040b2ba30a3e4ac20962a4ea6c3039">&#9670;&nbsp;</a></span>lopcl_getVendorIdDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3858,7 +3952,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="ad66b9dd0788ae6c2145a458f18422a34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad66b9dd0788ae6c2145a458f18422a34">&sect;&nbsp;</a></span>lopcl_getVendorPlatform()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad66b9dd0788ae6c2145a458f18422a34">&#9670;&nbsp;</a></span>lopcl_getVendorPlatform()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3901,7 +3995,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a28cd51d5bba2ea7ae59561f7b9998fbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28cd51d5bba2ea7ae59561f7b9998fbd">&sect;&nbsp;</a></span>lopcl_getVersionDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a28cd51d5bba2ea7ae59561f7b9998fbd">&#9670;&nbsp;</a></span>lopcl_getVersionDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3967,7 +4061,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="ade7c32a3125e006727c4f4d04b450e4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade7c32a3125e006727c4f4d04b450e4a">&sect;&nbsp;</a></span>lopcl_Init()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ade7c32a3125e006727c4f4d04b450e4a">&#9670;&nbsp;</a></span>lopcl_Init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4038,7 +4132,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a524555dcb0362b5debf652431458c67b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a524555dcb0362b5debf652431458c67b">&sect;&nbsp;</a></span>lopcl_Initialize_Device()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a524555dcb0362b5debf652431458c67b">&#9670;&nbsp;</a></span>lopcl_Initialize_Device()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4083,7 +4177,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a6a75e3ca186681b5e0c745896b96e113"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a75e3ca186681b5e0c745896b96e113">&sect;&nbsp;</a></span>lopcl_Initialize_Platforms()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a75e3ca186681b5e0c745896b96e113">&#9670;&nbsp;</a></span>lopcl_Initialize_Platforms()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4102,7 +4196,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="a979e7dd0aede945b5ddde015e6f0a9cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a979e7dd0aede945b5ddde015e6f0a9cd">&sect;&nbsp;</a></span>lopcl_ListDevice()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a979e7dd0aede945b5ddde015e6f0a9cd">&#9670;&nbsp;</a></span>lopcl_ListDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4155,7 +4249,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="ae4fce0f8a8f1d65d5a2750243ed05239"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4fce0f8a8f1d65d5a2750243ed05239">&sect;&nbsp;</a></span>lopcl_PrintInfo()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4fce0f8a8f1d65d5a2750243ed05239">&#9670;&nbsp;</a></span>lopcl_PrintInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4201,7 +4295,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div>
 </div>
 <a id="affccb59435b5513c8729a76a78d8ed30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affccb59435b5513c8729a76a78d8ed30">&sect;&nbsp;</a></span>lopcl_SetKernelArg()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#affccb59435b5513c8729a76a78d8ed30">&#9670;&nbsp;</a></span>lopcl_SetKernelArg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4252,7 +4346,7 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
     <li class="navelem"><a class="el" href="dir_e3d620c6b6fdb93ed3bc6186215bde2e.html">library</a></li><li class="navelem"><a class="el" href="libopcl_8h.html">libopcl.h</a></li>
     <li class="footer">Gerado por
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.12 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
 </div>
 </body>

@@ -92,20 +92,6 @@
 \setcounter{secnumdepth}{5}
 \makeindex
 
-% Hyperlinks (required, but should be loaded last)
-\usepackage{ifpdf}
-\ifpdf
-  \usepackage[pdftex,pagebackref=true]{hyperref}
-\else
-  \usepackage[ps2pdf,pagebackref=true]{hyperref}
-\fi
-\hypersetup{%
-  colorlinks=true,%
-  linkcolor=blue,%
-  citecolor=blue,%
-  unicode%
-}
-
 % Custom commands
 \newcommand{\clearemptydoublepage}{%
   \newpage{\pagestyle{empty}\cleardoublepage}%
@@ -119,17 +105,13 @@
 \begin{document}
 
 % Titlepage & ToC
-\hypersetup{pageanchor=false,
-             bookmarksnumbered=true,
-             pdfencoding=unicode
-            }
 \pagenumbering{alph}
 \begin{titlepage}
 \vspace*{7cm}
 \begin{center}%
 {\Large Lib\+O\+P\+CL }\\
 \vspace*{1cm}
-{\large Gerado por Doxygen 1.8.12}\\
+{\large Gerado por Doxygen 1.8.13}\\
 \end{center}
 \end{titlepage}
 \clearemptydoublepage
@@ -137,11 +119,10 @@
 \tableofcontents
 \clearemptydoublepage
 \pagenumbering{arabic}
-\hypersetup{pageanchor=true}
 
 %--- Begin generated contents ---
 \chapter{Lib\+O\+P\+CL}
-\label{index}\hypertarget{index}{}\input{index}
+\label{index}\input{index}
 \chapter{Índice das Estruturas de Dados}
 \input{annotated}
 \chapter{Índice dos Arquivos}

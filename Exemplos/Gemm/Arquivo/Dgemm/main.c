@@ -147,7 +147,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     // STEP 1: Descobrir e inicializar as plataformas, Devices e Create a lopcl_CONTEXT e Fila de Comando 
     //-----------------------------------------------------
 
-    lopcl_Init(lopcl_NVIDIA, lopcl_DEVICE_GPU);
+    lopcl_Init(lopcl_POCL, lopcl_DEVICE_CPU);
 
     //-----------------------------------------------------
     // STEP 2: Criar buffers do device e Escrever os dados do host para os lopcl_DEVICES de buffers
@@ -240,7 +240,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     localWorkSize[1] = BSIZE;
     
     //-----------------------------------------------------
-    // STEP 6: Enqueue the kernel for execution
+    // STEP 6: Enqueue the kernel for execution and Read the output buffer back to the host
     //----------------------------------------------------- 
     /*cl_int clEnqueueNDRangeKernel(cl_command_queue command_queue,(Fila de comandos)
                                     cl_kernel kernel,(Kernel a ser executado)
@@ -256,31 +256,10 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     // clEnqueueNDRangeKernel().
     // 'globalWorkSize' is the 1D dimension of the 
     // work-items
-    status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
-    lopcl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
+    //status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
+    //lopcl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
+    lopcl_clEnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
     
-    //-----------------------------------------------------
-    // STEP 7: Read the output buffer back to the host
-    //----------------------------------------------------- 
-    /*cl_int clEnqueueReadBuffer(cl_queue queue,(fila de comandos)
-                                 cl_mem buffer, (objeto de memória do tipo buffer a ser lido)
-                                 cl_bool blocking_read, 
-                                 size_t offset,(offset a partir do qual os dados serão transfferidos)
-                                 size_t cb, (comprimentos em bytes dos dados a serem transferidos)
-                                 const void* ptr, (região do host onde os dados serão escritos)
-                                 cl_uint events_in_wait_list, 
-                                 const cl_event* event_wait_list, 
-                                 cl_event* event)*/
-    
-    // Use clEnqueueReadBuffer() to read the OpenCL output  
-    // buffer (bufferC) 
-    // to the host output array (C)
-    status = clEnqueueReadBuffer(lopcl_CMDQUEUE, bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
-    if (status != CL_SUCCESS) {
-        printf ("Unable to read the C buffer\n");
-        exit(1);
-    }
-     
     //-----------------------------------------------------
     // STEP 8: Release OpenCL resources
     //----------------------------------------------------- 
