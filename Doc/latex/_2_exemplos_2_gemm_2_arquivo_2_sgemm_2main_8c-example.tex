@@ -240,7 +240,7 @@ Exemplo de multiplicação de matrizes utilizando a lib\+O\+P\+CL
     \textcolor{comment}{// 'globalWorkSize' is the 1D dimension of the}
     \textcolor{comment}{// work-items}
     
-    lopcl_clEnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL\_TRUE, datasize, c);
+    lopcl_EnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL\_TRUE, datasize, c);
 
     \textcolor{comment}{//-----------------------------------------------------}
     \textcolor{comment}{// STEP 8: libera os recursos}

@@ -1173,7 +1173,7 @@ int lopcl_SetKernelArg(cl_int i, size_t tipo,const void *buffer){
     return 0;
 }
 
-int lopcl_clEnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, const size_t*  localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void* ptr){
+int lopcl_EnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, const size_t*  localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void* ptr){
 	cl_int status;
 	status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
 	if (status != CL_SUCCESS) {

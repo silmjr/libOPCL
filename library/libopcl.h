@@ -377,8 +377,9 @@ int lopcl_SetKernelArg(cl_int i, size_t tipo, const void* buffer);
 </table>
 @param [in] datasize - comprimentos em bytes dos dados a serem transferidos
 @param [in] ptr - região do host onde os dados serão escritos
+@return int - Usado para verficação de erros
 */
-int lopcl_clEnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, const size_t*  localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void* ptr);
+int lopcl_EnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, const size_t*  localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void* ptr);
 
 /** Função lista os erros que podem acontecer usando as funções da biblioteca
 @param [in] i - Inteiro com o numero do erro retornado, por alguma função.

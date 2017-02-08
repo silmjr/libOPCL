@@ -234,7 +234,7 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     // clEnqueueNDRangeKernel().
     // 'globalWorkSize' is the 1D dimension of the 
     // work-items
-    lopcl_clEnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
+    lopcl_EnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
      
     //-----------------------------------------------------
     // STEP 8: Release OpenCL resources

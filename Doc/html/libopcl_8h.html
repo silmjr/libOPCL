@@ -185,8 +185,8 @@ Funções</h2></td></tr>
 <tr class="separator:aa6b85c3609a9b0310f33f1929a1040ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affccb59435b5513c8729a76a78d8ed30"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#affccb59435b5513c8729a76a78d8ed30">lopcl_SetKernelArg</a> (cl_int i, size_t tipo, const void *buffer)</td></tr>
 <tr class="separator:affccb59435b5513c8729a76a78d8ed30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7407b4cea7094af350cfba6f58eb7c9c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a7407b4cea7094af350cfba6f58eb7c9c">lopcl_clEnqueueNDRangeKernel</a> (cl_uint work_dim, const size_t *global_offset, const size_t *globalWorkSize, const size_t *localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void *ptr)</td></tr>
-<tr class="separator:a7407b4cea7094af350cfba6f58eb7c9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a242e330adb3d30eba24172f0926251d9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#a242e330adb3d30eba24172f0926251d9">lopcl_EnqueueNDRangeKernel</a> (cl_uint work_dim, const size_t *global_offset, const size_t *globalWorkSize, const size_t *localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void *ptr)</td></tr>
+<tr class="separator:a242e330adb3d30eba24172f0926251d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2d862d99ffb4cc655984078aa0973b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#aa2d862d99ffb4cc655984078aa0973b8">lopcl_Errors</a> (int i)</td></tr>
 <tr class="separator:aa2d862d99ffb4cc655984078aa0973b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4fce0f8a8f1d65d5a2750243ed05239"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libopcl_8h.html#ae4fce0f8a8f1d65d5a2750243ed05239">lopcl_PrintInfo</a> (int lopcl_PLATAFORM_NUMBER)</td></tr>
@@ -361,94 +361,6 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <dl class="section date"><dt>Data</dt><dd>21 novembro 2016 </dd></dl>
 <dl class="section see"><dt>Veja também</dt><dd><a href="https://github.com/silmjr/libOPCL">https://github.com/silmjr/libOPCL</a> </dd></dl>
 </div><h2 class="groupheader">Funções</h2>
-<a id="a7407b4cea7094af350cfba6f58eb7c9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7407b4cea7094af350cfba6f58eb7c9c">&#9670;&nbsp;</a></span>lopcl_clEnqueueNDRangeKernel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int lopcl_clEnqueueNDRangeKernel </td>
-          <td>(</td>
-          <td class="paramtype">cl_uint&#160;</td>
-          <td class="paramname"><em>work_dim</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const size_t *&#160;</td>
-          <td class="paramname"><em>global_offset</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const size_t *&#160;</td>
-          <td class="paramname"><em>globalWorkSize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const size_t *&#160;</td>
-          <td class="paramname"><em>localWorkSize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">cl_mem&#160;</td>
-          <td class="paramname"><em>buffer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">cl_bool&#160;</td>
-          <td class="paramname"><em>blocking_read</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>datasize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>ptr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Função responsável por enviar o kernel para execução, ler o resultado da operação, e transferir os dados de volta ao hospedeiro. </p><dl class="params"><dt>Parâmetros</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">work_dim</td><td>- Dimensões do espaço de índices. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">global_offset</td><td>- Array de deslocamentos para valores dos índices em cada dimensão. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">globalWorkSize</td><td>- tamanho para cada dimensão do espaço de índices. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">localWorkSize</td><td>- Arrau de tamanhos dos grupos de trabalho. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>- objeto de memória do tipo buffer a ser lido. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">blocking_read</td><td>- Define se a leitura é blockeada ou não. <a class="anchor" id="blocking_read"></a>
-<table class="doxtable">
-<caption></caption>
-<tr>
-<th>Operador </th><th>Descrição </th></tr>
-<tr>
-<th>cl_TRUE </th><th>Booleano correspondete a verdadeiro. </th></tr>
-<tr>
-<th>cl_FALSE </th><th>Booleano correspondete a falso. </th></tr>
-</table>
-</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">datasize</td><td>- comprimentos em bytes dos dados a serem transferidos </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>- região do host onde os dados serão escritos </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Exemplos: </b></dt><dd><a class="el" href="_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example.html#a6">/Exemplos/Gemm/Arquivo/Sgemm/main.c</a>.</dd>
-</dl>
-</div>
-</div>
 <a id="a83663158bec1bd08df09e58e6a9d33b1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a83663158bec1bd08df09e58e6a9d33b1">&#9670;&nbsp;</a></span>lopcl_CreateBuffer()</h2>
 
@@ -628,6 +540,95 @@ cl_kernel&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <dl class="section return"><dt>Retorna</dt><dd>int - Usado para verficação de erros </dd></dl>
 <dl class="section see"><dt>Veja também</dt><dd><a href="https://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/">https://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/</a> </dd></dl>
 <dl><dt><b>Exemplos: </b></dt><dd><a class="el" href="_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example.html#a4">/Exemplos/Gemm/Arquivo/Sgemm/main.c</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a242e330adb3d30eba24172f0926251d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a242e330adb3d30eba24172f0926251d9">&#9670;&nbsp;</a></span>lopcl_EnqueueNDRangeKernel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lopcl_EnqueueNDRangeKernel </td>
+          <td>(</td>
+          <td class="paramtype">cl_uint&#160;</td>
+          <td class="paramname"><em>work_dim</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t *&#160;</td>
+          <td class="paramname"><em>global_offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t *&#160;</td>
+          <td class="paramname"><em>globalWorkSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t *&#160;</td>
+          <td class="paramname"><em>localWorkSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cl_mem&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cl_bool&#160;</td>
+          <td class="paramname"><em>blocking_read</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>datasize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>ptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Função responsável por enviar o kernel para execução, ler o resultado da operação, e transferir os dados de volta ao hospedeiro. </p><dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">work_dim</td><td>- Dimensões do espaço de índices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">global_offset</td><td>- Array de deslocamentos para valores dos índices em cada dimensão. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">globalWorkSize</td><td>- tamanho para cada dimensão do espaço de índices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">localWorkSize</td><td>- Arrau de tamanhos dos grupos de trabalho. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>- objeto de memória do tipo buffer a ser lido. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">blocking_read</td><td>- Define se a leitura é blockeada ou não. <a class="anchor" id="blocking_read"></a>
+<table class="doxtable">
+<caption></caption>
+<tr>
+<th>Operador </th><th>Descrição </th></tr>
+<tr>
+<th>cl_TRUE </th><th>Booleano correspondete a verdadeiro. </th></tr>
+<tr>
+<th>cl_FALSE </th><th>Booleano correspondete a falso. </th></tr>
+</table>
+</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">datasize</td><td>- comprimentos em bytes dos dados a serem transferidos </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>- região do host onde os dados serão escritos </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>int - Usado para verficação de erros </dd></dl>
+<dl><dt><b>Exemplos: </b></dt><dd><a class="el" href="_2_exemplos_2_gemm_2_arquivo_2_sgemm_2main_8c-example.html#a6">/Exemplos/Gemm/Arquivo/Sgemm/main.c</a>.</dd>
 </dl>
 </div>
 </div>

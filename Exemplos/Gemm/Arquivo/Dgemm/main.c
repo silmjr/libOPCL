@@ -258,7 +258,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     // work-items
     //status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
     //lopcl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
-    lopcl_clEnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
+    lopcl_EnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
     
     //-----------------------------------------------------
     // STEP 8: Release OpenCL resources

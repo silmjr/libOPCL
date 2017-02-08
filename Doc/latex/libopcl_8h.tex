@@ -83,7 +83,7 @@ int \textbf{ lopcl\+\_\+\+Create\+Program} (const char $\ast$$\ast$source\+\_\+s
 \item 
 int \textbf{ lopcl\+\_\+\+Set\+Kernel\+Arg} (cl\+\_\+int i, size\+\_\+t tipo, const void $\ast$buffer)
 \item 
-int \textbf{ lopcl\+\_\+cl\+Enqueue\+N\+D\+Range\+Kernel} (cl\+\_\+uint work\+\_\+dim, const size\+\_\+t $\ast$global\+\_\+offset, const size\+\_\+t $\ast$global\+Work\+Size, const size\+\_\+t $\ast$local\+Work\+Size, cl\+\_\+mem buffer, cl\+\_\+bool blocking\+\_\+read, size\+\_\+t datasize, void $\ast$ptr)
+int \textbf{ lopcl\+\_\+\+Enqueue\+N\+D\+Range\+Kernel} (cl\+\_\+uint work\+\_\+dim, const size\+\_\+t $\ast$global\+\_\+offset, const size\+\_\+t $\ast$global\+Work\+Size, const size\+\_\+t $\ast$local\+Work\+Size, cl\+\_\+mem buffer, cl\+\_\+bool blocking\+\_\+read, size\+\_\+t datasize, void $\ast$ptr)
 \item 
 void \textbf{ lopcl\+\_\+\+Errors} (int i)
 \item 
@@ -255,47 +255,6 @@ Silvano Moreira Junior
 
 
 \subsection{Funções}
-\mbox{\label{libopcl_8h_a7407b4cea7094af350cfba6f58eb7c9c}} 
-\index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+cl\+Enqueue\+N\+D\+Range\+Kernel@{lopcl\+\_\+cl\+Enqueue\+N\+D\+Range\+Kernel}}
-\index{lopcl\+\_\+cl\+Enqueue\+N\+D\+Range\+Kernel@{lopcl\+\_\+cl\+Enqueue\+N\+D\+Range\+Kernel}!libopcl.\+h@{libopcl.\+h}}
-\subsubsection{lopcl\+\_\+cl\+Enqueue\+N\+D\+Range\+Kernel()}
-{\footnotesize\ttfamily int lopcl\+\_\+cl\+Enqueue\+N\+D\+Range\+Kernel (\begin{DoxyParamCaption}\item[{cl\+\_\+uint}]{work\+\_\+dim,  }\item[{const size\+\_\+t $\ast$}]{global\+\_\+offset,  }\item[{const size\+\_\+t $\ast$}]{global\+Work\+Size,  }\item[{const size\+\_\+t $\ast$}]{local\+Work\+Size,  }\item[{cl\+\_\+mem}]{buffer,  }\item[{cl\+\_\+bool}]{blocking\+\_\+read,  }\item[{size\+\_\+t}]{datasize,  }\item[{void $\ast$}]{ptr }\end{DoxyParamCaption})}
-
-Função responsável por enviar o kernel para execução, ler o resultado da operação, e transferir os dados de volta ao hospedeiro. 
-\begin{DoxyParams}[1]{Parâmetros}
-\mbox{\tt in}  & {\em work\+\_\+dim} & -\/ Dimensões do espaço de índices. \\
-\hline
-\mbox{\tt in}  & {\em global\+\_\+offset} & -\/ Array de deslocamentos para valores dos índices em cada dimensão. \\
-\hline
-\mbox{\tt in}  & {\em global\+Work\+Size} & -\/ tamanho para cada dimensão do espaço de índices. \\
-\hline
-\mbox{\tt in}  & {\em local\+Work\+Size} & -\/ Arrau de tamanhos dos grupos de trabalho. \\
-\hline
-\mbox{\tt in}  & {\em buffer} & -\/ objeto de memória do tipo buffer a ser lido. \\
-\hline
-\mbox{\tt in}  & {\em blocking\+\_\+read} & -\/ Define se a leitura é blockeada ou não. 
-\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_blocking_read}\\
-\hline
-\rowcolor{\tableheadbgcolor}\textbf{ Operador }&\textbf{ Descrição }\\\cline{1-2}
-\endfirsthead
-\hline
-\endfoot
-\hline
-\rowcolor{\tableheadbgcolor}\textbf{ Operador }&\textbf{ Descrição }\\\cline{1-2}
-\endhead
-\rowcolor{\tableheadbgcolor}\textbf{ cl\+\_\+\+T\+R\+UE }&\textbf{ Booleano correspondete a verdadeiro. }\\\cline{1-2}
-\rowcolor{\tableheadbgcolor}\textbf{ cl\+\_\+\+F\+A\+L\+SE }&\textbf{ Booleano correspondete a falso. }\\\cline{1-2}
-\end{tabularx}
-\\
-\hline
-\mbox{\tt in}  & {\em datasize} & -\/ comprimentos em bytes dos dados a serem transferidos \\
-\hline
-\mbox{\tt in}  & {\em ptr} & -\/ região do host onde os dados serão escritos \\
-\hline
-\end{DoxyParams}
-\begin{Desc}
-\item[Exemplos\+: ]\par
-\textbf{ /\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}.\end{Desc}
 \mbox{\label{libopcl_8h_a83663158bec1bd08df09e58e6a9d33b1}} 
 \index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Create\+Buffer@{lopcl\+\_\+\+Create\+Buffer}}
 \index{lopcl\+\_\+\+Create\+Buffer@{lopcl\+\_\+\+Create\+Buffer}!libopcl.\+h@{libopcl.\+h}}
@@ -409,6 +368,50 @@ int -\/ Usado para verficação de erros
 \begin{DoxySeeAlso}{Veja também}
 {\tt https\+://www.\+khronos.\+org/registry/cl/sdk/1.\+2/docs/man/xhtml/} 
 \end{DoxySeeAlso}
+\begin{Desc}
+\item[Exemplos\+: ]\par
+\textbf{ /\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}.\end{Desc}
+\mbox{\label{libopcl_8h_a242e330adb3d30eba24172f0926251d9}} 
+\index{libopcl.\+h@{libopcl.\+h}!lopcl\+\_\+\+Enqueue\+N\+D\+Range\+Kernel@{lopcl\+\_\+\+Enqueue\+N\+D\+Range\+Kernel}}
+\index{lopcl\+\_\+\+Enqueue\+N\+D\+Range\+Kernel@{lopcl\+\_\+\+Enqueue\+N\+D\+Range\+Kernel}!libopcl.\+h@{libopcl.\+h}}
+\subsubsection{lopcl\+\_\+\+Enqueue\+N\+D\+Range\+Kernel()}
+{\footnotesize\ttfamily int lopcl\+\_\+\+Enqueue\+N\+D\+Range\+Kernel (\begin{DoxyParamCaption}\item[{cl\+\_\+uint}]{work\+\_\+dim,  }\item[{const size\+\_\+t $\ast$}]{global\+\_\+offset,  }\item[{const size\+\_\+t $\ast$}]{global\+Work\+Size,  }\item[{const size\+\_\+t $\ast$}]{local\+Work\+Size,  }\item[{cl\+\_\+mem}]{buffer,  }\item[{cl\+\_\+bool}]{blocking\+\_\+read,  }\item[{size\+\_\+t}]{datasize,  }\item[{void $\ast$}]{ptr }\end{DoxyParamCaption})}
+
+Função responsável por enviar o kernel para execução, ler o resultado da operação, e transferir os dados de volta ao hospedeiro. 
+\begin{DoxyParams}[1]{Parâmetros}
+\mbox{\tt in}  & {\em work\+\_\+dim} & -\/ Dimensões do espaço de índices. \\
+\hline
+\mbox{\tt in}  & {\em global\+\_\+offset} & -\/ Array de deslocamentos para valores dos índices em cada dimensão. \\
+\hline
+\mbox{\tt in}  & {\em global\+Work\+Size} & -\/ tamanho para cada dimensão do espaço de índices. \\
+\hline
+\mbox{\tt in}  & {\em local\+Work\+Size} & -\/ Arrau de tamanhos dos grupos de trabalho. \\
+\hline
+\mbox{\tt in}  & {\em buffer} & -\/ objeto de memória do tipo buffer a ser lido. \\
+\hline
+\mbox{\tt in}  & {\em blocking\+\_\+read} & -\/ Define se a leitura é blockeada ou não. 
+\begin{tabularx}{\linewidth}{|*{2}{>{\raggedright\arraybackslash}X|}}\caption{}\label{libopcl_8h_blocking_read}\\
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ Operador }&\textbf{ Descrição }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ Operador }&\textbf{ Descrição }\\\cline{1-2}
+\endhead
+\rowcolor{\tableheadbgcolor}\textbf{ cl\+\_\+\+T\+R\+UE }&\textbf{ Booleano correspondete a verdadeiro. }\\\cline{1-2}
+\rowcolor{\tableheadbgcolor}\textbf{ cl\+\_\+\+F\+A\+L\+SE }&\textbf{ Booleano correspondete a falso. }\\\cline{1-2}
+\end{tabularx}
+\\
+\hline
+\mbox{\tt in}  & {\em datasize} & -\/ comprimentos em bytes dos dados a serem transferidos \\
+\hline
+\mbox{\tt in}  & {\em ptr} & -\/ região do host onde os dados serão escritos \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+int -\/ Usado para verficação de erros 
+\end{DoxyReturn}
 \begin{Desc}
 \item[Exemplos\+: ]\par
 \textbf{ /\+Exemplos/\+Gemm/\+Arquivo/\+Sgemm/main.\+c}.\end{Desc}
