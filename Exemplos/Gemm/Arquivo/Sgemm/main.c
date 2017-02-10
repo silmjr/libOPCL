@@ -59,8 +59,8 @@ int main(int argc, char *argv[])
     for(int i = 0; i < elements; i++) {
         A[i] = 1.0;
         B[i] = 2.0;
-        C_host[i] = 3.0;
-        C_device[i] = 3.0;
+        C_host[i] = 0.0;
+        C_device[i] = 0.0;
     }
 
     //Execução do código Serial

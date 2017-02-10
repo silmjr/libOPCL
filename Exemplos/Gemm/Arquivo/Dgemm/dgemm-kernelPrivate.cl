@@ -16,7 +16,7 @@ __kernel void dgemm(const int M, const int N, const int K,
     
     for(il=0, ig = i; il<32; il++, ig++)
         for(jl = 0, jg = j; jl<32; jl++, jg++)
-            cth[il][jl] = C[ig*ldc + jg];
+            cth[il][jl] = 0;
     
     for(m=0; m < K; m+=32){
         

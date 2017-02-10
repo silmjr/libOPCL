@@ -9,7 +9,7 @@ __kernel void dgemm(const int M, const int N, const int K,
     int j = get_global_id(1);
     int k;
     
-    double cvalue = C[i*ldc+j];
+    double cvalue = 0;
     for(k=0; k < K; k++)
         cvalue += A[i*lda+k]*B[k*ldb+j];
     C[i*ldc+j] = alfa*cvalue + beta*C[i*ldc+j];    

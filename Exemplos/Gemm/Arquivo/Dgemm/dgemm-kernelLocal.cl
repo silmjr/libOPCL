@@ -18,7 +18,7 @@ __kernel void dgemm(const int M, const int N, const int K,
     
     int quantBlocos = get_num_groups(0);
     
-    double cvalue = C[i*lda+j];
+    double cvalue = 0;
     
     for(m=0; m<quantBlocos; m++)
     {

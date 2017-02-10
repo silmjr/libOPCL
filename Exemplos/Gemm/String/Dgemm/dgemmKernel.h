@@ -10,7 +10,7 @@ const char *source_global =
     "int j = get_global_id(1);\n"
     "int k;\n"
     
-    "double cvalue = C[i*ldc+j];\n"
+    "double cvalue = 0.0;\n"
     "for(k=0; k < K; k++)\n"
         "cvalue += A[i*lda+k]*B[k*ldb+j];\n"
     "C[i*ldc+j] = alfa*cvalue + beta*C[i*ldc+j];\n"    
@@ -39,7 +39,7 @@ const char *source_local =
     
     "int quantBlocos = get_num_groups(0);\n"
     
-    "double cvalue = C[i*lda+j];\n"
+    "double cvalue = 0.0;\n"
     
 "    for(m=0; m<quantBlocos; m++)\n"
 "    {\n"
@@ -72,7 +72,7 @@ const char *source_private =
 
 "    for(il=0, ig = i; il<32; il++, ig++)\n"
 "        for(jl = 0, jg = j; jl<32; jl++, jg++)\n"
-"            cth[il][jl] = C[ig*ldc + jg];\n"
+"            cth[il][jl] = 0.0;\n"
     
 "    for(m=0; m < K; m+=32){\n"
         
