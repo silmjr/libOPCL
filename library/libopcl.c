@@ -164,12 +164,12 @@ int lopcl_PrintInfo(int lopcl_PLATAFORM_NUMBER){
 		return 2;
 	}else if(listPlatforms[lopcl_PLATAFORM_NUMBER] == lopcl_NUM_PLATFORMS){ //If the user pass the number of platforms, list all available
 		for (i = 0; i < lopcl_NUM_PLATFORMS; i++){
+			
 			printf("Platform Number: %d\n", lopcl_DispPlats[i].numPlat);
 			printf("Name: %s\n", lopcl_DispPlats[i].Name);
 			printf("Vendor: %s\n", lopcl_DispPlats[i].Vendor);
 			printf("Version: %s\n", lopcl_DispPlats[i].Version);
 			printf("Extensions:\n%s\n", lopcl_DispPlats[i].Extensions);
-
 			// END PLATFORMS
 			//INIT lopcl_DEVICES
 			cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[i], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
@@ -188,33 +188,28 @@ int lopcl_PrintInfo(int lopcl_PLATAFORM_NUMBER){
 		}
 	}else{
 
-		/* Imprimir informações especificas */
+			printf("Platform Number: %d\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].numPlat);
+			printf("Name: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Name);
+			printf("Vendor: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Vendor);
+			printf("Version: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Version);
+			//printf("Extensions:\n%s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Extensions);
+			// END PLATFORMS
+			//INIT lopcl_DEVICES
+			cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
+			if (status != CL_SUCCESS)
+			{
+				printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
+				printf("Status %d\n",status);
+				exit(EXIT_FAILURE);
+			}
 
-		printf("Platform Number: %d\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].numPlat);
-		printf("Name: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Name);
-		printf("Vendor: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Vendor);
-		printf("Version: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Version);
-		printf("Extesions: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Extensions);
-
-		// END PLATFORMS
-
-		//INIT lopcl_DEVICES
-		cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
-		if (status != CL_SUCCESS)
-		{
-			printf("Cannot get the number of OpenCL lopcl_DEVICES available on this platform.\n");
-			printf("Status %d\n",status);
-			exit(EXIT_FAILURE);
+			for (j = 0; j < lopcl_NUM_DEVICES; j++)
+			{
+				printf("Device Number: %d\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].MyDevices[j].numDevice);
+				lopcl_ListDevice(&lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].MyDevices[j], lopcl_DEVICES[j], 1);
+			}
 		}
 
-		for (j = 0; j < lopcl_NUM_DEVICES; j++)
-		{
-			printf("Device Number: %d\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].MyDevices[j].numDevice);
-
-			lopcl_ListDevice(&lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].MyDevices[j], lopcl_DEVICES[j], 1);
-		}
-
-	}
 	return 0;
 }
 
