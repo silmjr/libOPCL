@@ -192,7 +192,7 @@ int lopcl_PrintInfo(int lopcl_PLATAFORM_NUMBER){
 			printf("Name: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Name);
 			printf("Vendor: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Vendor);
 			printf("Version: %s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Version);
-			//printf("Extensions:\n%s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Extensions);
+			printf("Extensions:\n%s\n", lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Extensions);
 			// END PLATFORMS
 			//INIT lopcl_DEVICES
 			cl_int status = clGetDeviceIDs(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_DEVICE_TYPE_ALL, 0, NULL, &lopcl_NUM_DEVICES);
@@ -349,6 +349,15 @@ int lopcl_Explore(int lopcl_PLATAFORM_NUMBER){
 		lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Version = malloc(buffer_size);
 		status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_VERSION, buffer_size, lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Version, NULL);
 
+		//Discover Extensions
+		status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_EXTENSIONS, 0, NULL, &buffer_size);
+		if (status != CL_SUCCESS)
+		{
+			printf("Status %d\n",status);
+		 	exit(EXIT_FAILURE);
+		}
+		lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Extensions = malloc(buffer_size);
+		status = clGetPlatformInfo(lopcl_PLATFORMS[listPlatforms[lopcl_PLATAFORM_NUMBER]], CL_PLATFORM_EXTENSIONS, buffer_size, lopcl_DispPlats[listPlatforms[lopcl_PLATAFORM_NUMBER]].Extensions, NULL);
 
 		// END PLATFORMS
 
