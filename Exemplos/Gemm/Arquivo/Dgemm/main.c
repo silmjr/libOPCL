@@ -147,7 +147,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     // STEP 1: Descobrir e inicializar as plataformas, Devices e Create a lopcl_CONTEXT e Fila de Comando 
     //-----------------------------------------------------
 
-    lopcl_Init(lopcl_POCL, lopcl_DEVICE_CPU);
+    lopcl_Init(lopcl_INTEL, lopcl_DEVICE_CPU);
 
     //-----------------------------------------------------
     // STEP 2: Criar buffers do device e Escrever os dados do host para os lopcl_DEVICES de buffers
@@ -258,8 +258,10 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     // work-items
     //status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
     //lopcl_SetKernelArg(9, sizeof(cl_mem), &bufferC);
-    lopcl_EnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
-    
+    //lopcl_EnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
+    lopcl_EnqueueNDRangeKernel(2, 0, globalWorkSize, localWorkSize,0, NULL, NULL);
+
+    lopcl_EnqueueReadBuffer(bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
     //-----------------------------------------------------
     // STEP 8: Release OpenCL resources
     //----------------------------------------------------- 

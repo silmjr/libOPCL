@@ -367,6 +367,11 @@ int lopcl_SetKernelArg(cl_int i, size_t tipo, const void* buffer);
 @param [in] global_offset - Array de deslocamentos para valores dos índices em cada dimensão.
 @param [in] globalWorkSize - tamanho para cada dimensão do espaço de índices.
 @param [in] localWorkSize - Arrau de tamanhos dos grupos de trabalho. 
+@return int - Usado para verficação de erros
+*/
+int lopcl_EnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, 
+	const size_t*  localWorkSize, cl_uint num_events, const cl_event *wait_list, cl_event *event);
+/**Função responsável por enviar o kernel para execução, ler o resultado da operação, e transferir os dados de volta ao hospedeiro.
 @param [in] buffer - objeto de memória do tipo buffer a ser lido.
 @param [in] blocking_read - Define se a leitura é blockeada ou não. 
 <table>
@@ -375,11 +380,14 @@ int lopcl_SetKernelArg(cl_int i, size_t tipo, const void* buffer);
 	<tr><th>cl_TRUE	<th> Booleano correspondete a verdadeiro.
 	<tr><th>cl_FALSE <th> Booleano correspondete a falso.
 </table>
+@param [in] global_offset - Array de deslocamentos para valores dos índices em cada dimensão.
 @param [in] datasize - comprimentos em bytes dos dados a serem transferidos
 @param [in] ptr - região do host onde os dados serão escritos
 @return int - Usado para verficação de erros
 */
-int lopcl_EnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, const size_t*  localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void* ptr);
+int lopcl_EnqueueReadBuffer(cl_mem buffer, cl_bool blocking_read,
+		const size_t* global_offset, size_t datasize, void* ptr, 
+			cl_uint num_events, const cl_event *wait_list, cl_event *event);
 
 /** Função lista os erros que podem acontecer usando as funções da biblioteca
 @param [in] i - Inteiro com o numero do erro retornado, por alguma função.

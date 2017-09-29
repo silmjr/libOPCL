@@ -1177,21 +1177,31 @@ int lopcl_SetKernelArg(cl_int i, size_t tipo,const void *buffer){
     return 0;
 }
 
-int lopcl_EnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, const size_t*  localWorkSize, cl_mem buffer, cl_bool blocking_read, size_t datasize, void* ptr){
+int lopcl_EnqueueNDRangeKernel(cl_uint work_dim, const size_t* global_offset, const size_t* globalWorkSize, 
+	const size_t*  localWorkSize, cl_uint num_events, const cl_event *wait_list, cl_event *event){
 	cl_int status;
-	status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , 2, NULL, globalWorkSize, localWorkSize, 0, NULL, NULL);
+	status = clEnqueueNDRangeKernel(lopcl_CMDQUEUE, lopcl_KERNEL , work_dim, 
+		global_offset, globalWorkSize, localWorkSize, num_events, wait_list, event);
 	if (status != CL_SUCCESS) {
         printf ("Unable to execute the program\n");
         exit(1);
     }
-	status = clEnqueueReadBuffer(lopcl_CMDQUEUE, buffer, blocking_read, 0, datasize, ptr, 0, NULL, NULL);
+    return 0; 
+}
+
+int lopcl_EnqueueReadBuffer(cl_mem buffer, cl_bool blocking_read,
+		const size_t* global_offset, size_t datasize, void* ptr, 
+			cl_uint num_events, const cl_event *wait_list, cl_event *event){
+	cl_int status;
+	status = clEnqueueReadBuffer(lopcl_CMDQUEUE, buffer, blocking_read, global_offset, datasize, ptr, num_events, wait_list, event);
     if (status != CL_SUCCESS) {
-        printf ("Unable to read the C buffer\n");
+        printf ("Unable to read the buffer\n");
         exit(1);
     }
 
     return 0; 
 }
+
 
 char *DiscStr(char *name){
 	int i = 0;
