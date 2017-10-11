@@ -124,7 +124,7 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     size_t source_size;
 
     //Carregando o arquivo com o Kernel
-    fp = fopen("dgemm-kernelPrivate.cl", "r");
+    fp = fopen("dgemm-kernelGlobal.cl", "r");
     if (!fp) {
         fprintf(stderr, "Failed to load kernel.\n");
         exit(1);
@@ -145,7 +145,7 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     // STEP 1: Descobrir e inicializar as plataformas e Devices, e criar contexto e Fila de Comando
     //----------------------------------------------------------------------------------------------------------
 
-    lopcl_Init(lopcl_POCL, lopcl_DEVICE_CPU);
+    lopcl_Init(lopcl_INTEL, lopcl_DEVICE_CPU);
 
     //----------------------------------------------------------------------------------------------------------
     // STEP 2: Criar buffers do device e Escrever os dados do host para os lopcl_DEVICES de buffers
@@ -212,8 +212,8 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
 
     size_t globalWorkSize[2];
     // Esses são os elementos de work-items
-    globalWorkSize[0] = size/32;
-    globalWorkSize[1] = size/32;
+    globalWorkSize[0] = size;
+    globalWorkSize[1] = size;
 
     size_t localWorkSize[2];
 
@@ -229,8 +229,9 @@ void gemm_OpenCL(float *a, float* b, float *c, int size, int t, float alfa, floa
     // 'globalWorkSize' is the 1D dimension of the
     // work-items
     
-    lopcl_EnqueueNDRangeKernel(2, NULL, globalWorkSize, localWorkSize, bufferC, CL_TRUE, datasize, c);
+    lopcl_EnqueueNDRangeKernel(2, 0, globalWorkSize, localWorkSize,0, NULL, NULL);
 
+    lopcl_EnqueueReadBuffer(bufferC, CL_TRUE, 0, datasize, c, 0, NULL, NULL);
     //-----------------------------------------------------
     // STEP 8: libera os recursos
     //-----------------------------------------------------

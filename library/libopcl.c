@@ -18,7 +18,7 @@ short int lopcl_INIT = 0, lopcl_INIT_DEVICE = 0;
 
 int lopcl_Initialize_Platforms(){
 	//"Zerando" index's
-	listPlatforms[0] = listPlatforms[1] = listPlatforms[2] = listPlatforms[3] = listPlatforms[4] = listPlatforms[5] = listPlatforms[6] = -1;
+	listPlatforms[0] = listPlatforms[1] = listPlatforms[2] = listPlatforms[3] = listPlatforms[4] = listPlatforms[5] = -1;
 	listDevices[0] = listDevices[1] = listDevices[2] = -1;
 
 	lopcl_INIT = 1;
@@ -67,11 +67,8 @@ int lopcl_Initialize_Platforms(){
 		}
 
 		aux_name = DiscStr(lopcl_DispPlats[i].Vendor);
-		if(isEqual(aux_name,"Intel(R)"))
+		if(isEqual(aux_name,"Intel(R)") && listPlatforms[lopcl_INTEL]==-1)
 			listPlatforms[lopcl_INTEL] = i;
-
-		if(isEqual(aux_name,"Intel"))
-			listPlatforms[lopcl_INTEL_GPU] = i;
 
 		if(isEqual(aux_name,"The"))
 			listPlatforms[lopcl_POCL] = i;
@@ -1123,14 +1120,12 @@ cl_mem lopcl_CreateBuffer(size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bo
 
 int lopcl_CreateProgram(const char** source_str, char *kernel){
 	cl_int status;
-
 	lopcl_PROGRAM = clCreateProgramWithSource(lopcl_CONTEXT, 1, source_str,  NULL, &status);
     if (status != CL_SUCCESS) {
         printf ("Unable to create a program from source\n");
 				printf("Status %d\n",status);
         exit(1);
     }
-
     // Build (compile) the program for the lopcl_DEVICES with
     // clBuildProgram()
     status = clBuildProgram(lopcl_PROGRAM, lopcl_NUM_DEVICES, lopcl_DEVICES, NULL, NULL, NULL);
@@ -1151,7 +1146,7 @@ int lopcl_CreateProgram(const char** source_str, char *kernel){
         printf("CL_OUT_OF_HOST_MEMORY %d\n", CL_OUT_OF_HOST_MEMORY);
         char logBuffer[10240];
         clGetProgramBuildInfo(lopcl_PROGRAM, lopcl_DEVICES[0], CL_PROGRAM_BUILD_LOG, sizeof(logBuffer), logBuffer, NULL);
-        printf("CL Compilation failed:\n%s", logBuffer);
+        //printf("CL Compilation failed:\n%s", logBuffer);
         exit(1);
     }
 
@@ -2323,42 +2318,41 @@ char* lopcl_getExtensionsDevice(int index, cl_device_type type){
 }
 
 int lopcl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM){
-  	int error;
-		//Inicializa todas as plataformas, para que os Macros de plataformas fiquem disponiveis.
-  	error = lopcl_Initialize_Platforms();
-    lopcl_Errors(error);
+	int error;
+	//Inicializa todas as plataformas, para que os Macros de plataformas fiquem disponiveis.
+	error = lopcl_Initialize_Platforms();
+	lopcl_Errors(error);
+	/*Inicializa os dispositivos de uma plataforma especifica, para que os Macros de plataformas fiquem disponíveis.
+	*As verificações de validade sobre a plataforma são feitas internenamente.
+	*Função será executada somente se o programador escolher uma plataforma especifica.*/
+	if(lopcl_PLATFORM_NUM < lopcl_ALL){
+		error = lopcl_Initialize_Device(lopcl_PLATFORM_NUM);
+		lopcl_Errors(error);
+	}
+	/*Função irá explorar as caracteristicas da(s) plataforma(s) e salvar essas informações
+	* nas estruturas de dados correspondentes, permitindo a recuperação por meio das funções de get
+	* ou por meio da função PrintInfo.
+	*/
+	error = lopcl_Explore(lopcl_PLATFORM_NUM);
+	lopcl_Errors(error);
 
-		/*Inicializa os dispositivos de uma plataforma especifica, para que os Macros de plataformas fiquem disponíveis.
-		*As verificações de validade sobre a plataforma são feitas internenamente.
-		*Função será executada somente se o programador escolher uma plataforma especifica.*/
-		if(lopcl_PLATFORM_NUM < lopcl_ALL){
-			error = lopcl_Initialize_Device(lopcl_PLATFORM_NUM);
-			lopcl_Errors(error);
-		}
-		/*Função irá explorar as caracteristicas da(s) plataforma(s) e salvar essas informações
-		* nas estruturas de dados correspondentes, permitindo a recuperação por meio das funções de get
-		* ou por meio da função PrintInfo.
+	/*Função responsável por criar contexto e fila de comandos.
+	*recebe como parametro plataforma e dispositivos especificos.
+	*O dispositivo não pode ter valor -1.
+	*/
+	if(lopcl_DEVICE_NUM > -1){
+		if(listDevices[lopcl_DEVICE_NUM] < 0)
+			lopcl_Errors(4);
+		error = lopcl_CreateCmdQueue(lopcl_PLATFORM_NUM, lopcl_DEVICE_NUM);
+		lopcl_Errors(error);
+	}else if(lopcl_PLATFORM_NUM != lopcl_ALL){
+		/*
+		* A combinação lopcl_ALL, -1 é a usada para imprimir todas as informações referentes ao hardware,
+		*	se  a flag lopcl_ALL não estiver sendo usada, o campo de device não poderá ser -1 em nenhuma circunstáncia.
 		*/
-		error = lopcl_Explore(lopcl_PLATFORM_NUM);
-    lopcl_Errors(error);
-
-		/*Função responsável por criar contexto e fila de comandos.
-		*recebe como parametro plataforma e dispositivos especificos.
-		*O dispositivo não pode ter valor -1.
-		*/
-		if(lopcl_DEVICE_NUM > -1){
-			if(listDevices[lopcl_DEVICE_NUM] < 0)
-				lopcl_Errors(4);
-			error = lopcl_CreateCmdQueue(lopcl_PLATFORM_NUM, lopcl_DEVICE_NUM);
-			lopcl_Errors(error);
-		}else if(lopcl_PLATFORM_NUM != lopcl_ALL){
-			/*
-			* A combinação lopcl_ALL, -1 é a usada para imprimir todas as informações referentes ao hardware,
-			*	se  a flag lopcl_ALL não estiver sendo usada, o campo de device não poderá ser -1 em nenhuma circunstáncia.
-			*/
-			lopcl_Errors(5);
-		}
-    return 0;
+		lopcl_Errors(5);
+	}		
+	return 0;
 }
 
 

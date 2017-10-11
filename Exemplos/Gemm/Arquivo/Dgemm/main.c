@@ -1,9 +1,6 @@
 // This program implements a GEMM using OpenCL
 
 // System includes
-
-#pragma OPENCL EXTENSION cl_khr_fp64 : enable // Usar variáveis Double 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -147,7 +144,7 @@ void gemm_OpenCL(double *a, double* b, double *c, int size, int t, double alfa, 
     // STEP 1: Descobrir e inicializar as plataformas, Devices e Create a lopcl_CONTEXT e Fila de Comando 
     //-----------------------------------------------------
 
-    lopcl_Init(lopcl_INTEL, lopcl_DEVICE_CPU);
+    lopcl_Init(lopcl_INTEL, lopcl_DEVICE_GPU);
 
     //-----------------------------------------------------
     // STEP 2: Criar buffers do device e Escrever os dados do host para os lopcl_DEVICES de buffers

@@ -67,18 +67,16 @@
 
 ///Identificador atribuído a plataforma INTEL.
 #define lopcl_INTEL 0
-///Identificador atribuído a plataforma INTEL GPU.
-#define lopcl_INTEL_GPU 1
 ///Identificador atribuído a plataforma AMD.
-#define lopcl_AMD 2
+#define lopcl_AMD 1
 ///Identificador atribuído a plataforma NVIDIA .
-#define lopcl_NVIDIA 3
+#define lopcl_NVIDIA 2
 ///Identificador atribuído a plataforma POCL.
-#define lopcl_POCL 4
+#define lopcl_POCL 3
 ///Identificador atribuído a plataforma COPRTHR.
-#define lopcl_COPRTHR 5
+#define lopcl_COPRTHR 4
 ///Identificador atribuído para referencia a todas plataformas disponíveis em uma máquina.
-#define lopcl_ALL 6
+#define lopcl_ALL 5
 
 /// Macro para device do tipo GPU.
 #define GPU CL_DEVICE_TYPE_GPU
@@ -88,7 +86,7 @@
 #define ACCELERATOR CL_DEVICE_TYPE_ACCELERATOR
 
 ///Vetor responsável pelo armazenamento dos números das plataformas em uma máquina específica (Default é -1).
-int listPlatforms[7];
+int listPlatforms[6];
 ///Vetor responsável pelo armazenamento dos números dos dispositivos em uma máquina específica (Default é -1).
 int listDevices[3];
 ///Identificador do dispositivos CPU.
