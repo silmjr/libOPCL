@@ -2318,6 +2318,9 @@ char* lopcl_getExtensionsDevice(int index, cl_device_type type){
 }
 
 int lopcl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM){
+	lopcl_PROGRAM = NULL;
+	lopcl_KERNEL = NULL;
+	
 	int error;
 	//Inicializa todas as plataformas, para que os Macros de plataformas fiquem disponiveis.
 	error = lopcl_Initialize_Platforms();
@@ -2357,5 +2360,8 @@ int lopcl_Init(int lopcl_PLATFORM_NUM, int lopcl_DEVICE_NUM){
 
 
 int lopcl_Finalize(){
-	free(lopcl_DispPlats);
+	if (lopcl_KERNEL!=NULL)
+		clReleaseKernel(lopcl_KERNEL);
+	if (lopcl_PROGRAM!=NULL)
+		clReleaseProgram(lopcl_PROGRAM);
 }
