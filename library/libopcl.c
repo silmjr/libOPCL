@@ -1088,7 +1088,7 @@ int lopcl_CreateCmdQueue(int lopcl_PLATAFORM_NUMBER ,int lopcl_DEVICE_NUMBER){
 		exit(1);
 	}
 
-	lopcl_CMDQUEUE = clCreateCommandQueue(lopcl_CONTEXT, lopcl_DEVICES[listDevices[lopcl_DEVICE_NUMBER]], 0, &status);
+	lopcl_CMDQUEUE = clCreateCommandQueueWithProperties(lopcl_CONTEXT, lopcl_DEVICES[listDevices[lopcl_DEVICE_NUMBER]], 0, &status);
 
 	if (status != CL_SUCCESS) {
 	printf ("Unable create a command queue\n");
@@ -1116,6 +1116,26 @@ cl_mem lopcl_CreateBuffer(size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bo
     }
 
 	return bufferA;
+}
+
+int lopcl_CreateProgramWithBinary(const char** source_str, char *kernel, size_t length){
+	cl_int status;
+	cl_int binaryStatus;
+	lopcl_PROGRAM = clCreateProgramWithBinary(lopcl_CONTEXT, lopcl_NUM_DEVICES, lopcl_DEVICES, 
+		(const size_t *)&length, (const unsigned char **)&source_str, &binaryStatus, &status);
+    if (status != CL_SUCCESS) {
+        printf ("Unable to create a program from source\n");
+		printf("Status %d\n",status);
+        exit(1);
+    }
+
+     lopcl_KERNEL = clCreateKernel(lopcl_PROGRAM, kernel, &status);
+    if (status != CL_SUCCESS) {
+        printf ("Unable to set a kernel from program\n");
+		printf("Status %d\n",status);
+        exit(1);
+    }
+    return 0;
 }
 
 int lopcl_CreateProgram(const char** source_str, char *kernel){
@@ -1146,7 +1166,7 @@ int lopcl_CreateProgram(const char** source_str, char *kernel){
         printf("CL_OUT_OF_HOST_MEMORY %d\n", CL_OUT_OF_HOST_MEMORY);
         char logBuffer[10240];
         clGetProgramBuildInfo(lopcl_PROGRAM, lopcl_DEVICES[0], CL_PROGRAM_BUILD_LOG, sizeof(logBuffer), logBuffer, NULL);
-        //printf("CL Compilation failed:\n%s", logBuffer);
+        printf("CL Compilation failed:\n%s", logBuffer);
         exit(1);
     }
 
