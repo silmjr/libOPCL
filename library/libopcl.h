@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright (C) 2016 by Silvano MOreira Junior   							*
+ * Copyright (C) 2016 by SilvanO MOreira Junior   							*
  * Email: silvanomoreirajunior@gmail.com 			                        *
  *                                                                          *
  * A libOPCL é uma biblioteca que visa facilitar o uso do OpenCL, 			*
@@ -350,16 +350,6 @@ cl_mem lopcl_CreateBuffer(size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bo
 
 */
 int lopcl_CreateProgram(const char** source_str, char *kernel);
-
-/**Cria um objeto Program para um contexto previamente criado, e carrega o código fonte que é especificado a partir de um array de strings.
-*Esta função também constroi (linka e compila) um programa executável para o código fonte do kernel ou seu binário.
-@param  [in] **source_str - Um array de ponteiros para sequências de caracteres,  opcionalmente terminadas por null que compõe o código fonte do kernel.
-@param kernel - Uma string que será o nome que foi dado a função de kernel
-@return int - Usado para verficação de erros
-@see https://www.khronos.org/registry/cl/sdk/1.2/docs/man/xhtml/
-
-*/
-int lopcl_CreateProgramWithBinary(const char** source_str, char *kernel, size_t length);
 
 
 /** Função usada pra setar o valor de um argumento para um kernel específico.

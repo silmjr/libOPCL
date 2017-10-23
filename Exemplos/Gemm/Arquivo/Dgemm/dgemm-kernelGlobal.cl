@@ -1,3 +1,4 @@
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable
 __kernel void dgemm(const int M, const int N, const int K,
                    const double alfa, __global const double *A, const int lda,
                    __global  const double *B, const int ldb, 
