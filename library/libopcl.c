@@ -1118,6 +1118,27 @@ cl_mem lopcl_CreateBuffer(size_t lopcl_DATASIZE, cl_mem_flags lopcl_FLAGS, cl_bo
 	return bufferA;
 }
 
+int lopcl_CreateProgramWithBinary(const char** source_str, char *kernel, size_t length){
+ 	cl_int status;
+ 	cl_int binaryStatus;
+ 	lopcl_PROGRAM = clCreateProgramWithBinary(lopcl_CONTEXT, lopcl_NUM_DEVICES, lopcl_DEVICES, 
+ 		(const size_t *)&length, (const unsigned char **)&source_str, &binaryStatus, &status);
+     if (status != CL_SUCCESS) {
+         printf ("Unable to create a program from source\n");
+ 		printf("Status %d\n",status);
+         exit(1);
+     }
+ 
+      lopcl_KERNEL = clCreateKernel(lopcl_PROGRAM, kernel, &status);
+     if (status != CL_SUCCESS) {
+         printf ("Unable to set a kernel from program\n");
+ 		printf("Status %d\n",status);
+         exit(1);
+     }
+     return 0;
+}
+ 
+
 int lopcl_CreateProgram(const char** source_str, char *kernel){
 	cl_int status;
 	lopcl_PROGRAM = clCreateProgramWithSource(lopcl_CONTEXT, 1, source_str,  NULL, &status);
